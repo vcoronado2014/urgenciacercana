@@ -1,0 +1,7 @@
+{
+  "name": "urgencia-cercana",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

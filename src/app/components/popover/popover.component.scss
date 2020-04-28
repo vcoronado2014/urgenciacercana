@@ -1,0 +1,32 @@
+.ion-color-embarazada {
+	--ion-color-base: #c1005b;
+	color:white;
+  }
+  .ion-color-adulto {
+	--ion-color-base: #006dc1;
+	color:white;
+  }
+  .ion-color-home {
+	--ion-color-base: #39B5E9;
+	color:white;
+  }
+  .ion-color-nino {
+	--ion-color-base: #008a9b;
+	color:white;
+  }
+  .popover-content.sc-ion-popover-ios {
+    border-radius: 10px;
+    width: 80%;
+}
+.embarazada{
+    color: #c1005b;
+}
+.adulto{
+    color: #006dc1;
+}
+.home {
+    color: #39B5E9;
+}
+.nino{
+    color: #008a9b;
+}

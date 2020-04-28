@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="secondary">
+<!--     <ion-buttons slot="start" (click)="salir()" *ngIf="esIOS == false">
+        <ion-icon slot="icon-only" name="exit"></ion-icon>
+      </ion-buttons> -->
+    <ion-title class="ion-text-center">
+      Atención para:
+    </ion-title>
+    <ion-buttons slot="end" (click)="abrirModal()">
+      <ion-icon slot="icon-only" name="information-circle"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="card-background-page ion-padding">
+    <ion-card (click)="abrirCategoria('nino')" class="ion-card-home">
+      <img src="./assets/imgs/ninos.jpg" alt="ImgNinos" style="height: 100%;"/>
+      <div class="card-title">Niño</div>
+      <div class="card-subtitle">0 - 16 años</div>
+    </ion-card>
+    <ion-card (click)="abrirCategoria('embarazada')"  class="ion-card-home">
+      <img src="./assets/imgs/embarazada.jpg" alt="ImgEmbarazada" style="height: 100%;"/>
+      <div class="card-title">Embarazada</div>
+      <div class="card-subtitle">Todas las edades</div>
+    </ion-card>
+    <ion-card (click)="abrirCategoria('adulto')"  class="ion-card-home">
+      <img src="./assets/imgs/adulto.jpg" alt="ImgAdulto" style="height: 100%;"/>
+      <div class="card-title">Adulto</div>
+      <div class="card-subtitle"> 17 años en adelante</div>
+    </ion-card>
+</ion-content>

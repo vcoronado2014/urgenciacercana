@@ -1,0 +1,104 @@
+.col{
+	margin: 4px;
+}
+
+.cuadro_transporte{
+	border: solid 2px #026874;
+	border-radius: 10px;
+
+	ion-icon{
+		color: #026874;
+		font-size: 4rem;
+	}
+
+	h4{
+		font-size: 1.5rem;
+		margin-top: 0;
+		color: #026874;
+	}
+}
+
+
+.div_img{
+	height: 35vh;
+	img{
+		height: 100%;
+	}
+}
+
+.div_mensaje{
+	height: 300px;
+	display: flex;
+	align-items: center;
+	p{
+		font-size: 1rem;
+	}
+	ion-icon{
+		font-size: 3rem !important;
+		margin: 5%;
+	}
+}
+
+.barra_range{
+	position: absolute;
+	bottom: 40px;
+	display: block;
+	width: 100%;
+}
+
+.btn_siguiente{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 10;
+	display: block;
+	width: 100%;
+	button{
+		margin: 10px 2px 15px;
+	}
+}
+.rojo{
+	color: #F04A47;
+}
+.naranja{
+	color: #F4A040;
+}
+.amarillo{
+	color: #FFCA0D;
+}
+.verde{
+	color: #82C240;
+}
+.azul{
+	color: #0159A8;
+}
+.embarazada{
+	color: #c1005b;
+}
+.adulto{
+	color: #006dc1;
+}
+.home {
+	color: #39B5E9;
+}
+.nino{
+	color: #008a9b;
+}
+.ion-color-embarazada {
+	--ion-color-base: #c1005b;
+	color:white;
+  }
+  .ion-color-adulto {
+	--ion-color-base: #006dc1;
+	color:white;
+  }
+  .ion-color-home {
+	--ion-color-base: #39B5E9;
+	color:white;
+  }
+  .ion-color-nino {
+	--ion-color-base: #008a9b;
+	color:white;
+  }
+
+

@@ -1,0 +1,51 @@
+.thumbails{
+    width: 100%;
+    height: 35%;
+}
+.abajo{
+    width: 100%;
+}
+@media screen and (max-height: 991px) {
+    /* start of large tablet styles */
+    .thumbails{
+        height: 45%;
+    }
+}
+@media screen and (max-height: 823px) {
+    /* start of medium tablet styles */
+    .thumbails{
+        height: 37%;
+    }
+}
+@media screen and (max-height: 736px) {
+    /* start of medium tablet styles */
+    .thumbails{
+        height: 29%;
+    }
+}
+@media screen and (max-height: 667px) {
+    /* start of medium tablet styles */
+    .thumbails{
+        height: 23%;
+    }
+}            
+    
+@media screen and (max-height: 640px) {
+/* start of medium tablet styles */
+    .thumbails{
+        height: 19%;
+    }
+}
+@media screen and (max-height: 568px) {
+    /* start of medium tablet styles */
+    .thumbails{
+        height: 9%;
+    }
+}    
+    
+@media screen and (max-height: 479px) {
+/* start of phone styles */
+    .thumbails{
+        height: 9%;
+    }
+}

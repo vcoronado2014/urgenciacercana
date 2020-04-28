@@ -1,0 +1,121 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>MapaTest</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="barra_transporte">
+    <ion-segment [(ngModel)]="transporte" color="primary" mode="ios" style="height: fit-content;
+    max-height: 8%;
+    min-height: 60px;">
+      <ion-segment-button value="WALKING" (click)="redibujarRutaPromesa(direccion)" [ngClass]="categoria">
+          <ion-icon name="walk"></ion-icon> <br>
+          {{tiempoWalking}}
+      </ion-segment-button>
+      <ion-segment-button value="DRIVING" (click)="redibujarRutaPromesa(direccion)" [ngClass]="categoria">
+          <ion-icon name="car"></ion-icon> <br>
+          {{tiempoDriving}}
+      </ion-segment-button>
+      <ion-segment-button value="TRANSIT" (click)="redibujarRutaPromesa(direccion)" [ngClass]="categoria">
+          <ion-icon name="bus"></ion-icon> <br>
+          {{tiempoTransit}}
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- <ion-fab-button size="small" [color]="categoria">Mini</ion-fab-button> -->
+  <ion-fab vertical="top" horizontal="start" slot="fixed" class="fab-superior">
+    <ion-fab-button size="small" [color]="categoria"  (click)="irAHome()">
+      <ion-icon name="home"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="top" horizontal="end" slot="fixed" class="fab-superior">
+    <ion-fab-button size="small" [color]="categoria" (click)="presentPopover($event)">
+      <ion-icon name="information"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div #map id="map"></div>
+
+    <ion-segment class="segmento_inferior" [(ngModel)]="direccion" color="primary" mode="ios" style="position: relative;
+    -ms-flex-order: 1;
+    order: 1;
+    width: 100%;
+    z-index: 10;">
+      <ion-segment-button value="direccion1" (click)="trazarNuevaRutaPromesa(direccion)" class="ion-text-center" [ngClass]="categoria">
+          <div class="div_nombre" >
+              <!-- <p class="nombre_centro" [style.line-height.px]="largoNombreCentro1 <= 18 ? 24 : null">{{nombreCentro1}}</p> -->
+              <p class="nombre_centro" [style.font-size.em]="largoNombreCentro1 <= 27 ? 1 : 0.8">{{nombreCentro1}}</p>
+          </div> 
+          <!-- <div class="hr"></div> -->
+          <p class="tiempo_destino"><ion-icon name={{iconTransporte}}></ion-icon><span>&nbsp;{{tiempoCentro1}}</span></p>
+          <p class="plus_sign">+</p>
+          <p class="tiempo_destino" *ngIf="esRayen1"><ion-icon name="medkit"></ion-icon><span>&nbsp;{{tiempoEspera1}} min</span></p>
+          <p class="tiempo_destino" *ngIf="!esRayen1"><ion-icon name="medkit"></ion-icon><span>&nbsp;Sin Dato</span></p>
+      </ion-segment-button>
+  
+      <ion-segment-button value="direccion2" (click)="trazarNuevaRutaPromesa(direccion)" [ngClass]="categoria">
+          <div class="div_nombre">
+              <p class="nombre_centro"  [style.font-size.em]="largoNombreCentro2 <= 27 ? 1 : 0.8">{{nombreCentro2}}</p>
+          </div>
+          <!-- <div class="hr"></div>  -->
+          <p class="tiempo_destino"><ion-icon name={{iconTransporte}}></ion-icon><span>&nbsp;{{tiempoCentro2}}</span></p>
+          <p class="plus_sign">+</p>
+          <p class="tiempo_destino" *ngIf="esRayen2"><ion-icon name="medkit"></ion-icon><span>&nbsp;{{tiempoEspera2}} min</span></p>
+          <p class="tiempo_destino" *ngIf="!esRayen2"><ion-icon name="medkit"></ion-icon><span>&nbsp;Sin Dato</span></p>
+      </ion-segment-button>
+  
+      <ion-segment-button value="direccion3" (click)="trazarNuevaRutaPromesa(direccion)" [ngClass]="categoria">
+          <div class="div_nombre">
+              <p class="nombre_centro"  [style.font-size.em]="largoNombreCentro3 <= 27 ? 1 : 0.8">{{nombreCentro3}}</p>
+          </div>
+          <!-- <div class="hr"></div> -->
+          <p class="tiempo_destino"><ion-icon name={{iconTransporte}}></ion-icon><span>&nbsp;{{tiempoCentro3}}</span></p>
+          <p class="plus_sign">+</p>
+          <p class="tiempo_destino" *ngIf="esRayen3"><ion-icon name="medkit"></ion-icon><span>&nbsp;{{tiempoEspera3}} min</span></p>
+          <p class="tiempo_destino" *ngIf="!esRayen3"><ion-icon name="medkit"></ion-icon><span>&nbsp;Sin Dato</span></p>
+      </ion-segment-button>
+    </ion-segment>
+
+
+
+<!--   <ion-fab vertical="bottom" horizontal="start" class="abajo">
+    <ion-fab-button mini [color]="categoria">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="end">
+      <ion-fab-button color={{categoria}} (click)="verBuscador()">
+        <ion-icon name="search"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color={{categoria}} (click)="verInfo()">
+        <ion-icon name="information"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color={{categoria}} (click)="irAHome()">
+        <ion-icon name="home"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab> -->
+
+</ion-content>
+
+<ion-footer class="ion-no-border" style="min-height: 57px;max-height: 57px;">
+  <ion-toolbar>
+    <ion-grid style="padding: 0;">
+      <ion-row>
+        <ion-col size="3" style="padding: 0;margin: 0;">
+          <!-- <img src="./assets/imgs/logo_rayen.png" /> -->
+          <img src="{{srcPropaganda}}" />
+        </ion-col>
+        <ion-col style="padding: 0;margin: 0;">
+          <h5 style="font-size: 1em;margin: 0;">{{tituloPropaganda}}</h5>
+          <h6 style="font-size: 0.8em;margin: 0;">{{subTituloPropaganda}}</h6>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!--     
+    <ion-label class="text-wrap label-propaganda">Información proporcionada por Rayen Salud</ion-label> -->
+  </ion-toolbar>
+</ion-footer>

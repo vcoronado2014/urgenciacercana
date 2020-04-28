@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="primary">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Acerca de:</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center">
+  <div class="caja_datos">
+    Datos actuales de la aplicación: <br>
+    <strong>{{versionAppName}}</strong><br>
+    Versión: {{plataforma}} {{versionNumber}}<br><br>
+    {{versionAppName}} te permite encontrar <br>
+    el centro de urgencia más cercano <br>
+    y sus tiempos de espera.<br><br><br>
+    <img src="./assets/imgs/logo96.png" alt="">
+    <div *ngIf="isDevice">
+      <strong>Token: {{token}}</strong>
+    </div>
+  </div>
+
+</ion-content>

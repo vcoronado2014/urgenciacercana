@@ -1,0 +1,128 @@
+#container {
+  text-align: center;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ion-card-home{
+    background: transparent;
+    height: 30.5%;
+}
+#container strong {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #8c8c8c;
+
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}
+ion-card {
+  position: relative;
+  text-align: center;
+}
+
+.card-title {
+  position: absolute;
+  top: 35%;
+  font-size: 2.0em;
+  width: 100%;
+  font-weight: bold;
+  color: #fff;
+}
+
+.card-subtitle {
+  font-size: 1.2em;
+  position: absolute;
+  top: 54%;
+  width: 100%;
+  color: #fff;
+}
+
+
+
+.version_info{
+margin-top: -5px ;
+margin-bottom: -10px;
+margin-right: 10px;
+color: #a8a8a8;
+}
+.home{
+  background-color: var(--ion-color-home);
+}
+.ion-color-home{
+  --ion-color-home: #39B5E9;
+  --ion-color-home-rgb: 61, 194, 255;
+  --ion-color-home-contrast: #ffffff;
+  --ion-color-home-contrast-rgb: 255, 255, 255;
+  --ion-color-home-shade: #36abe0;
+  --ion-color-home-tint: #50c8ff;
+}
+
+
+ion-content ion-toolbar {
+  --background: translucent;
+}
+
+@media screen and (max-height: 991px) {
+  /* start of large tablet styles */
+    .ion-card-home{
+      background: transparent;
+      height: 30.5%;
+  }
+}
+@media screen and (max-height: 823px) {
+  /* start of medium tablet styles */
+      .ion-card-home{
+        background: transparent;
+        height: 29.5%;
+    }
+  }
+  @media screen and (max-height: 736px) {
+/* start of medium tablet styles */
+  .ion-card-home{
+    background: transparent;
+    height: 28.5%;
+  }
+}
+@media screen and (max-height: 667px) {
+    /* start of medium tablet styles */
+    .ion-card-home{
+      background: transparent;
+      height: 28.5%;
+  }
+}            
+  
+@media screen and (max-height: 640px) {
+/* start of medium tablet styles */
+  .ion-card-home{
+    background: transparent;
+    height: 28.5%;
+  }
+}
+@media screen and (max-height: 568px) {
+  /* start of medium tablet styles */
+      .ion-card-home{
+        background: transparent;
+        height: 27.5%;
+    }
+  }    
+  
+@media screen and (max-height: 479px) {
+/* start of phone styles */
+  .ion-card-home{
+    background: transparent;
+    height: 26.5%;
+  }
+}

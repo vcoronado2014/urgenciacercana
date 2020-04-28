@@ -1,0 +1,27 @@
+<ion-list lines="none">
+  <ion-item [ngClass]="categoria">
+    <ion-icon name={{icon}} slot="start"></ion-icon>
+    <p class="text-wrap" style="font-size: 0.8em;">
+      Indica tiempo de desplazamiento
+    </p>
+  </ion-item>
+  <ion-item [ngClass]="categoria">
+    <ion-icon name="medkit" slot="start"></ion-icon>
+    <p class="text-wrap" style="font-size: 0.8em;">
+      Indica tiempo de espera en el centro de salud.
+    </p>
+  </ion-item>
+  <ion-item [ngClass]="categoria">
+    <ion-icon name="information-circle" slot="start"></ion-icon>
+    <p class="text-wrap" style="font-size: 0.8em;">
+      Todos los tiempos son aproximados.
+    </p>
+  </ion-item>
+  <ion-item [ngClass]="categoria">
+    <ion-icon name="warning" slot="start"></ion-icon>
+    <p class="text-wrap" style="font-size: 0.8em;">
+      Este servicio no reemplaza categorización en el centro de salud.
+    </p>
+  </ion-item>
+</ion-list>
+<ion-button size="small" expand="block" [color]="categoria" mode="ios" (click)="cerrar()">Cerrar</ion-button>

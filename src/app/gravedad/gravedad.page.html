@@ -1,0 +1,98 @@
+<ion-header>
+  <!-- <ion-toolbar color="tertiary" mode="md"> -->
+  <ion-toolbar [color]="categoria" mode="md">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gravedad {{title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding">
+    <ion-segment [(ngModel)]="transporte" color="primary" mode="ios">
+      <ion-segment-button value="WALKING" [ngClass]="categoria">
+          <ion-icon name="walk"></ion-icon> <br>
+          A pie
+      </ion-segment-button>
+      <ion-segment-button value="DRIVING" [ngClass]="categoria">
+          <ion-icon name="car"></ion-icon> <br>
+          En auto
+      </ion-segment-button>
+      <ion-segment-button value="TRANSIT" [ngClass]="categoria">
+          <ion-icon name="bus"></ion-icon> <br>
+          En bus
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  
+  <div class="div_gravedad" class="ion-padding ion-text-center"> 
+    <ion-item>
+      <ion-label [ngClass]="categoria">Sólo establecimientos públicos</ion-label>
+      <ion-toggle [color]="categoria" [(ngModel)]="esPublico" (ionChange)="onChangePublico($event)" mode="ios"></ion-toggle>
+    </ion-item> 
+    <div class="div_mensaje" padding *ngIf="!gravedad">
+      <p [ngClass]="categoria">1. Seleccione el medio de transporte de su preferencia.<br>
+      <ion-icon [ngClass]="categoria" name="medkit"></ion-icon><br>
+      2. Deslice el control de izquierda a derecha hasta encontrar su nivel de gravedad.</p><br>
+    </div>
+
+    <div *ngIf="gravedad == 5">
+      <div class="div_img">
+        <img src="{{categorizacion.gravedad.c5.img}}">
+      </div>
+      <h2 ion-text class="rojo">{{categorizacion.gravedad.c1.tipoGravedad}}</h2>
+      {{categorizacion.gravedad.c1.ejemplo}}
+    </div>
+
+    <div *ngIf="gravedad == 4">
+      <div class="div_img">
+          <img src="{{categorizacion.gravedad.c4.img}}">
+      </div>
+      <h2 ion-text class="naranja">{{categorizacion.gravedad.c2.tipoGravedad}}</h2>
+      {{categorizacion.gravedad.c2.ejemplo}}
+    </div>
+
+    <div *ngIf="gravedad == 3">
+      <div class="div_img">
+        <img src="{{categorizacion.gravedad.c3.img}}">
+      </div>
+      <h2 ion-text class="amarillo">{{categorizacion.gravedad.c3.tipoGravedad}}</h2>
+      {{categorizacion.gravedad.c3.ejemplo}}
+    </div>
+
+    <div *ngIf="gravedad == 2">
+      <div class="div_img">
+        <img src="{{categorizacion.gravedad.c2.img}}">
+      </div>
+      <h2 ion-text class="verde">{{categorizacion.gravedad.c4.tipoGravedad}}</h2>
+      {{categorizacion.gravedad.c4.ejemplo}}
+    </div>
+
+    <div *ngIf="gravedad == 1">
+      <div class="div_img">
+        <img src="{{categorizacion.gravedad.c1.img}}">
+      </div>
+      <h2 ion-text class="azul">{{categorizacion.gravedad.c5.tipoGravedad}}</h2>
+      {{categorizacion.gravedad.c5.ejemplo}}
+    </div>
+  </div>
+
+  <div padding class="barra_range">
+    <ion-range color="tertiary" min="1" max="5" step="1" [(ngModel)]="gravedad" pin=true mode='ios'>
+      <ion-icon slot="start" size="small" class="azul" name="thermometer"></ion-icon>
+      <ion-icon slot="end" class="rojo" name="thermometer"></ion-icon>
+    </ion-range>
+  </div>
+
+  <!-- Condicional para que el boton se active cuando el medio de transporte 
+    y nivel de gravedad, ambos, esten seleccionados -->
+    <div class="btn_siguiente ion-text-center">
+      <ion-button [disabled]="gravedad && transporte ? false : true" (click)="verMapa()"
+          [color]="categoria" mode="ios">
+        Siguiente
+      </ion-button>
+    </div>
+
+</ion-content>

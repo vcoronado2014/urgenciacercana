@@ -1,0 +1,116 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="secondary">
+    <ion-title class="ion-text-center">
+      Regístrate
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="!cargando">
+    <ion-thumbnail class="thumbails">
+      <!-- <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"> -->
+      <img src="./assets/imgs/registro_1.png">
+    </ion-thumbnail>
+    <div class="abajo">
+      <ion-item mode='ios'>
+        <ion-label position="stacked">Nombre *</ion-label>
+        <ion-input type="text" [(ngModel)]="nombreSeleccionado" required></ion-input>
+      </ion-item>
+      <ion-item mode='ios'>
+        <ion-label position="stacked">Apellido *</ion-label>
+        <ion-input type="text" [(ngModel)]="apellidoSeleccionado"></ion-input>
+      </ion-item>
+      <ion-item mode='ios'>
+        <ion-label position="stacked">Correo *</ion-label>
+        <ion-input type="email" [(ngModel)]="correoSeleccionado"></ion-input>
+      </ion-item>
+      <ion-item mode='ios'>
+        <ion-label position="stacked">Teléfono *</ion-label>
+        <ion-input type="text" [(ngModel)]="telefonoSeleccionado"></ion-input>
+      </ion-item>
+      <ion-item  mode='ios'>
+        <ion-label position="stacked">Género *</ion-label>
+        <ion-select placeholder="Seleccione" [(ngModel)]="sexoSeleccionado">
+          <ion-select-option value="0">Hombre</ion-select-option>
+          <ion-select-option value="1">Mujer</ion-select-option>
+          <ion-select-option value="2">No definido</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3">
+            <ion-item  mode='ios'>
+              <ion-label position="stacked">Día *</ion-label>
+              <ion-select placeholder="Día" [(ngModel)]="diaSeleccionado">
+                <ion-select-option *ngFor="let d of arrDias" [value]="d.Dia">{{d.Dia}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item  mode='ios'>
+              <ion-label position="stacked">Mes *</ion-label>
+              <ion-select placeholder="Mes" (ionChange)="onChangeMes($event)" [(ngModel)]="mesSeleccionado">
+                <ion-select-option *ngFor="let m of arrMeses" [value]="m.Valor">{{m.Nombre}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="3">
+            <ion-item  mode='ios'>
+              <ion-label position="stacked">Año *</ion-label>
+              <ion-select placeholder="Año" [(ngModel)]="anioSeleccionado">
+                <ion-select-option *ngFor="let a of arrAnios" [value]="a">{{a}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+  
+        </ion-row>
+      </ion-grid>
+      <ion-button expand="full" type="submit" (click)="registrarse()">¡Registrarme!</ion-button>
+    </div>
+  </div>
+  <div *ngIf="cargando">
+    <ion-thumbnail class="thumbails">
+      <ion-skeleton-text animated style="min-height: 200px;"></ion-skeleton-text>
+    </ion-thumbnail>
+    <div class="abajo">
+      <ion-item mode='ios'>
+        <ion-label position="stacked">
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+        </ion-label>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-item>
+      <ion-item mode='ios'>
+        <ion-label position="stacked">
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+        </ion-label>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-item>
+      <ion-item mode='ios'>
+        <ion-label position="stacked">
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+        </ion-label>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-item>
+      <ion-item mode='ios'>
+        <ion-label position="stacked">
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+        </ion-label>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-item>
+      <ion-item mode='ios'>
+        <ion-label position="stacked">
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+        </ion-label>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-item>
+      <ion-item mode='ios'>
+        <ion-label position="stacked">
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+        </ion-label>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-item>
+    </div>
+  </div>
+
+</ion-content>
