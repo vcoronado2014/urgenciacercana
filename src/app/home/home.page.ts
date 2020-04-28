@@ -25,7 +25,7 @@ export class HomePage implements OnInit {
   tokenDispositivo: any;
   subscription: any;
   esIOS = false;
-  //navigator = {app: any};
+  
   objetoEntrada = {
     VersionAppName: '',
     Plataforma: '',
