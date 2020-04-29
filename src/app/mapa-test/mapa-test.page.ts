@@ -267,7 +267,7 @@ export class MapaTestPage implements OnInit {
             this.centros = JSON.parse(response.data);
           }
           //ordenamos para nativo
-          this.centros(this.sortLista);
+          this.centros.sort(this.sortLista);
           this.centrosMasCercanos = this.centros.slice(0, 3);
           this.nombreCentro1 = this.centrosMasCercanos[0].Nombre;
           this.nombreCentro2 = this.centrosMasCercanos[1].Nombre;
