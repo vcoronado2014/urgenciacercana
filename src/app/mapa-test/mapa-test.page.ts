@@ -252,7 +252,7 @@ export class MapaTestPage implements OnInit {
         var publico = 0;
         //VAMOS A TENER QUE REALIZAR UN ORDENAMIENTO MANUAL ACA, YA QUE DESDE LA API EN WEB
         //LO DEVUELVE ORDENADO Y EN LA API NATIVA LO DEVUELVE DESORDENADO, HAY QUE CAPTURAR
-        //EL ELEMTNO DISTANCIA Y VER COMO ORDENARLO
+        //EL ELEMTNO DISTANCIA Y ORDENARLO
         
         if (sessionStorage.getItem('ES_PUBLICO')){
           if (JSON.parse(sessionStorage.getItem('ES_PUBLICO'))){
@@ -266,6 +266,8 @@ export class MapaTestPage implements OnInit {
           else{
             this.centros = JSON.parse(response.data);
           }
+          //ordenamos para nativo
+          this.centros(this.sortLista);
           this.centrosMasCercanos = this.centros.slice(0, 3);
           this.nombreCentro1 = this.centrosMasCercanos[0].Nombre;
           this.nombreCentro2 = this.centrosMasCercanos[1].Nombre;
@@ -356,9 +358,14 @@ export class MapaTestPage implements OnInit {
         loader.dismiss();
       }
     });
-
-    
    }
+   sortLista(a, b){
+    let distancea = a.Distance;
+    let distanceb = b.Distance;
+    if (distancea > distanceb) return 1;
+    if (distanceb > distancea) return -1;
+    return 0;
+  }
    promesaDirection = (start, destino, transporte) => {
     let promise = new Promise((resolve, reject)=>{
       this.directionsService.route({

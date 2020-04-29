@@ -36,6 +36,8 @@ export class LoginPage implements OnInit {
     { Lat: '-40.590819', Lon: '-73.100826' },
   ]
   sonPruebas = false;
+  rutaAceptoCondiciones;
+  aceptaCondiciones = true;
 
   constructor(
     public navCtrl: NavController,
@@ -55,6 +57,7 @@ export class LoginPage implements OnInit {
       //setTimeout(async () => {
         console.log('ready');
       //LENAMOS DATOS INICIALES
+      this.rutaAceptoCondiciones = this.utiles.rutaAceptoCondiciones();
       this.cargando = true;
       //console.log(this.cargando);
 /*       var mesActual = new Date().getMonth();
@@ -125,6 +128,17 @@ export class LoginPage implements OnInit {
       this.utiles.procesarRespuestaMapa(data);
 
     });
+  }
+  abrirPDF(){
+    if (this.utiles.isAppOnDevice()){
+      //dispositivo movil
+      window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
+    }
+    else {
+      //web
+      window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
+    }
+    
   }
 
   doGeocodeNative(lat, lon){
@@ -198,70 +212,80 @@ export class LoginPage implements OnInit {
     return objetoError;
   }
   async registrarse(){
-    var entidadRegistro = {
-      Nombres: this.nombreSeleccionado,
-      Apellidos: this.apellidoSeleccionado,
-      CorreoElectronico: this.correoSeleccionado,
-      NombreUsuario: this.correoSeleccionado,
-      Sexo: this.sexoSeleccionado,
-      DiaNacimiento: this.diaSeleccionado,
-      MesNacimiento: this.mesSeleccionado,
-      AnioNacimiento: this.anioSeleccionado,
-      Pais: sessionStorage.getItem('pais'),
-      Provincia: sessionStorage.getItem('provincia'),
-      Region: sessionStorage.getItem('region'),
-      Comuna: sessionStorage.getItem('comuna'),
-      Password: '',
-      ModoRegistro: 0,
-      Apodo: '',
-      Avatar: '',
-      VersionAppName: localStorage.getItem('version_app_name'),
-      IdDispositivo: localStorage.getItem('token_dispositivo'),
-      Plataforma: localStorage.getItem('plataforma'),
-      VersionAppNumber: localStorage.getItem('version_number'),
-      TelefonoContacto: this.telefonoSeleccionado,
-      Latitud: sessionStorage.getItem('latitud'),
-      Longitud: sessionStorage.getItem('longitud'),
-      Eliminado: '0',
-      Activo: '1',
-
-    }
-    //pasar a la pagina siguiente despues de guardar
-    //console.log(entidadRegistro);
-    var obj = this.validaRegistro(entidadRegistro);
-    if (obj.Errores.length > 0){
-      //mostrar alerta
-      this.presentAlert(obj.ErrorStr);
-    }
-    else {
-      //continuar y guardar
-      let loader = await this.loading.create({
-        message: 'Espere...<br><br>Realizando tu registro',
-        duration: 20000
-      });
+    if (this.aceptaCondiciones){
+      var entidadRegistro = {
+        Nombres: this.nombreSeleccionado,
+        Apellidos: this.apellidoSeleccionado,
+        CorreoElectronico: this.correoSeleccionado,
+        NombreUsuario: this.correoSeleccionado,
+        Sexo: this.sexoSeleccionado,
+        DiaNacimiento: this.diaSeleccionado,
+        MesNacimiento: this.mesSeleccionado,
+        AnioNacimiento: this.anioSeleccionado,
+        Pais: sessionStorage.getItem('pais'),
+        Provincia: sessionStorage.getItem('provincia'),
+        Region: sessionStorage.getItem('region'),
+        Comuna: sessionStorage.getItem('comuna'),
+        Password: '',
+        ModoRegistro: 0,
+        Apodo: '',
+        Avatar: '',
+        VersionAppName: localStorage.getItem('version_app_name'),
+        IdDispositivo: localStorage.getItem('token_dispositivo'),
+        Plataforma: localStorage.getItem('plataforma'),
+        VersionAppNumber: localStorage.getItem('version_number'),
+        TelefonoContacto: this.telefonoSeleccionado,
+        Latitud: sessionStorage.getItem('latitud'),
+        Longitud: sessionStorage.getItem('longitud'),
+        Eliminado: '0',
+        Activo: '1',
   
-      await loader.present().then(async () => {
-        if (!this.utiles.isAppOnDevice()) {
-          //llamada web
-          this.geo.postRegistro(entidadRegistro).subscribe((data: any) => {
-            localStorage.setItem('REGISTRO', JSON.stringify(data));
-            localStorage.setItem('TIENE_REGISTRO', 'true');
-            loader.dismiss();
-            this.navCtrl.navigateRoot('home');
-          });
-        }
-        else {
-          //llamada nativa
-          this.geo.postRegistroNative(entidadRegistro).then((response: any)=>{
-            var data = JSON.parse(response.data);
-            localStorage.setItem('REGISTRO', JSON.stringify(data));
-            localStorage.setItem('TIENE_REGISTRO', 'true');
-            loader.dismiss();
-            this.navCtrl.navigateRoot('home');
-          });
-
-        }
-      });
+      }
+      //pasar a la pagina siguiente despues de guardar
+      //console.log(entidadRegistro);
+      var obj = this.validaRegistro(entidadRegistro);
+      if (obj.Errores.length > 0){
+        //mostrar alerta
+        this.presentAlert(obj.ErrorStr);
+      }
+      else {
+        //continuar y guardar
+        let loader = await this.loading.create({
+          message: 'Espere...<br><br>Realizando tu registro',
+          duration: 20000
+        });
+    
+        await loader.present().then(async () => {
+          if (!this.utiles.isAppOnDevice()) {
+            //llamada web
+            this.geo.postRegistro(entidadRegistro).subscribe((data: any) => {
+              localStorage.setItem('REGISTRO', JSON.stringify(data));
+              localStorage.setItem('TIENE_REGISTRO', 'true');
+              loader.dismiss();
+              this.navCtrl.navigateRoot('home');
+            });
+          }
+          else {
+            //llamada nativa
+            this.geo.postRegistroNative(entidadRegistro).then((response: any)=>{
+              var data = JSON.parse(response.data);
+              localStorage.setItem('REGISTRO', JSON.stringify(data));
+              localStorage.setItem('TIENE_REGISTRO', 'true');
+              loader.dismiss();
+              this.navCtrl.navigateRoot('home');
+            });
+  
+          }
+        });
+      }
+    }
+  }
+  onChangeAcepta(event){
+    
+    if (event.detail){
+      if (event.detail.checked == false){
+        this.presentAlert("Para continuar debe aceptar las condiciones del servicio, puede revisar las condiciones haciendo click en el ícono al costado derecho del check.")
+      }
     }
   }
   ingresar(proveedor: string){

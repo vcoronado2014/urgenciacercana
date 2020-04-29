@@ -8,44 +8,47 @@
 @media screen and (max-height: 991px) {
     /* start of large tablet styles */
     .thumbails{
-        height: 45%;
+        height: 43%;
     }
 }
 @media screen and (max-height: 823px) {
     /* start of medium tablet styles */
     .thumbails{
-        height: 37%;
+        height: 210px;
     }
 }
 @media screen and (max-height: 736px) {
     /* start of medium tablet styles */
     .thumbails{
-        height: 29%;
+        height: 100px;
     }
 }
 @media screen and (max-height: 667px) {
     /* start of medium tablet styles */
     .thumbails{
-        height: 23%;
+        height: 80px;
     }
 }            
     
 @media screen and (max-height: 640px) {
 /* start of medium tablet styles */
     .thumbails{
-        height: 19%;
+        /*height: 17%;*/
+        display: none;
     }
 }
 @media screen and (max-height: 568px) {
     /* start of medium tablet styles */
     .thumbails{
-        height: 9%;
+        /*height: 7%;*/
+        display: none;
     }
 }    
     
 @media screen and (max-height: 479px) {
 /* start of phone styles */
     .thumbails{
-        height: 9%;
+        /*height: 9%;*/
+        display: none;
     }
 }

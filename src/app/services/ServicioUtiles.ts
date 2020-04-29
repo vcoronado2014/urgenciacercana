@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import * as moment from 'moment';
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
@@ -30,8 +31,11 @@ export class ServicioUtiles{
     entregaFechaHoraActual(){
         return moment();
     }
-    private comparaFecha(inicio, fin){
-
+    rutaAceptoCondiciones(){
+        //var url = environment.API_ENDPOINT.replace(/\/Api/g, "/aceptocondiciones.pdf");
+        var url = environment.API_ENDPOINT.replace(/\/Api/g, "");
+        url = url + "/aceptocondiciones.pdf";
+        return url;
     }
     private transformaFecha(strElemento){
         //var actual = moment().add('hour', 8);

@@ -63,10 +63,22 @@
               </ion-select>
             </ion-item>
           </ion-col>
-  
         </ion-row>
       </ion-grid>
-      <ion-button expand="full" type="submit" (click)="registrarse()">¡Registrarme!</ion-button>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label style="word-wrap: break-word;font-size: 0.9em;white-space: break-spaces;">Acepto condiciones de servicio</ion-label>
+              <ion-toggle [(ngModel)]="aceptaCondiciones" (ionChange)="onChangeAcepta($event)" mode="ios"></ion-toggle>
+            </ion-item> 
+          </ion-col>
+          <ion-col size="2">
+            <ion-icon color="primary" name="document-text" style="font-size: 2.5em; float: right;" (click)="abrirPDF()"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-button *ngIf="aceptaCondiciones" expand="full" type="submit" (click)="registrarse()">¡Registrarme!</ion-button>
     </div>
   </div>
   <div *ngIf="cargando">

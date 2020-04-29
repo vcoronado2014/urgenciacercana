@@ -34,6 +34,7 @@ export class HomePage implements OnInit {
     Fecha: new Date()
   };
   //quitar esto despues
+
 arrPruebasLatLon =[
   //pasaje las estacas temuco
   { Lat: '-38.7665599', Lon: '-72.7686996' },
@@ -43,6 +44,7 @@ arrPruebasLatLon =[
   { Lat: '40.202555', Lon: '-122.632742' },
 ]
 sonPruebas = false;
+
 
   constructor(
     public navCtrl: NavController,
@@ -107,6 +109,13 @@ sonPruebas = false;
 
 
     });
+  }
+  sortLista(a, b){
+    let distancea = a.Distance;
+    let distanceb = b.Distance;
+    if (distancea > distanceb) return 1;
+    if (distanceb > distancea) return -1;
+    return 0;
   }
 
   doGeocodeNative(lat, lon){
