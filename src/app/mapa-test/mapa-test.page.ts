@@ -89,9 +89,9 @@ export class MapaTestPage implements OnInit {
   distancia:any;
 
   //Variables de lat y long para cada uno de los 3 centros
-  destino1 = {};
-  destino2 = {};
-  destino3 = {};
+  destino1 = { lat: null, lng: null,  ProcesarDirection: false };
+  destino2 = {lat: null, lng: null,  ProcesarDirection: false };
+  destino3 = {lat: null, lng: null,  ProcesarDirection: false };
 
   //Lat y Long de la posicion del usuario
   /* lati = localStorage.getItem("latitud"); */
@@ -268,7 +268,13 @@ export class MapaTestPage implements OnInit {
           }
           //ordenamos para nativo
           this.centros.sort(this.sortLista);
-          this.centrosMasCercanos = this.centros.slice(0, 3);
+          //antes de asociar los centros cercanos debemos ver cuantos vienen, por que si hay menos de 3 hay que reprocesar
+          //los elementos en el dom y mostrar solo alguna información no toda, así evitamos llamadas a la api
+          //directions
+          //lo reemplazamos por el metodo setearEStablecimientos
+          this.setearEstablecimientos();
+
+/*           this.centrosMasCercanos = this.centros.slice(0, 3);
           this.nombreCentro1 = this.centrosMasCercanos[0].Nombre;
           this.nombreCentro2 = this.centrosMasCercanos[1].Nombre;
           this.nombreCentro3 = this.centrosMasCercanos[2].Nombre;
@@ -300,7 +306,7 @@ export class MapaTestPage implements OnInit {
           this.destino3 = {
             lat: this.centrosMasCercanos[2].Latitud,
             lng: this.centrosMasCercanos[2].Longitud
-          };
+          }; */
   
           //Llamadas para la creacion del mapa y las rutas
           this.map = new google.maps.Map(this.mapElement.nativeElement, {
@@ -326,20 +332,42 @@ export class MapaTestPage implements OnInit {
   
           //calculo de distancia
           this.distancia = data.routes[0].legs[0].distance.text;
+          //para ver cual queda guardado en la consulta BD
+          var seleccionado = this.transporte;
+          var guardaW = false;
+          var guardaD = false;
+          var guardaT = false;
+          if (seleccionado == 'WALKING'){
+            guardaW = true;
+          }
+          if (seleccionado == 'DRIVING'){
+            guardaD = true;
+          }
+          if (seleccionado == 'TRANSIT'){
+            guardaT = true;
+          }
+
+          this.calculaTiempoTransporteSinLoader('WALKING', guardaW);
+          this.calculaTiempoTransporteSinLoader('DRIVING', guardaD);
+          this.calculaTiempoTransporteSinLoader('TRANSIT', guardaT);
   
-          this.calculaTiempoTransporteSinLoader('WALKING', false);
-          this.calculaTiempoTransporteSinLoader('DRIVING', false);
-          this.calculaTiempoTransporteSinLoader('TRANSIT', true);
-  
-  
-          this.calcularTiempoDestinoF(this.destino1);
-          this.calcularTiempoDestinoF(this.destino2);
-          this.calcularTiempoDestinoF(this.destino3);
-  
-          this.crearMarkerB(this.destino1, this.nombreCentro1, this.centrosMasCercanos[0], this.esRayen1);
+          if (this.destino1.ProcesarDirection){
+            this.calcularTiempoDestinoF(this.destino1);
+          }
+          if (this.destino2.ProcesarDirection){
+            this.calcularTiempoDestinoF(this.destino2);
+          }
+          if (this.destino3.ProcesarDirection){
+            this.calcularTiempoDestinoF(this.destino3);
+          }
+          
+          if (this.destino1.ProcesarDirection){
+            this.crearMarkerB(this.destino1, this.nombreCentro1, this.centrosMasCercanos[0], this.esRayen1);
+          }
+          
           this.crearMarkerA(this.start, "Estas cerca de aquí", "./assets/imgs/pin_verde.png");
   
-          console.log(this.transporte + ' ' + data.routes[0].legs[0].duration.text);
+          //console.log(this.transporte + ' ' + data.routes[0].legs[0].duration.text);
           
           loader.dismiss();
         })
@@ -407,146 +435,6 @@ export class MapaTestPage implements OnInit {
 
    }
 
-   async presentLoadingPromise(){
-     this.latitudEnviar = this.latConComa;
-     this.longitudEnviar = this.longiConComa;
-     //this.gravedadEnviar= localStorage.getItem("gravedad");
-     this.distanciaEnviar = '10000';
-     this.centros = [];
-     this.centrosMasCercanos = [];
-
-     //iconos dinámicos
-     if (this.transporte == "WALKING") {
-       this.iconTransporte = "walk";
-     } else if (this.transporte == "DRIVING") {
-       this.iconTransporte = "car";
-     } else if (this.transporte == "TRANSIT") {
-       this.iconTransporte = "bus";
-     }
-
-     //Gravedad modificada para la tabla. El usuario escoge del 1 al 5
-     //pero la tabla recibe del 0 al 4
-     switch (this.gravedadUsuario) {
-       case "5":
-         this.gravedadEnviar = "0";
-       case "4":
-         this.gravedadEnviar = "1";
-       case "3":
-         this.gravedadEnviar = "2";
-       case "2":
-         this.gravedadEnviar = "3";
-       case "1":
-         this.gravedadEnviar = "4";
-       default:
-         break;
-     }
-     //iniciamos loading
-     let loader = await this.loading.create({
-       message: 'Calculando...<br><br>Los tiempos son aproximados<br><br>Asegúrate de tener conexión de internet y compartir tu ubicación',
-       duration: 20000
-     });
-     await loader.present().then(() => {
-
-      try {
-        var publico = 0;
-        if (sessionStorage.getItem('ES_PUBLICO')){
-          if (JSON.parse(sessionStorage.getItem('ES_PUBLICO'))){
-            publico = 1
-          }
-        }
-        
-        
-        this.promesaApiWeb(this.latitudEnviar, this.longitudEnviar, this.distanciaEnviar, this.gravedadEnviar, publico).then(
-          data => {
-            if (environment.ProcesaHorario){
-              this.centros = this.utiles.procesaFechaHoraTermino(data);
-            }
-            else{
-              this.centros = data;
-            }
-            this.centrosMasCercanos = this.centros.slice(0, 3);
-            this.nombreCentro1 = this.centrosMasCercanos[0].Nombre;
-            this.nombreCentro2 = this.centrosMasCercanos[1].Nombre;
-            this.nombreCentro3 = this.centrosMasCercanos[2].Nombre;
-  
-            this.largoNombreCentro1 = this.nombreCentro1.length;
-            this.largoNombreCentro2 = this.nombreCentro2.length;
-            this.largoNombreCentro3 = this.nombreCentro3.length;
-  
-            this.direccionCentro1 = this.centrosMasCercanos[0].Direccion;
-            this.direccionCentro2 = this.centrosMasCercanos[1].Direccion;
-            this.direccionCentro3 = this.centrosMasCercanos[2].Direccion;
-  
-            this.esRayen1 = this.centrosMasCercanos[0].EsRayen;
-            this.esRayen2 = this.centrosMasCercanos[1].EsRayen;
-            this.esRayen3 = this.centrosMasCercanos[2].EsRayen;
-  
-            this.tiempoEspera1 = this.centrosMasCercanos[0].TiempoEspera;
-            this.tiempoEspera2 = this.centrosMasCercanos[1].TiempoEspera;
-            this.tiempoEspera3 = this.centrosMasCercanos[2].TiempoEspera;
-  
-            this.destino1 = {
-              lat: this.centrosMasCercanos[0].Latitud,
-              lng: this.centrosMasCercanos[0].Longitud
-            };
-            this.destino2 = {
-              lat: this.centrosMasCercanos[1].Latitud,
-              lng: this.centrosMasCercanos[1].Longitud
-            };
-            this.destino3 = {
-              lat: this.centrosMasCercanos[2].Latitud,
-              lng: this.centrosMasCercanos[2].Longitud
-            };
-            //seteamos el mapa
-            this.map = new google.maps.Map(this.mapElement.nativeElement, {
-              zoom: 14,
-              center: this.start,
-              zIndex: -1,
-              mapTypeControl: environment.viewMapTypeControl,
-              fullscreenControl: environment.viewfullscreenControl,
-              ZoomControl: environment.viewZoomControl,
-              streetViewControl: environment.viewstreetViewControl,
-            });
-            this.directionsDisplay.setMap(this.map);
-  
-            //llamada a la segunda promesa
-            return this.promesaDirection(this.start, this.destino1, this.transporte)
-  
-          }
-        )
-        .then((data : any) => {
-          //llamada a route
-          this.directionsDisplay.setDirections(data);
-          //Obtener tiempos de desplazamiento
-          console.log(data);
-  
-          //calculo de distancia
-          this.distancia = data.routes[0].legs[0].distance.text;
-  
-          this.calculaTiempoTransporteSinLoader('WALKING', false);
-          this.calculaTiempoTransporteSinLoader('DRIVING', false);
-          this.calculaTiempoTransporteSinLoader('TRANSIT', true);
-  
-  
-          this.calcularTiempoDestinoF(this.destino1);
-          this.calcularTiempoDestinoF(this.destino2);
-          this.calcularTiempoDestinoF(this.destino3);
-  
-          this.crearMarkerB(this.destino1, this.nombreCentro1, this.centrosMasCercanos[0], this.esRayen1);
-          this.crearMarkerA(this.start, "Estas cerca de aquí", "./assets/imgs/pin_verde.png");
-  
-          console.log(this.transporte + ' ' + data.routes[0].legs[0].duration.text);
-        }).catch(error => console.log(error))
-      }
-      catch(error){
-        console.log(error);
-      }
-
-     })
-     .catch(error => console.log(error));
-
-   }
-
    async presentLoading(){
     //seteo de las variables
     //verificar esto, ya que deberia ser sin coma
@@ -609,8 +497,9 @@ export class MapaTestPage implements OnInit {
           else{
             this.centros = data;
           }
+          this.setearEstablecimientos();
           
-          this.centrosMasCercanos = this.centros.slice(0, 3);
+/*           this.centrosMasCercanos = this.centros.slice(0, 3);
           this.nombreCentro1 = this.centrosMasCercanos[0].Nombre;
           this.nombreCentro2 = this.centrosMasCercanos[1].Nombre;
           this.nombreCentro3 = this.centrosMasCercanos[2].Nombre;
@@ -642,12 +531,12 @@ export class MapaTestPage implements OnInit {
           this.destino3 = {
             lat: this.centrosMasCercanos[2].Latitud,
             lng: this.centrosMasCercanos[2].Longitud
-          };
+          }; */
 
-          console.log(this.centrosMasCercanos[0]);
+/*           console.log(this.centrosMasCercanos[0]);
           console.log(this.centrosMasCercanos[1]);
           console.log(this.centrosMasCercanos[2]);
-          console.log(this.centros);
+          console.log(this.centros); */
           //Llamadas para la creacion del mapa y las rutas
           this.map = new google.maps.Map(this.mapElement.nativeElement, {
             zoom: 14,
@@ -670,21 +559,45 @@ export class MapaTestPage implements OnInit {
               if (status === 'OK') {
                 this.directionsDisplay.setDirections(response);
                 //Obtener tiempos de desplazamiento
-                console.log(response);
+                //console.log(response);
 
                 //calculo de distancia
                 this.distancia = response.routes[0].legs[0].distance.text;
+                //para ver cual queda guardado en la consulta BD
+                var seleccionado = this.transporte;
+                var guardaW = false;
+                var guardaD = false;
+                var guardaT = false;
+                if (seleccionado == 'WALKING') {
+                  guardaW = true;
+                }
+                if (seleccionado == 'DRIVING') {
+                  guardaD = true;
+                }
+                if (seleccionado == 'TRANSIT') {
+                  guardaT = true;
+                }
 
-                calcularTiempoTransporte('WALKING', false);
-                calcularTiempoTransporte('DRIVING', false);
-                calcularTiempoTransporte('TRANSIT', true);
+  
+                calcularTiempoTransporte('WALKING', guardaW);
+                calcularTiempoTransporte('DRIVING', guardaD);
+                calcularTiempoTransporte('TRANSIT', guardaT);
 
-
-                this.calcularTiempoDestinoF(this.destino1);
-                this.calcularTiempoDestinoF(this.destino2);
-                this.calcularTiempoDestinoF(this.destino3);
-
-                this.crearMarkerB(this.destino1, this.nombreCentro1, this.centrosMasCercanos[0], this.esRayen1);
+                if (this.destino1.ProcesarDirection){
+                  this.calcularTiempoDestinoF(this.destino1);
+                }
+                if (this.destino2.ProcesarDirection){
+                  this.calcularTiempoDestinoF(this.destino2);
+                }
+                if (this.destino3.ProcesarDirection){
+                  this.calcularTiempoDestinoF(this.destino3);
+                }
+                
+                
+                
+                if (this.destino1.ProcesarDirection) {
+                  this.crearMarkerB(this.destino1, this.nombreCentro1, this.centrosMasCercanos[0], this.esRayen1);
+                }
                 this.crearMarkerA(this.start, "Estas cerca de aquí", "./assets/imgs/pin_verde.png");
 
                 console.log(this.transporte + ' ' + response.routes[0].legs[0].duration.text);
@@ -810,7 +723,8 @@ export class MapaTestPage implements OnInit {
         TiempoEspera: 0,
         EsRayen: true,
         HorarioLunVie: '0-0',
-        HorarioSabDom: '0-0'
+        HorarioSabDom: '0-0',
+        ProcesarDirection: false
       },
       {
         Nombre: 'No hay',
@@ -821,7 +735,8 @@ export class MapaTestPage implements OnInit {
         TiempoEspera: 0,
         EsRayen: true,
         HorarioLunVie: '0-0',
-        HorarioSabDom: '0-0'
+        HorarioSabDom: '0-0',
+        ProcesarDirection: false
       },
       {
         Nombre: 'No hay',
@@ -832,7 +747,8 @@ export class MapaTestPage implements OnInit {
         TiempoEspera: 0,
         EsRayen: true,
         HorarioLunVie: '0-0',
-        HorarioSabDom: '0-0'
+        HorarioSabDom: '0-0',
+        ProcesarDirection: false
       }
     ];
     this.centrosMasCercanos = this.centros.slice(0,3);
@@ -858,15 +774,18 @@ export class MapaTestPage implements OnInit {
 
     this.destino1 = {
       lat: this.centrosMasCercanos[0].Latitud,
-      lng: this.centrosMasCercanos[0].Longitud
+      lng: this.centrosMasCercanos[0].Longitud,
+      ProcesarDirection: this.centrosMasCercanos[0].ProcesarDirection
     };
     this.destino2 = {
       lat: this.centrosMasCercanos[1].Latitud,
-      lng: this.centrosMasCercanos[1].Longitud
+      lng: this.centrosMasCercanos[1].Longitud,
+      ProcesarDirection: this.centrosMasCercanos[1].ProcesarDirection
     };
     this.destino3 = {
       lat: this.centrosMasCercanos[2].Latitud,
-      lng: this.centrosMasCercanos[2].Longitud
+      lng: this.centrosMasCercanos[2].Longitud,
+      ProcesarDirection: this.centrosMasCercanos[2].ProcesarDirection
     };
     //mostramos igual el mapa
      //Llamadas para la creacion del mapa y las rutas
@@ -882,212 +801,6 @@ export class MapaTestPage implements OnInit {
      this.directionsDisplay.setMap(this.map);
      //creamos el marker a de tu posicion
      this.crearMarkerA(this.start, "Estas cerca de aquí", "./assets/imgs/pin_verde.png");
-   }
-
-   async presentLoadingNative(){
-     
-    //seteo de las variables
-    this.latitudEnviar = this.latConComa;
-    this.longitudEnviar = this.longiConComa;
-    //this.gravedadEnviar= localStorage.getItem("gravedad");
-    this.distanciaEnviar = '10000';
-    this.centros = [];
-    this.centrosMasCercanos = [];
-
-    //iconos dinámicos
-    if (this.transporte == "WALKING") {
-      this.iconTransporte = "walk";
-    } else if (this.transporte == "DRIVING") {
-      this.iconTransporte = "car";
-    } else if (this.transporte == "TRANSIT") {
-      this.iconTransporte = "bus";
-    }
-
-    //Gravedad modificada para la tabla. El usuario escoge del 1 al 5
-    //pero la tabla recibe del 0 al 4
-    switch (this.gravedadUsuario) {
-      case "5":
-        this.gravedadEnviar = "0";
-      case "4":
-        this.gravedadEnviar = "1";
-      case "3":
-        this.gravedadEnviar = "2";
-      case "2":
-        this.gravedadEnviar = "3";
-      case "1":
-        this.gravedadEnviar = "4";
-      default:
-        break;
-    }
-         //iniciamos loading
-    let loader = await this.loading.create({
-      message: 'Calculando...<br><br>Los tiempos son aproximados<br><br>Asegúrate de tener conexión de internet y compartir tu ubicación',
-      duration: 20000
-    });
-
-    await loader.present().then(async () => {
-
-      try {
-        var publico = 0;
-        if (sessionStorage.getItem('ES_PUBLICO')){
-          if (JSON.parse(sessionStorage.getItem('ES_PUBLICO'))){
-            publico = 1
-          }
-        }
-        const headers = new Headers;
-        const body =
-        {
-          Latitud: this.latitudEnviar, Longitud: this.longitudEnviar, Distancia: this.distanciaEnviar, Gravedad: this.gravedadEnviar, EsPublico: publico
-        };
-
-        let url = environment.API_ENDPOINT + 'Geolocalizacion';
-        this.http.setDataSerializer('json');
-
-
-        const response = await this.http.post(url, body, {});
-        //return JSON.parse(response.data);
-        if (environment.ProcesaHorario){
-          this.centros = this.utiles.procesaFechaHoraTermino(JSON.parse(response.data));
-        }
-        else{
-          this.centros = JSON.parse(response.data);
-        }
-        this.centrosMasCercanos = this.centros.slice(0, 3);
-        this.nombreCentro1 = this.centrosMasCercanos[0].Nombre;
-        this.nombreCentro2 = this.centrosMasCercanos[1].Nombre;
-        this.nombreCentro3 = this.centrosMasCercanos[2].Nombre;
-
-        this.largoNombreCentro1 = this.nombreCentro1.length;
-        this.largoNombreCentro2 = this.nombreCentro2.length;
-        this.largoNombreCentro3 = this.nombreCentro3.length;
-
-        this.direccionCentro1 = this.centrosMasCercanos[0].Direccion;
-        this.direccionCentro2 = this.centrosMasCercanos[1].Direccion;
-        this.direccionCentro3 = this.centrosMasCercanos[2].Direccion;
-
-        this.esRayen1 = this.centrosMasCercanos[0].EsRayen;
-        this.esRayen2 = this.centrosMasCercanos[1].EsRayen;
-        this.esRayen3 = this.centrosMasCercanos[2].EsRayen;
-
-        this.tiempoEspera1 = this.centrosMasCercanos[0].TiempoEspera;
-        this.tiempoEspera2 = this.centrosMasCercanos[1].TiempoEspera;
-        this.tiempoEspera3 = this.centrosMasCercanos[2].TiempoEspera;
-
-        this.destino1 = {
-          lat: this.centrosMasCercanos[0].Latitud,
-          lng: this.centrosMasCercanos[0].Longitud
-        };
-        this.destino2 = {
-          lat: this.centrosMasCercanos[1].Latitud,
-          lng: this.centrosMasCercanos[1].Longitud
-        };
-        this.destino3 = {
-          lat: this.centrosMasCercanos[2].Latitud,
-          lng: this.centrosMasCercanos[2].Longitud
-        };
-
-        //Llamadas para la creacion del mapa y las rutas
-        this.map = new google.maps.Map(this.mapElement.nativeElement, {
-          zoom: 14,
-          center: this.start,
-          zIndex: -1,
-          mapTypeControl: environment.viewMapTypeControl,
-          fullscreenControl: environment.viewfullscreenControl,
-          ZoomControl: environment.viewZoomControl,
-          streetViewControl: environment.viewstreetViewControl,
-        });
-        this.directionsDisplay.setMap(this.map);
-
-
-        if (this.destino1 || this.destino2 || this.destino3) {
-          this.directionsService.route({
-            origin: this.start,
-            destination: this.destino1,
-            travelMode: this.transporte
-          }, (response, status) => {
-            //status puede dar ZERO_RESULTS
-            if (status === 'OK') {
-              this.directionsDisplay.setDirections(response);
-              //Obtener tiempos de desplazamiento
-              console.log(response);
-
-              //calculo de distancia
-              this.distancia = response.routes[0].legs[0].distance.text;
-
-              calcularTiempoTransporte('WALKING');
-              calcularTiempoTransporte('DRIVING');
-              calcularTiempoTransporte('TRANSIT');
-
-              this.calcularTiempoDestinoF(this.destino1);
-              this.calcularTiempoDestinoF(this.destino2);
-              this.calcularTiempoDestinoF(this.destino3);
-
-              this.crearMarkerB(this.destino1, this.nombreCentro1, this.centrosMasCercanos[0], this.esRayen1);
-              this.crearMarkerA(this.start, "Estas cerca de aquí", "./assets/imgs/pin_verde.png");
-
-              console.log(this.transporte + ' ' + response.routes[0].legs[0].duration.text);
-            } else {
-              // window.alert('Directions request failed due to ' + status);
-              //NO HAY RESULTADOS
-              this.presentToast('No hay resultados para su ubicación geográfica', 'middle');
-            }
-          });
-        }
-
-
-        //Segunda Promesa
-        let calcularTiempoTransporte = (mode) => {
-          new Promise(async (resolve, reject) => {
-            let loaderTT = await this.loading.create({
-              message: 'Calculando tiempo transporte...',
-              duration: 5000
-            });
-        
-            await loaderTT.present().then(() => {
-              this.directionsService.route({
-                origin: this.start,
-                destination: this.destino1,
-                travelMode: mode
-              }, (response, status) => {
-                //this.presentToast(status, 'bottom');
-                if (status === 'OK') {
-  
-                  if (mode == 'WALKING') {
-                    this.tiempoWalking = response.routes[0].legs[0].duration.text;
-                  }
-                  if (mode == 'DRIVING') {
-                    this.tiempoDriving = response.routes[0].legs[0].duration.text;
-                  }
-                  if (mode == 'TRANSIT') {
-                    this.tiempoTransit = response.routes[0].legs[0].duration.text;
-                  }
-  
-                  console.log(mode + ' dentro de rutas' + ' ' + response.routes[0].legs[0].duration.text);
-                } else {
-                  this.presentToast('No hay resultados para su ubicación geográfica', 'middle');
-                }
-              });
-            })
-
-          }).then((data) => {
-            console.log('resultado del then segunda promesa ' + data);
-          });
-        }
-      }
-      catch (error) {
-        //en ios no viene el objeto error, se debe identificar para mostrar un toast correctamente
-        if (this.platform.is('ios')) {
-          //mensaje de error personalizado para ios
-          this.presentToast('No hay resultados para su ubicación geográfica', 'middle');
-        }
-        else {
-          this.presentToast('No hay resultados para su ubicación geográfica', 'middle');
-        }
-        this.setArregloVacio();
-      }
-    });
-
-    loader.dismiss();
    }
 
    //las variables globales las seteamos en willenter
@@ -1120,6 +833,84 @@ export class MapaTestPage implements OnInit {
 
 
    }
+   setearEstablecimientos(){
+    var entidadVacia = {
+      Nombre: 'No hay',
+      Direccion: '',
+      Telefonos: '',
+      Latitud: 0,
+      Longitud: 0,
+      TiempoEspera: 0,
+      EsRayen: true,
+      HorarioLunVie: '0-0',
+      HorarioSabDom: '0-0',
+      ProcesarDirection: false
+    }
+     if (this.centros && this.centros.length <= 3){
+      //son menos o igual a 3
+      if (this.centros.length == 0){
+        //esto ya esta manejado, pero sin embargo seteamos las variables igual
+        //todos deben ir por defecto
+
+        this.centros.push(entidadVacia);
+        this.centros.push(entidadVacia);
+        this.centros.push(entidadVacia);
+      }
+      if (this.centros.length == 1){
+        this.centros[0].ProcesarDirection = true;
+        this.centros.push(entidadVacia);
+        this.centros.push(entidadVacia);
+      }
+      if (this.centros.length == 2){
+        this.centros[0].ProcesarDirection = true;
+        this.centros[1].ProcesarDirection = true;
+        this.centros.push(entidadVacia);
+      }
+     }
+     else {
+      //vienen más de 3 ya procesados
+      this.centros.forEach(centro => {
+        centro.ProcesarDirection = true;
+      });
+     }
+     //ahora hacemos el slice
+    this.centrosMasCercanos = this.centros.slice(0, 3);
+    this.nombreCentro1 = this.centrosMasCercanos[0].Nombre;
+    this.nombreCentro2 = this.centrosMasCercanos[1].Nombre;
+    this.nombreCentro3 = this.centrosMasCercanos[2].Nombre;
+
+    this.largoNombreCentro1 = this.nombreCentro1.length;
+    this.largoNombreCentro2 = this.nombreCentro2.length;
+    this.largoNombreCentro3 = this.nombreCentro3.length;
+
+    this.direccionCentro1 = this.centrosMasCercanos[0].Direccion;
+    this.direccionCentro2 = this.centrosMasCercanos[1].Direccion;
+    this.direccionCentro3 = this.centrosMasCercanos[2].Direccion;
+
+    this.esRayen1 = this.centrosMasCercanos[0].EsRayen;
+    this.esRayen2 = this.centrosMasCercanos[1].EsRayen;
+    this.esRayen3 = this.centrosMasCercanos[2].EsRayen;
+
+    this.tiempoEspera1 = this.centrosMasCercanos[0].TiempoEspera;
+    this.tiempoEspera2 = this.centrosMasCercanos[1].TiempoEspera;
+    this.tiempoEspera3 = this.centrosMasCercanos[2].TiempoEspera;
+
+    this.destino1 = {
+      lat: this.centrosMasCercanos[0].Latitud,
+      lng: this.centrosMasCercanos[0].Longitud,
+      ProcesarDirection: this.centros[0].ProcesarDirection
+    };
+    this.destino2 = {
+      lat: this.centrosMasCercanos[1].Latitud,
+      lng: this.centrosMasCercanos[1].Longitud,
+      ProcesarDirection: this.centros[1].ProcesarDirection
+    };
+    this.destino3 = {
+      lat: this.centrosMasCercanos[2].Latitud,
+      lng: this.centrosMasCercanos[2].Longitud,
+      ProcesarDirection: this.centros[2].ProcesarDirection
+    };
+   }
 
   ionViewWillEnter() {
     this.srcPropaganda = environment.imgPropaganda;
@@ -1132,11 +923,9 @@ export class MapaTestPage implements OnInit {
     if (!this.utiles.isAppOnDevice()) {
       //web
       this.presentLoading();
-      //this.presentLoadingPromise();
     }
     else {
       //dispositivo
-      //this.presentLoadingNative();
       this.presentLoadingNativePromesa();
     }
     //console.log('capturar movimiento');
@@ -1240,10 +1029,17 @@ export class MapaTestPage implements OnInit {
       } else if (this.transporte == "TRANSIT") {
         this.iconTransporte = "bus";
       }
-
-      this.calcularTiempoDestinoF(this.destino1);
-      this.calcularTiempoDestinoF(this.destino2);
-      this.calcularTiempoDestinoF(this.destino3);
+      if (this.destino1.ProcesarDirection){
+        this.calcularTiempoDestinoF(this.destino1);
+      }
+      if (this.destino2.ProcesarDirection){
+        this.calcularTiempoDestinoF(this.destino2);
+      }
+      if (this.destino3.ProcesarDirection){
+        this.calcularTiempoDestinoF(this.destino3);
+      }
+      
+      
 
       if (direccion == "direccion1") {
         direccion = this.destino1;
@@ -1522,8 +1318,10 @@ export class MapaTestPage implements OnInit {
         centro = this.centrosMasCercanos[2];
         esRayen = this.esRayen3;
       }
+      if (direccion.ProcesarDirection) {
+        return this.promesaDirection(this.start, direccion, this.transporte);
+      }
 
-      return this.promesaDirection(this.start, direccion, this.transporte);
 
     }).then((data: any) => {
       this.directionsDisplay.setDirections(data);

@@ -1445,5 +1445,10 @@ let arr =
     phoneIsValid(phone){
         return /^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/.test(phone);
     }
+    //hay otras consideraciones, por ejemplo...
+    //la distancia que se envía al SP no debería ser la misma en una ciudad muy poblada donde existen varios establecimientos
+    //como en una ciudad menos poblada donde con suerte existen unos pocos establecimientos, por esa razón se debe generar
+    //un algoritmo que aumente este parámetro y de más posibilidades a los usuarios...
+    //se me ocurre obtener la region para determinar dicho parametro (se guarda en la local storage)
 
 }
