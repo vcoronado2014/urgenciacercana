@@ -19,6 +19,8 @@ export class ModalVistaPage implements OnInit {
   token: any;
   plataformaL: any;
 
+  //ruta del pdf acepto condiciones
+  rutaAceptoCondiciones;
 
   constructor(
     public modalCtrl: ModalController,
@@ -28,6 +30,7 @@ export class ModalVistaPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.rutaAceptoCondiciones = this.utiles.rutaAceptoCondiciones();
     if (this.utiles.isAppOnDevice()){
       this.isDevice = true;
       this.getVersionNumber();
@@ -40,6 +43,17 @@ export class ModalVistaPage implements OnInit {
     }
     
     //this.infoAplicacion = this.utiles.getVersionNumber();
+  }
+  abrirPDF(){
+    if (this.utiles.isAppOnDevice()){
+      //dispositivo movil
+      window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
+    }
+    else {
+      //web
+      window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
+    }
+    
   }
 
   async getVersionNumber() {

@@ -17,9 +17,16 @@
     {{versionAppName}} te permite encontrar <br>
     el centro de urgencia más cercano <br>
     y sus tiempos de espera.<br><br><br>
-    <img src="./assets/imgs/logo96.png" alt="">
+    <img src="./assets/imgs/logo96.png" alt=""><br>
     <div *ngIf="isDevice">
       <strong>Token: {{token}}</strong>
+    </div>
+    <div>
+      <!-- <ion-icon color="primary" name="document-text" style="font-size: 2.5em;" (click)="abrirPDF()"></ion-icon> Ver condiciones del servicio. -->
+      <ion-button (click)="abrirPDF()" size="small">
+        Condiciones del servicio
+        <ion-icon slot="end" name="document-text"></ion-icon>
+      </ion-button>
     </div>
   </div>
 
