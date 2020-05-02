@@ -1,6 +1,11 @@
 .col{
 	margin: 4px;
 }
+.p-gravedad{
+	padding: 0;
+	margin: 0;
+	font-size: 1em;
+}
 
 .cuadro_transporte{
 	border: solid 2px #026874;
@@ -99,6 +104,96 @@
   .ion-color-nino {
 	--ion-color-base: #008a9b;
 	color:white;
+  }
+  @media screen and (max-height: 991px) {
+	/* start of large tablet styles */
+	.div_img{
+		height: 35vh;
+		img{
+			height: 100%;
+		}
+	}
+  }
+  @media screen and (max-height: 823px) {
+	/* start of medium tablet styles */
+	.div_img{
+		height: 35vh;
+			img{
+				height: 100%;
+			}
+		}
+	}
+	@media screen and (max-height: 736px) {
+  /* start of medium tablet styles */
+  .div_img{
+	height: 35vh;
+		img{
+			height: 100%;
+		}
+	}
+	.p-gravedad{
+		padding: 0;
+		margin: 0;
+		font-size: 0.9em;
+	}
+  }
+  @media screen and (max-height: 667px) {
+	  /* start of medium tablet styles */
+	  .div_img{
+		height: 30vh;
+			img{
+				height: 100%;
+			}
+		}
+		.p-gravedad{
+			padding: 0;
+			margin: 0;
+			font-size: 0.9em;
+		}
+  }            
+	
+  @media screen and (max-height: 640px) {
+  /* start of medium tablet styles */
+  .div_img{
+	height: 30vh;
+		img{
+			height: 100%;
+		}
+	}
+	.p-gravedad{
+		padding: 0;
+		margin: 0;
+		font-size: 0.8em;
+	}
+  }
+  @media screen and (max-height: 568px) {
+	/* start of medium tablet styles */
+	.div_img{
+		height: 25vh;
+			img{
+				height: 100%;
+			}
+		}
+		.p-gravedad{
+			padding: 0;
+			margin: 0;
+			font-size: 0.8em;
+		}
+	}    
+	
+  @media screen and (max-height: 479px) {
+  /* start of phone styles */
+  .div_img{
+	height: 25vh;
+		img{
+			height: 100%;
+		}
+	}
+	.p-gravedad{
+		padding: 0;
+		margin: 0;
+		font-size: 0.8em;
+	}
   }
 
 
