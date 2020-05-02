@@ -23,6 +23,7 @@ import { ErrorPageModule } from './error/error.module';
 import { MapaTestPageModule } from './mapa-test/mapa-test.module';
 import { GravedadPageModule } from './gravedad/gravedad.module';
 import { LoginPageModule } from './login/login.module';
+import { BusquedaPageModule } from './busqueda/busqueda.module';
 
 //servicios
 import { ServicioGeo } from './services/ServicioGeo'
@@ -42,6 +43,7 @@ import { PopoverComponent } from '../app/components/popover/popover.component';
     MapaTestPageModule,
     GravedadPageModule,
     LoginPageModule,
+    BusquedaPageModule,
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(), 
