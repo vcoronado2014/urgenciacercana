@@ -55,7 +55,7 @@ export class LoginPage implements OnInit {
   ) {
     this.platform.ready().then(async () => {
       //setTimeout(async () => {
-        console.log('ready');
+        //console.log('ready');
       //LENAMOS DATOS INICIALES
       this.rutaAceptoCondiciones = this.utiles.rutaAceptoCondiciones();
       this.cargando = true;
@@ -86,7 +86,7 @@ export class LoginPage implements OnInit {
               //console.log(data);
               //this.utiles.procesarRespuestaMapa(data);
               dataReverse = data;
-              console.log(dataReverse);
+              //console.log(dataReverse);
               this.utiles.procesarRespuestaMapa(dataReverse);
               //crear token
               loader.dismiss();
@@ -97,7 +97,7 @@ export class LoginPage implements OnInit {
           else{
             this.geo.getMapaNative(lat, lon).then(response=>{
               dataReverse = JSON.parse(response.data);
-              console.log(dataReverse);
+              //console.log(dataReverse);
               this.utiles.procesarRespuestaMapa(dataReverse);
               loader.dismiss();
               this.crearToken();
@@ -282,7 +282,7 @@ export class LoginPage implements OnInit {
     }
   }
   ingresar(proveedor: string){
-    console.log(proveedor);
+    //console.log(proveedor);
     if (proveedor == 'google'){
       
     } 
@@ -381,10 +381,10 @@ export class LoginPage implements OnInit {
     localStorage.setItem('plataforma', plataforma);
   }
   onChangeDia(event){
-    console.log(event);
+    //console.log(event);
   }
   onChangeMes(event){
-    console.log(event);
+    //console.log(event);
     if (event.detail.value){
       this.arrDias = this.utiles.retornaDiasDelMesStr(event.detail.value);
       //verificamos si ya tenía un dia seleccionado
@@ -432,7 +432,7 @@ export class LoginPage implements OnInit {
         localStorage.setItem('plataforma', plataforma);
         this.geo.getRegistroApp(this.tokenDispositivo).subscribe(async (data: any) => {
           //this.procesarRegistro(data);
-          console.log(data);
+          //console.log(data);
           this.procesarRegistroL(data, loader);
           //loader.dismiss();
           

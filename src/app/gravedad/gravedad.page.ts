@@ -134,7 +134,7 @@ export class GravedadPage implements OnInit {
         break;
     }
     this.categorizacion.tipo = this.categoria;
-    console.log(this.categorizacion);
+    //console.log(this.categorizacion);
   }
   onChangePublico(event){
     
@@ -142,7 +142,7 @@ export class GravedadPage implements OnInit {
       this.esPublico = event.detail.checked;
       sessionStorage.setItem('ES_PUBLICO', JSON.stringify(this.esPublico));
     }
-    console.log(this.esPublico);
+    //console.log(this.esPublico);
   }
 
   ngOnInit() {

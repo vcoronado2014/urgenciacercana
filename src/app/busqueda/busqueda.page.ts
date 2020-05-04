@@ -130,13 +130,14 @@ export class BusquedaPage implements OnInit {
     //   this.navCtrl.push('MapaTestPage');
     // }
   }
-
-  pushPage(){
-    var latLon = { 
-      lat: this.latPagina,
-      lng: this.lonPagina
+  volver(){
+    var accion = { 
+      cancelar: true
     }
-    this.navCtrl.navigateForward('mapa-test', { queryParams: latLon});
+    this.navCtrl.navigateForward('mapa-test', { queryParams: accion});
+  }
+  pushPage(){
+    this.navCtrl.navigateForward('mapa-test');
   }
   dismiss() {
     // using the injected ModalController this page

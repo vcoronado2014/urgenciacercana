@@ -2,13 +2,15 @@
   <ion-toolbar [color]="categoria" mode="md">
     <ion-buttons slot="start">
       <!-- <ion-back-button defaultHref="home"></ion-back-button> -->
-      <ion-back-button defaultHref="home"></ion-back-button>
+      <!-- <ion-back-button defaultHref="mapa-test?volver=true"></ion-back-button> -->
+      <ion-back-button (click)="volver()"></ion-back-button>
     </ion-buttons>
     <ion-title>Punto de partida</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  <legend style="font-size: small;padding-bottom: 10px;">Los resultados de la búsqueda sólo están disponibles para Chile</legend>
   <ion-toolbar mode='ios'>
     <ion-searchbar mode='ios' [(ngModel)]="autocomplete.query" (ionInput)="updateSearch()" cancelButtonText="Cancelar" placeholder="Buscar"></ion-searchbar>
   </ion-toolbar>

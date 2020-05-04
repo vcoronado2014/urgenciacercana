@@ -188,12 +188,12 @@ sonPruebas = false;
     this.getVersionNumber();
     //Verifica conectividad
     this.network.onConnect().subscribe(data => {
-      console.log(data.type);
+      //console.log(data.type);
       localStorage.setItem("conexion", data.type);
     }, error => console.error(error));
 
     this.network.onDisconnect().subscribe(data => {
-      console.log(data);
+      //console.log(data);
       localStorage.setItem("conexion", data.type);
       this.displayNetworkUpdate(data.type);
     }, error => console.error(error));
@@ -244,7 +244,7 @@ sonPruebas = false;
     //antes vamos a comprobar si es necesario volver a setear estas variables o no
     if (localStorage.getItem('version_number') && localStorage.getItem('varsion_app_name') && localStorage.getItem('plataforma')){
       //si ya existen entonces no hay por que volverlas a crear
-      console.log('variables local storage correctas');
+      //console.log('variables local storage correctas');
     }
     else{
       if (this.utiles.isAppOnDevice()){

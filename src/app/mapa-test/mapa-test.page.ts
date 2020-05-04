@@ -299,7 +299,7 @@ export class MapaTestPage implements OnInit {
           //llamada a route
           this.directionsDisplay.setDirections(data);
           //Obtener tiempos de desplazamiento
-          console.log(data);
+          //console.log(data);
   
           //calculo de distancia
           this.distancia = data.routes[0].legs[0].distance.text;
@@ -532,7 +532,7 @@ export class MapaTestPage implements OnInit {
                 }
                 this.crearMarkerA(this.start, "Estas cerca de aquí", "./assets/imgs/pin_verde.png");
 
-                console.log(this.transporte + ' ' + response.routes[0].legs[0].duration.text);
+                //console.log(this.transporte + ' ' + response.routes[0].legs[0].duration.text);
               } else {
                 // window.alert('Directions request failed due to ' + status);
                 //aca el status puede ser ZERO_RESULTS, hay que controlarlo
@@ -617,10 +617,10 @@ export class MapaTestPage implements OnInit {
               })
 
             }).then((data) => {
-              console.log('resultado del then segunda promesa ' + data);
+              //console.log('resultado del then segunda promesa ' + data);
             });
           }
-          console.log('capturar movimiento');
+          //console.log('capturar movimiento');
         },
         err => {
           this.setArregloVacio();
@@ -842,34 +842,34 @@ export class MapaTestPage implements OnInit {
    }
 
   ionViewWillEnter() {
+    var vuelve = false;
+
     this.route.queryParams.subscribe(params => {
-      console.log(params);
+      //console.log(params);
+      if (params && params.cancelar){
+        vuelve = true;
+      }
     });
     this.srcPropaganda = environment.imgPropaganda;
     this.tituloPropaganda = environment.tituloPropaganda;
     this.subTituloPropaganda = environment.subTituloPropaganda;
-    //console.log('will enter');
-    //ahora seteamos las variables
-    this.setearVariables();
-    //aca debemos hacer la llamada a la api
-    if (!this.utiles.isAppOnDevice()) {
-      //web
-      this.presentLoading();
+    if (!vuelve) {
+      this.setearVariables();
+      //aca debemos hacer la llamada a la api
+      if (!this.utiles.isAppOnDevice()) {
+        //web
+        this.presentLoading();
+      }
+      else {
+        //dispositivo
+        this.presentLoadingNativePromesa();
+      }
+      //console.log('capturar movimiento');
     }
-    else {
-      //dispositivo
-      this.presentLoadingNativePromesa();
-    }
-    //console.log('capturar movimiento');
-  }
-   ionWiewDidEnter(){
-    console.log('Did enter');
-   }
-  ionViewDidLeave() {
-    console.log('did leave');
+
   }
   ngOnInit() {
-    console.log('oninit');
+    //console.log('oninit');
   }
 
   setEntrada(objetoSerializado){
@@ -889,14 +889,14 @@ export class MapaTestPage implements OnInit {
       //web
       //llamada a la api
       this.geo.postEntrada(this.objetoMovimiento).subscribe(data=>{
-        console.log('movimiento guardado:' + data);
+        //console.log('movimiento guardado:' + data);
       });
     }
     else {
       //dispositivo
       //llamada a la api
       this.geo.postEntradaNative(this.objetoMovimiento).then((data: any)=>{
-        console.log('movimiento guardado nativo:' + data);
+        //console.log('movimiento guardado nativo:' + data);
       });
     }
       
@@ -1031,11 +1031,11 @@ export class MapaTestPage implements OnInit {
     if (esRayen == true) {
       icono = "./assets/imgs/pin_rojo.png";
       tiempoTiempoEsperaCategoria = centro.TiempoEspera + ' min';
-      console.log(tiempoTiempoEsperaCategoria);
+      //console.log(tiempoTiempoEsperaCategoria);
     } else {
       icono = "./assets/imgs/pin_rojo.png";
       tiempoTiempoEsperaCategoria = "Sin dato";
-      console.log(tiempoTiempoEsperaCategoria);
+      //console.log(tiempoTiempoEsperaCategoria);
     }
 
     let contenidoInfoWindow = '<div style="padding:8px;"' + '<b>' + nombre + '</b><br>' +
@@ -1112,7 +1112,7 @@ export class MapaTestPage implements OnInit {
           this.tiempoTransit = response.routes[0].legs[0].duration.text;
         }
 
-        console.log(mode + ' ' + response.routes[0].legs[0].duration.text);
+        //console.log(mode + ' ' + response.routes[0].legs[0].duration.text);
       } else {
         // window.alert('Directions request failed due to ' + status);
       }
@@ -1137,15 +1137,15 @@ export class MapaTestPage implements OnInit {
   
           if (destino == this.destino1) {
             this.tiempoCentro1 = response.routes[0].legs[0].duration.text;
-            console.log('Destino 1: ' + this.tiempoCentro1);
+            //console.log('Destino 1: ' + this.tiempoCentro1);
           }
           if (destino == this.destino2) {
             this.tiempoCentro2 = response.routes[0].legs[0].duration.text;
-            console.log('Destino 2: ' + this.tiempoCentro2);
+            //console.log('Destino 2: ' + this.tiempoCentro2);
           }
           if (destino == this.destino3) {
             this.tiempoCentro3 = response.routes[0].legs[0].duration.text;
-            console.log('Destino 3: ' + this.tiempoCentro3);
+            //console.log('Destino 3: ' + this.tiempoCentro3);
           }
   
         } else {
@@ -1206,7 +1206,7 @@ export class MapaTestPage implements OnInit {
           this.tiempoTransporteSuperior('DRIVING', direccion);
           this.tiempoTransporteSuperior('TRANSIT', direccion);
 
-          console.log(response);
+          //console.log(response);
         } else {
           // window.alert('Directions request failed due to ' + status);
         }
