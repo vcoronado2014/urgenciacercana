@@ -1,0 +1,58 @@
+
+    .rojo{
+        color: #F04A47;
+    }
+    .naranja{
+        color: #F4A040;
+    }
+    .amarillo{
+        color: #FFCA0D;
+    }
+    .verde{
+        color: #82C240;
+    }
+    .azul{
+        color: #0159A8;
+    }
+    .embarazada{
+        color: #c1005b;
+    }
+    .adulto{
+        color: #006dc1;
+    }
+    .home {
+        color: #39B5E9;
+    }
+    .nino{
+        color: #008a9b;
+    }
+    .ion-color-embarazada {
+        --ion-color-base: #c1005b;
+        color:white;
+      }
+      .ion-color-adulto {
+        --ion-color-base: #006dc1;
+        color:white;
+      }
+      .ion-color-home {
+        --ion-color-base: #39B5E9;
+        color:white;
+      }
+      .ion-color-nino {
+        --ion-color-base: #008a9b;
+        color:white;
+      }
+      .img {
+        max-width: 100%;
+        border: 0;
+        height: 55px;
+        float: left;
+    }
+    .label-propaganda{
+        font-size: 1em;
+        vertical-align: -webkit-baseline-middle;
+        padding-left: 10px;
+    }
+    .fab-superior{
+        top:70px;
+    }

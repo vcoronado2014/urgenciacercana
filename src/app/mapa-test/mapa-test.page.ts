@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef,ChangeDetectorRef, DoCheck } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavController, LoadingController, ModalController, Platform, ToastController, PopoverController } from '@ionic/angular';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator/ngx';
 import { ServicioGeo } from '../../app/services/ServicioGeo';
@@ -12,6 +13,8 @@ import { Environment } from '@ionic-native/google-maps';
 import { promise } from 'protractor';
 //moment
 import * as moment from 'moment';
+//pagina busqueda
+import { BusquedaPage } from '../busqueda/busqueda.page';
 
 declare var google;
 
@@ -147,11 +150,23 @@ export class MapaTestPage implements OnInit {
     public toast: ToastController,
     public http: HTTP,
     public utiles: ServicioUtiles,
-    public popover: PopoverController
+    public popover: PopoverController,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
      // moment.locale('es');
       //console.log(moment().fromNow());
 
+   }
+   //implementación para mostrar un modal en vez de la pagina completa
+   async presentModalBusqueda(){
+     const modalBuscar =  await this.modalCtrl.create({
+      component: BusquedaPage,
+      componentProps:{
+
+      }
+     })
+     return await modalBuscar.present();
    }
   async presentPopover(ev: any) {
     const popover = await this.popover.create({
@@ -166,16 +181,6 @@ export class MapaTestPage implements OnInit {
     });
     return await popover.present();
   }
-   async presentToast(mensaje, posicion){
-    const toas = await this.toast.create(
-      {
-        message: mensaje,
-        position: posicion,
-        duration: 15000
-      }
-    );
-    toas.present();
-   }
 
    promesaHTTP = (latitud, longitud, distancia, gravedad, esPublico) => {
     const headers = new Headers;
@@ -273,41 +278,7 @@ export class MapaTestPage implements OnInit {
           //directions
           //lo reemplazamos por el metodo setearEStablecimientos
           this.setearEstablecimientos();
-
-/*           this.centrosMasCercanos = this.centros.slice(0, 3);
-          this.nombreCentro1 = this.centrosMasCercanos[0].Nombre;
-          this.nombreCentro2 = this.centrosMasCercanos[1].Nombre;
-          this.nombreCentro3 = this.centrosMasCercanos[2].Nombre;
-  
-          this.largoNombreCentro1 = this.nombreCentro1.length;
-          this.largoNombreCentro2 = this.nombreCentro2.length;
-          this.largoNombreCentro3 = this.nombreCentro3.length;
-  
-          this.direccionCentro1 = this.centrosMasCercanos[0].Direccion;
-          this.direccionCentro2 = this.centrosMasCercanos[1].Direccion;
-          this.direccionCentro3 = this.centrosMasCercanos[2].Direccion;
-  
-          this.esRayen1 = this.centrosMasCercanos[0].EsRayen;
-          this.esRayen2 = this.centrosMasCercanos[1].EsRayen;
-          this.esRayen3 = this.centrosMasCercanos[2].EsRayen;
-  
-          this.tiempoEspera1 = this.centrosMasCercanos[0].TiempoEspera;
-          this.tiempoEspera2 = this.centrosMasCercanos[1].TiempoEspera;
-          this.tiempoEspera3 = this.centrosMasCercanos[2].TiempoEspera;
-  
-          this.destino1 = {
-            lat: this.centrosMasCercanos[0].Latitud,
-            lng: this.centrosMasCercanos[0].Longitud
-          };
-          this.destino2 = {
-            lat: this.centrosMasCercanos[1].Latitud,
-            lng: this.centrosMasCercanos[1].Longitud
-          };
-          this.destino3 = {
-            lat: this.centrosMasCercanos[2].Latitud,
-            lng: this.centrosMasCercanos[2].Longitud
-          }; */
-  
+ 
           //Llamadas para la creacion del mapa y las rutas
           this.map = new google.maps.Map(this.mapElement.nativeElement, {
             zoom: 14,
@@ -377,10 +348,10 @@ export class MapaTestPage implements OnInit {
         //en ios no viene el objeto error, se debe identificar para mostrar un toast correctamente
         if (this.platform.is('ios')) {
           //mensaje de error personalizado para ios
-          this.presentToast('No hay resultados para su ubicación geográfica', 'middle');
+          this.utiles.presentToast('No hay resultados para su ubicación geográfica', 'middle', 10000);
         }
         else {
-          this.presentToast('No hay resultados para su ubicación geográfica', 'middle');
+          this.utiles.presentToast('No hay resultados para su ubicación geográfica', 'middle', 10000);
         }
         this.setArregloVacio();
         loader.dismiss();
@@ -498,45 +469,6 @@ export class MapaTestPage implements OnInit {
             this.centros = data;
           }
           this.setearEstablecimientos();
-          
-/*           this.centrosMasCercanos = this.centros.slice(0, 3);
-          this.nombreCentro1 = this.centrosMasCercanos[0].Nombre;
-          this.nombreCentro2 = this.centrosMasCercanos[1].Nombre;
-          this.nombreCentro3 = this.centrosMasCercanos[2].Nombre;
-
-          this.largoNombreCentro1 = this.nombreCentro1.length;
-          this.largoNombreCentro2 = this.nombreCentro2.length;
-          this.largoNombreCentro3 = this.nombreCentro3.length;
-
-          this.direccionCentro1 = this.centrosMasCercanos[0].Direccion;
-          this.direccionCentro2 = this.centrosMasCercanos[1].Direccion;
-          this.direccionCentro3 = this.centrosMasCercanos[2].Direccion;
-
-          this.esRayen1 = this.centrosMasCercanos[0].EsRayen;
-          this.esRayen2 = this.centrosMasCercanos[1].EsRayen;
-          this.esRayen3 = this.centrosMasCercanos[2].EsRayen;
-
-          this.tiempoEspera1 = this.centrosMasCercanos[0].TiempoEspera;
-          this.tiempoEspera2 = this.centrosMasCercanos[1].TiempoEspera;
-          this.tiempoEspera3 = this.centrosMasCercanos[2].TiempoEspera;
-
-          this.destino1 = {
-            lat: this.centrosMasCercanos[0].Latitud,
-            lng: this.centrosMasCercanos[0].Longitud
-          };
-          this.destino2 = {
-            lat: this.centrosMasCercanos[1].Latitud,
-            lng: this.centrosMasCercanos[1].Longitud
-          };
-          this.destino3 = {
-            lat: this.centrosMasCercanos[2].Latitud,
-            lng: this.centrosMasCercanos[2].Longitud
-          }; */
-
-/*           console.log(this.centrosMasCercanos[0]);
-          console.log(this.centrosMasCercanos[1]);
-          console.log(this.centrosMasCercanos[2]);
-          console.log(this.centros); */
           //Llamadas para la creacion del mapa y las rutas
           this.map = new google.maps.Map(this.mapElement.nativeElement, {
             zoom: 14,
@@ -623,8 +555,6 @@ export class MapaTestPage implements OnInit {
                   destination: this.destino1,
                   travelMode: mode
                 }, (response, status) => {
-                  
-                  //this.presentToast(status, 'bottom');
                   if (status === 'OK') {
   
                     if (mode == 'WALKING') {
@@ -680,7 +610,7 @@ export class MapaTestPage implements OnInit {
 
                   } else {
                     // window.alert('Directions request failed due to ' + status);
-                    this.presentToast('status error:' + status, 'bottom');
+                    this.utiles.presentToast('status error:' + status, 'bottom', 8000);
                   }
   
                 });
@@ -694,8 +624,7 @@ export class MapaTestPage implements OnInit {
         },
         err => {
           this.setArregloVacio();
-          //this.presentToast('error:' + err.message, 'middle');
-          this.presentToast('No hay establecimientos cercanos en su ubicación geográfica', 'middle');
+          this.utiles.presentToast('No hay establecimientos cercanos en su ubicación geográfica', 'middle', 10000);
           console.log(err);
         },
         () => console.log('get centros completed')
@@ -913,6 +842,9 @@ export class MapaTestPage implements OnInit {
    }
 
   ionViewWillEnter() {
+    this.route.queryParams.subscribe(params => {
+      console.log(params);
+    });
     this.srcPropaganda = environment.imgPropaganda;
     this.tituloPropaganda = environment.tituloPropaganda;
     this.subTituloPropaganda = environment.subTituloPropaganda;
@@ -1348,7 +1280,6 @@ export class MapaTestPage implements OnInit {
         destination: this.destino1,
         travelMode: mode
       }, (response, status) => {
-        //this.presentToast(status, 'bottom');
         if (status === 'OK') {
 
           if (mode == 'WALKING') {
@@ -1363,11 +1294,15 @@ export class MapaTestPage implements OnInit {
 
           console.log(mode + ' dentro de rutas' + ' ' + response.routes[0].legs[0].duration.text);
         } else {
-          this.presentToast('No hay resultados para su ubicación geográfica', 'middle');
+          this.utiles.presentToast('No hay resultados para su ubicación geográfica', 'middle', 10000);
         }
       });
     })
 
+  }
+  verBuscador(){
+    //this.navCtrl.push('BusquedaPage');
+    this.navCtrl.navigateForward('busqueda');
   }
 
   calculaTiempoTransporteSinLoader(mode, guarda){
@@ -1377,7 +1312,6 @@ export class MapaTestPage implements OnInit {
         destination: this.destino1,
         travelMode: mode
       }, (response, status) => {
-        //this.presentToast(status, 'bottom');
         if (status === 'OK') {
 
           if (mode == 'WALKING') {
@@ -1425,10 +1359,9 @@ export class MapaTestPage implements OnInit {
             this.setEntrada(objSer);
           }
         } else {
-          this.presentToast('No hay resultados para su ubicación geográfica', 'middle');
+          this.utiles.presentToast('No hay resultados para su ubicación geográfica', 'middle', 10000);
         }
       });
-
 
   }
 

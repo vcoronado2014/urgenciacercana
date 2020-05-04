@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, ToastController, Platform, ModalController, LoadingController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 
 //modal
 import { ModalVistaPage } from '../modal-vista/modal-vista.page';
@@ -60,6 +61,8 @@ sonPruebas = false;
     public loading: LoadingController,
     public servicioGeo: ServicioGeo,
     public http: HTTP,
+    private route: ActivatedRoute,
+    private router: Router
 
   ) {
     platform.ready().then(() => {
@@ -139,6 +142,10 @@ sonPruebas = false;
     //console.log('willenter');
     //si las variables existen y son distintas se sobrescriben
     //this.obtieneCoordenadas();
+        //vemos si estos parametros vienen para determinar si hacemos o no una nueva busqueda de lat y lon
+/*         this.route.queryParams.subscribe(params => {
+          console.log(params);
+        }); */
 
   }
   setEntrada(){
@@ -176,6 +183,7 @@ sonPruebas = false;
   }
 
   ngOnInit() {
+
     this.esIOS = this.utiles.isIOS();
     this.getVersionNumber();
     //Verifica conectividad

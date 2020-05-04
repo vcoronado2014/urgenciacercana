@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="secondary">
-    <ion-title class="ion-text-center">
+    <ion-title *ngIf="!cargando" class="ion-text-center">
       Regístrate
+    </ion-title>
+    <ion-title *ngIf="cargando" class="ion-text-center">
+      
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -38,20 +41,21 @@
         </ion-select>
       </ion-item>
       <ion-grid>
+        <ion-label position="stacked" style="padding-left: 16px; font-size: 14px;">Fecha Nacimiento *</ion-label>
         <ion-row>
-          <ion-col size="3">
-            <ion-item  mode='ios'>
-              <ion-label position="stacked">Día *</ion-label>
-              <ion-select placeholder="Día" [(ngModel)]="diaSeleccionado">
-                <ion-select-option *ngFor="let d of arrDias" [value]="d.Dia">{{d.Dia}}</ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-col>
           <ion-col size="6">
             <ion-item  mode='ios'>
               <ion-label position="stacked">Mes *</ion-label>
               <ion-select placeholder="Mes" (ionChange)="onChangeMes($event)" [(ngModel)]="mesSeleccionado">
                 <ion-select-option *ngFor="let m of arrMeses" [value]="m.Valor">{{m.Nombre}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="3">
+            <ion-item  mode='ios'>
+              <ion-label position="stacked">Día *</ion-label>
+              <ion-select placeholder="Día" [(ngModel)]="diaSeleccionado">
+                <ion-select-option *ngFor="let d of arrDias" [value]="d.Dia">{{d.Dia}}</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>
@@ -82,7 +86,8 @@
     </div>
   </div>
   <div *ngIf="cargando">
-    <ion-thumbnail class="thumbails">
+
+<!--     <ion-thumbnail class="thumbails">
       <ion-skeleton-text animated style="min-height: 200px;"></ion-skeleton-text>
     </ion-thumbnail>
     <div class="abajo">
@@ -122,7 +127,19 @@
         </ion-label>
         <ion-skeleton-text animated></ion-skeleton-text>
       </ion-item>
-    </div>
+    </div> -->
+
+    <ion-card class="ion-card-home">
+      <ion-skeleton-text animated style="min-height: 200px;"></ion-skeleton-text>
+    </ion-card>
+    <ion-card class="ion-card-home">
+      <ion-skeleton-text animated style="min-height: 200px;"></ion-skeleton-text>
+    </ion-card>
+    <ion-card class="ion-card-home">
+      <ion-skeleton-text animated style="min-height: 200px;"></ion-skeleton-text>
+    </ion-card>
+
+
   </div>
 
 </ion-content>

@@ -38,6 +38,12 @@
     </ion-fab-button>
   </ion-fab>
 
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed" style="padding-bottom: 30%;">
+    <ion-fab-button size="small" [color]="categoria" (click)="verBuscador()">
+      <ion-icon name="search"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
   <div #map id="map"></div>
 
     <ion-segment class="segmento_inferior" [(ngModel)]="direccion" color="primary" mode="ios" style="position: relative;

@@ -59,16 +59,9 @@ export class LoginPage implements OnInit {
       //LENAMOS DATOS INICIALES
       this.rutaAceptoCondiciones = this.utiles.rutaAceptoCondiciones();
       this.cargando = true;
-      //console.log(this.cargando);
-/*       var mesActual = new Date().getMonth();
-      //cargamos las listas
-      this.arrDias = this.utiles.retornaDiasDelMesInt(parseInt(mesActual.toString()));
-      this.arrMeses = this.utiles.retornaMeses();
-      this.arrAnios = this.utiles.retornaAnios(); */
-      /**DE AQUI ESTAMOS HACIENDO PRUEBAS */
       let loader = await this.loading.create({
         message: 'Obteniendo...<br>Geoposicionamiento inicial',
-        duration: 20000
+        duration: 10000
       });
   
       await loader.present().then(async () => {
@@ -96,7 +89,7 @@ export class LoginPage implements OnInit {
               console.log(dataReverse);
               this.utiles.procesarRespuestaMapa(dataReverse);
               //crear token
-              //loader.dismiss();
+              loader.dismiss();
               this.crearToken();
               
             });
@@ -106,7 +99,7 @@ export class LoginPage implements OnInit {
               dataReverse = JSON.parse(response.data);
               console.log(dataReverse);
               this.utiles.procesarRespuestaMapa(dataReverse);
-              //loader.dismiss();
+              loader.dismiss();
               this.crearToken();
               //loader.dismiss();
             });
@@ -309,7 +302,7 @@ export class LoginPage implements OnInit {
         localStorage.setItem('TIENE_REGISTRO', 'false');
         loading.dismiss();
         this.cargando = false;
-        this.presentToast('Su registro se encuentra inactivo, vuelva a registrarse', 'middle');
+        this.utiles.presentToast('Su registro se encuentra inactivo, vuelva a registrarse', 'middle', 10000);
 
       }
     }
@@ -331,7 +324,7 @@ export class LoginPage implements OnInit {
       }
       else{
         localStorage.setItem('TIENE_REGISTRO', 'false');
-        this.presentToast('Su registro se encuentra inactivo, vuelva a registrarse', 'middle');
+        this.utiles.presentToast('Su registro se encuentra inactivo, vuelva a registrarse', 'middle', 10000);
 
       }
     }
@@ -341,31 +334,6 @@ export class LoginPage implements OnInit {
     }
   }
   ngOnInit() {
-/*     var mesActual = new Date().getMonth();
-    //cargamos las listas
-    this.arrDias = this.utiles.retornaDiasDelMesInt(parseInt(mesActual.toString()));
-    this.arrMeses = this.utiles.retornaMeses();
-    this.arrAnios = this.utiles.retornaAnios();
-    var idDispositivo = '';
-    if (localStorage.getItem('token_dispositivo')){
-      idDispositivo = localStorage.getItem('token_dispositivo');
-    }
-    if (idDispositivo && idDispositivo != '') {
-      if (!this.utiles.isAppOnDevice()) {
-        //llamada web
-        this.geo.getRegistroApp(idDispositivo).subscribe((data: any) => {
-          this.procesarRegistro(data);
-        });
-      }
-      else {
-        //llamada nativa
-        this.geo.getRegistroAppNative(idDispositivo).then((data: any) => {
-          this.procesarRegistro(JSON.parse(data));
-        });
-      }
-    } else {
-      this.presentToast('No hay identificador válido de dispositivo', 'middle');
-    } */
     var mesActual = new Date().getMonth();
     //cargamos las listas
     this.arrDias = this.utiles.retornaDiasDelMesInt(parseInt(mesActual.toString()));
@@ -509,18 +477,6 @@ export class LoginPage implements OnInit {
 
     })
   }
-
-  async presentToast(mensaje, posicion){
-    const toas = await this.toast.create(
-      {
-        message: mensaje,
-        position: posicion,
-        duration: 14000
-      }
-    );
-    toas.present();
-   }
-   
 
    promesaGEO = () => {
     return this.geolocation.getCurrentPosition();

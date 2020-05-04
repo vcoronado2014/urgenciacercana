@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
@@ -22,7 +22,8 @@ export class ServicioUtiles{
     
     constructor(
         public platform : Platform,
-        public appVersion: AppVersion
+        public appVersion: AppVersion,
+        public toast: ToastController,
     ){
       //inicializamos los valores
       moment.locale('es');
@@ -1392,14 +1393,6 @@ let arr =
         return arreglo;
     }
     procesarRespuestaMapa(objeto){
-        //hay que retornar del objeto, el pais, la provincia, la region y la comuna
-        //el objeto es el siguiente
-        /*
-        "{"plus_code":
-            {"compound_code":"9CPQ+44 Santiago, Chile","global_code":"47RF9CPQ+44"},"
-            results":[{"address_components":[{"long_name":"342","short_name":"342","types":["street_number"]},{"long_name":"Las Loicas","short_name":"Las Loicas","types":["route"]},{"long_name":"Puente Alto","short_name":"Puente Alto","types":["locality","political"]},{"long_name":"Puente Alto","short_name":"Puente Alto","types":["administrative_area_level_3","political"]},{"long_name":"Cordillera","short_name":"Cordillera","types":["administrative_area_level_2","political"]},{"long_name":"Región Metropolitana","short_name":"Región Metropolitana","types":["administrative_area_level_1","political"]},{"long_name":"Chile","short_name":"CL","types":["country","political"]}],"formatted_address":"Las Loicas 342, Puente Alto, Región Metropolitana, Chile","geometry":{"location":{"lat":-33.6147015,"lng":-70.5621979},"location_type":"ROOFTOP","viewport":{"northeast":{"lat":-33.6133525197085,"lng":-70.5608489197085},"southwest":{"lat":-33.6160504802915,"lng":-70.56354688029151}}},"place_id":"ChIJNzMHAFDWYpYRDHi6qpnuh1c","plus_code":{"compound_code":"9CPQ+44 Puente Alto, Chile","global_code":"47RF9CPQ+44"},"types":["street_address"]}],"status":"OK"}"
-
-        */
        var retorno = false;
         try {
             if (objeto.results && objeto.results[0]) {
@@ -1445,10 +1438,15 @@ let arr =
     phoneIsValid(phone){
         return /^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/.test(phone);
     }
-    //hay otras consideraciones, por ejemplo...
-    //la distancia que se envía al SP no debería ser la misma en una ciudad muy poblada donde existen varios establecimientos
-    //como en una ciudad menos poblada donde con suerte existen unos pocos establecimientos, por esa razón se debe generar
-    //un algoritmo que aumente este parámetro y de más posibilidades a los usuarios...
-    //se me ocurre obtener la region para determinar dicho parametro (se guarda en la local storage)
+    async presentToast(mensaje, posicion, duracion){
+        const toas = await this.toast.create(
+          {
+            message: mensaje,
+            position: posicion,
+            duration: duracion
+          }
+        );
+        toas.present();
+       }
 
 }
