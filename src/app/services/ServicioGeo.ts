@@ -88,6 +88,46 @@ export class ServicioGeo{
     return data;
 
   }
+  postPropagandaNative(latitud, longitud, esPublico){
+    //realizar la llamada post nativa
+    const headers = new Headers;
+    const body =
+    {
+      "Latitud": latitud,
+      "Longitud": longitud,
+      "EsPublico": esPublico
+    };
+
+    let url = environment.API_ENDPOINT + 'Propaganda';
+    this.http.setDataSerializer('json');
+
+
+    return this.http.post(url, body, {});
+  }
+  postPropaganda(latitud, longitud, esPublico){
+    //realizar la llamada post a la api
+    const body = JSON.stringify(
+      {
+        "Latitud": latitud,
+        "Longitud": longitud,
+        "EsPublico": esPublico
+      });
+
+    let url = environment.API_ENDPOINT + 'Propaganda';
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache'
+    });
+    httpHeaders.set('Access-Control-Allow-Origin', '*');
+    httpHeaders.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    httpHeaders.set("Access-Control-Allow-Headers", "*");
+
+    let options = { headers: httpHeaders };
+
+    let data = this.httpClient.post(url, body, options);
+    return data;
+
+  }
   postIngresoNative(objetoEntrada){
     //realizar la llamada post nativa
     const headers = new Headers;

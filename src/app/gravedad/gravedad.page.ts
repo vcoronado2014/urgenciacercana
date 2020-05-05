@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { ServicioGeo } from '../../app/services/ServicioGeo';
+import { ServicioUtiles } from '../../app/services/ServicioUtiles';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-gravedad',
@@ -14,6 +17,22 @@ export class GravedadPage implements OnInit {
   transporte: any;
   gravedad: any;
   esPublico: boolean = true;
+  propaganda = {
+    Nombre: '',
+    Titulo: '',
+    Subtitulo: '',
+    RutaImagen: '',
+    Telefonos:'',
+    CorreoElectronico: '',
+    PaginaWeb: '',
+
+  }
+  lati = sessionStorage.getItem("latitud");
+  latConComa = this.lati.replace(/\./gi, ",");
+
+  /* longi = localStorage.getItem("longitud"); */
+  longi = sessionStorage.getItem("longitud");
+  longiConComa = this.longi.replace(/\./gi, ",");
 
   categorizacion: any = {
     tipo: null,
@@ -105,6 +124,8 @@ export class GravedadPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
+    public geo: ServicioGeo,
+    public utiles: ServicioUtiles,
   ) { 
     //this.categoriaSeleccionada = localStorage.getItem("categoria");
     this.categoriaSeleccionada = sessionStorage.getItem("categoria");
@@ -144,8 +165,79 @@ export class GravedadPage implements OnInit {
     }
     //console.log(this.esPublico);
   }
+  setearPropaganda(objPropaganda, esData){
+    
+      this.propaganda.Nombre = objPropaganda.Nombre;
+      this.propaganda.CorreoElectronico = objPropaganda.CorreoElectronico;
+      this.propaganda.PaginaWeb = objPropaganda.CorreoElectronico;
+      if (esData){
+        this.propaganda.RutaImagen = environment.API_RAIZ + objPropaganda.RutaImagen;
+      }
+      else {
+        this.propaganda.RutaImagen = objPropaganda.RutaImagen;
+      }
+
+      this.propaganda.Subtitulo = objPropaganda.Subtitulo;
+      this.propaganda.Telefonos = objPropaganda.Telefonos;
+      this.propaganda.Titulo = objPropaganda.Titulo;
+      sessionStorage.setItem('PROPAGANDA', JSON.stringify(this.propaganda));
+    
+  }
 
   ngOnInit() {
+    var publico = 0;
+    if (this.esPublico){
+      publico = 1;
+    }
+        if (!this.utiles.isAppOnDevice()) {
+          //web
+          //this.presentLoading();
+          this.geo.postPropaganda(this.latConComa, this.longiConComa, publico).subscribe((data: any)=>{
+            if (data){
+              //setear
+              this.setearPropaganda(data, true);
+            }
+            else {
+              //defecto
+              var objPropaganda = {
+                Nombre: environment.tituloPropaganda,
+                Titulo: environment.tituloPropaganda,
+                Subtitulo: environment.subTituloPropaganda,
+                RutaImagen: environment.imgPropaganda,
+                Telefonos:'',
+                CorreoElectronico: '',
+                PaginaWeb: '',
+              }
+              this.setearPropaganda(objPropaganda, false);
+            }
+          })
+        }
+        else {
+          //dispositivo
+          //this.presentLoadingNativePromesa();
+          this.geo.postPropagandaNative(this.latConComa, this.longiConComa, publico).then((response:any)=>{
+            //JSON.parse(response.data)
+            var data = JSON.parse(response.data);
+            if (data){
+              //setear
+              this.setearPropaganda(data, true);
+            }
+            else {
+              //defecto
+              var objPropaganda = {
+                Nombre: environment.tituloPropaganda,
+                Titulo: environment.tituloPropaganda,
+                Subtitulo: environment.subTituloPropaganda,
+                RutaImagen: environment.imgPropaganda,
+                Telefonos:'',
+                CorreoElectronico: '',
+                PaginaWeb: '',
+              }
+              this.setearPropaganda(objPropaganda, false);
+            }
+
+          })
+        }
   }
 
 	verMapa() {

@@ -3,6 +3,7 @@ export const environment = {
   //API_ENDPOINT: 'https://app.rayensalud.com/MiFamilia/Api/',
   //API_ENDPOINT: 'http://10.211.55.5/MiFamilia.WebApi/Api/',
   API_ENDPOINT: 'http://190.151.14.101:8065/Api/',
+  API_RAIZ: 'http://190.151.14.101:8065',
   viewZoomControl: false,
   viewMapTypeControl: false,
   viewfullscreenControl: false,

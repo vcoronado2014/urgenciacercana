@@ -139,6 +139,17 @@ export class MapaTestPage implements OnInit {
   //agregado para diferenciar public o privada
   esPublico = false;
 
+  propaganda = {
+    Nombre: '',
+    Titulo: '',
+    Subtitulo: '',
+    RutaImagen: '',
+    Telefonos:'',
+    CorreoElectronico: '',
+    PaginaWeb: '',
+
+  }
+
   constructor(
     public navCtrl: NavController,
     public loading: LoadingController,
@@ -850,9 +861,13 @@ export class MapaTestPage implements OnInit {
         vuelve = true;
       }
     });
-    this.srcPropaganda = environment.imgPropaganda;
-    this.tituloPropaganda = environment.tituloPropaganda;
-    this.subTituloPropaganda = environment.subTituloPropaganda;
+    //ACA HAY QUE SETEAR EL OBJETO propaganda desde sessionstorage
+    this.propaganda =   JSON.parse(sessionStorage.getItem('PROPAGANDA'));
+    this.srcPropaganda = this.propaganda.RutaImagen;
+    this.tituloPropaganda = this.propaganda.Titulo;
+    this.subTituloPropaganda = this.propaganda.Subtitulo;
+    console.log(this.propaganda);
+
     if (!vuelve) {
       this.setearVariables();
       //aca debemos hacer la llamada a la api
