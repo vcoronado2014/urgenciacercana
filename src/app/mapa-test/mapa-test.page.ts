@@ -173,16 +173,17 @@ export class MapaTestPage implements OnInit {
       //console.log(moment().fromNow());
 
    }
-   abrirEmail(email){
+   abrirEmail(){
+    let uri = 'mailto:' + this.propaganda.CorreoElectronico;
+    let target = "_system";
     if (this.utiles.isAppOnDevice()){
       //dispositivo movil
       //window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
-      let target = "_system";
-      this.inap.create(encodeURI(email), target, this.options);
+      this.inap.create(uri, target, {});
     }
     else {
       //web
-      window.open(encodeURI(email), "_system", "location=no");
+      window.open(uri, target);
     }
     
   }
