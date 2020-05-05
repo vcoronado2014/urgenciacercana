@@ -118,7 +118,7 @@
         <ion-col style="padding: 0;margin: 0;">
           <h5 style="font-size: 1em;margin: 0;">{{propaganda.Titulo}}</h5>
           <!-- <h6 style="font-size: 0.8em;margin: 0;">{{subTituloPropaganda}}</h6> -->
-          <h6 style="font-size: 0.8em;margin: 0;"><a href="mailto:{{propaganda.CorreoElectronico}}">Email: {{propaganda.CorreoElectronico}}</a></h6>
+          <h6 style="font-size: 0.8em;margin: 0;" (click)="abrirEmail(propaganda.CorreoElectronico)"><a>Email: {{propaganda.CorreoElectronico}}</a></h6>
           
         </ion-col>
       </ion-row>

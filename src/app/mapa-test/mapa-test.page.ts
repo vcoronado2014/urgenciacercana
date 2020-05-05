@@ -7,6 +7,7 @@ import { ServicioUtiles } from '../../app/services/ServicioUtiles';
 import { HTTP } from '@ionic-native/http/ngx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 //component
 import { PopoverComponent } from '../components/popover/popover.component';
 import { Environment } from '@ionic-native/google-maps';
@@ -24,7 +25,9 @@ declare var google;
   styleUrls: ['./mapa-test.page.scss'],
 })
 export class MapaTestPage implements OnInit {
-
+  options: InAppBrowserOptions = {
+    location: 'no',
+  };
   
   @ViewChild('map', { static: true }) mapElement: ElementRef;
 
@@ -163,12 +166,26 @@ export class MapaTestPage implements OnInit {
     public utiles: ServicioUtiles,
     public popover: PopoverController,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public inap: InAppBrowser,
   ) {
      // moment.locale('es');
       //console.log(moment().fromNow());
 
    }
+   abrirEmail(email){
+    if (this.utiles.isAppOnDevice()){
+      //dispositivo movil
+      //window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
+      let target = "_system";
+      this.inap.create(encodeURI(email), target, this.options);
+    }
+    else {
+      //web
+      window.open(encodeURI(email), "_system", "location=no");
+    }
+    
+  }
    //implementación para mostrar un modal en vez de la pagina completa
    async presentModalBusqueda(){
      const modalBuscar =  await this.modalCtrl.create({
