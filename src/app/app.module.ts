@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 //nativos
 import { AppVersion } from '@ionic-native/app-version/ngx'
 import { Network } from '@ionic-native/network/ngx';
@@ -54,6 +55,7 @@ import { PopoverComponent } from '../app/components/popover/popover.component';
   ],
   providers: [
     StatusBar,
+    InAppBrowser,
     SplashScreen,
     AppVersion,
     Network,

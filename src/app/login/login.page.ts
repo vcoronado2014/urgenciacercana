@@ -5,6 +5,7 @@ import { ServicioGeo } from '../services/ServicioGeo';
 import { ServicioUtiles } from '../services/ServicioUtiles';
 import { Device } from '@ionic-native/device/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 
 
 
@@ -15,6 +16,9 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  options: InAppBrowserOptions = {
+    location: 'yes',
+  };
   tokenDispositivo: any;
   arrDias = [];
   arrMeses = [];
@@ -52,6 +56,7 @@ export class LoginPage implements OnInit {
     public device: Device,
     public appVersion: AppVersion,
     public alert: AlertController,
+    public inap: InAppBrowser,
   ) {
     this.platform.ready().then(async () => {
       //setTimeout(async () => {
@@ -125,7 +130,9 @@ export class LoginPage implements OnInit {
   abrirPDF(){
     if (this.utiles.isAppOnDevice()){
       //dispositivo movil
-      window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
+      //window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
+      let target = "_system";
+      this.inap.create(encodeURI(this.rutaAceptoCondiciones), target, this.options);
     }
     else {
       //web

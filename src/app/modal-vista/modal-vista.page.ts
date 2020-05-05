@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform, NavController, NavParams, ModalController } from '@ionic/angular';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 
 import { ServicioUtiles } from '../services/ServicioUtiles';
 
@@ -10,6 +11,9 @@ import { ServicioUtiles } from '../services/ServicioUtiles';
   styleUrls: ['./modal-vista.page.scss'],
 })
 export class ModalVistaPage implements OnInit {
+  options: InAppBrowserOptions = {
+    location: 'yes',
+  };
   plataforma;
 	versionAppName;
   versionNumber;
@@ -27,6 +31,7 @@ export class ModalVistaPage implements OnInit {
     public platform: Platform,
     private appVersion: AppVersion,
     public utiles: ServicioUtiles,
+    public inap: InAppBrowser,
   ) { }
 
   ngOnInit() {
@@ -47,7 +52,10 @@ export class ModalVistaPage implements OnInit {
   abrirPDF(){
     if (this.utiles.isAppOnDevice()){
       //dispositivo movil
-      window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
+      //window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
+      //usamos inap browser
+      let target = "_system";
+      this.inap.create(encodeURI(this.rutaAceptoCondiciones), target, this.options);
     }
     else {
       //web
