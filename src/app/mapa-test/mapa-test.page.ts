@@ -152,6 +152,7 @@ export class MapaTestPage implements OnInit {
     PaginaWeb: '',
 
   }
+  largoTitulo: any;
 
   constructor(
     public navCtrl: NavController,
@@ -884,6 +885,7 @@ export class MapaTestPage implements OnInit {
     this.srcPropaganda = this.propaganda.RutaImagen;
     this.tituloPropaganda = this.propaganda.Titulo;
     this.subTituloPropaganda = this.propaganda.Subtitulo;
+    this.largoTitulo = this.propaganda.Titulo.length;
     console.log(this.propaganda);
 
     if (!vuelve) {
