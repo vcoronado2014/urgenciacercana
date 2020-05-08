@@ -10,6 +10,7 @@
 *.sublime-workspace
 .DS_Store
 Thumbs.db
+config.xml
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
@@ -31,4 +32,3 @@ npm-debug.log*
 /www
 /publicacion
 /publicacion_anterior
-config.xml

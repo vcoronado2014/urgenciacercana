@@ -438,12 +438,16 @@ export class LoginPage implements OnInit {
         localStorage.setItem('version_number', versionNumber);
         localStorage.setItem('plataforma', plataforma);
         this.geo.getRegistroApp(this.tokenDispositivo).subscribe(async (data: any) => {
-          //this.procesarRegistro(data);
           //console.log(data);
           this.procesarRegistroL(data, loader);
-          //loader.dismiss();
           
-        });
+        },
+        (error) => {
+          this.utiles.presentToast('No hay comunicación con el servidor', 'bottom', 5000);
+          console.log(error);
+          this.procesarRegistroL(null, loader);
+        }
+        );
       }
       else {
         if (this.platform.is('ios')){
@@ -475,11 +479,14 @@ export class LoginPage implements OnInit {
         localStorage.setItem('plataforma', plataforma);
         this.geo.getRegistroAppNative(this.tokenDispositivo).then(async (response: any) => {
           this.procesarRegistroL(JSON.parse(response.data), loader);
-          //this.procesarRegistro(JSON.parse(data));
-          //loader.dismiss();
 
-        });
-        //loader.dismiss();
+        },
+        (error)=>{
+          this.utiles.presentToast('No hay comunicación con el servidor', 'bottom', 5000);
+          console.log(error);
+          this.procesarRegistroL(null, loader);
+        }
+        );
       }
 
     })
