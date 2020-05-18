@@ -146,15 +146,13 @@ export class ServicioGeo{
 
     return this.http.post(url, body, {});
   }
-  get(latitud, longitud, distancia, gravedad, esPublico){
+  get(latitud, longitud, distancia, gravedad, esPublico, categoria){
     //const headersH = new Headers;
     const body = JSON.stringify(
         {
-            Latitud: latitud, Longitud: longitud, Distancia: distancia, Gravedad: gravedad, EsPublico: esPublico 
+            Latitud: latitud, Longitud: longitud, Distancia: distancia, Gravedad: gravedad, EsPublico: esPublico, Categoria: categoria 
         }
     );
-    //headersH.append('Access-Control-Allow-Origin', '*');
-
     let url = environment.API_ENDPOINT + 'Geolocalizacion';
     let httpHeaders = new HttpHeaders({
         'Content-Type' : 'application/json',
@@ -169,11 +167,11 @@ export class ServicioGeo{
     let data = this.httpClient.post(url, body, options);
     return data;
   }
-  async getNative(latitud, longitud, distancia, gravedad, esPublico){
+  async getNative(latitud, longitud, distancia, gravedad, esPublico, categoria){
     const headers = new Headers;
     const body = JSON.stringify(
         {
-            Latitud: latitud, Longitud: longitud, Distancia: distancia, Gravedad: gravedad, EsPublico: esPublico  
+            Latitud: latitud, Longitud: longitud, Distancia: distancia, Gravedad: gravedad, EsPublico: esPublico, Categoria: categoria  
         }
     );
     /*headers.append('Access-Control-Allow-Origin', '*');*/

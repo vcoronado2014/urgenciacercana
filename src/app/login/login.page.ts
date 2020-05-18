@@ -112,8 +112,12 @@ export class LoginPage implements OnInit {
 
         }).catch(error => {
           //loader.dismiss();
+          //aca aparece un error de google api maps (TIMEOUT)
+          //CREAMOS EL TOKEN IGUAL E INFORMAMOS DEL ERROR
           console.log(error);
           this.cargando = false;
+          loader.dismiss();
+          this.crearToken();
         })
 
       //}, 10000);

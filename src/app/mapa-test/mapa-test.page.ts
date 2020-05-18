@@ -212,11 +212,11 @@ export class MapaTestPage implements OnInit {
     return await popover.present();
   }
 
-   promesaHTTP = (latitud, longitud, distancia, gravedad, esPublico) => {
+   promesaHTTP = (latitud, longitud, distancia, gravedad, esPublico, categoria) => {
     const headers = new Headers;
     const body =
     {
-      Latitud: latitud, Longitud: longitud, Distancia: distancia, Gravedad: gravedad, EsPublico: esPublico
+      Latitud: latitud, Longitud: longitud, Distancia: distancia, Gravedad: gravedad, EsPublico: esPublico, Categoria: categoria
     };
 
     let url = environment.API_ENDPOINT + 'Geolocalizacion';
@@ -227,21 +227,6 @@ export class MapaTestPage implements OnInit {
     //return JSON.parse(response.data);
    }
 
-   promesaApiWeb = (latitud, longitud, distancia, gravedad, esPublico) => {
-    let promise = new Promise((resolve, reject) => {
-      try {
-        this.geo.get(latitud, longitud, distancia, gravedad, esPublico).subscribe(
-          data => {
-            resolve(data),
-            reject('Error al consultar');
-          });
-      }
-      catch(error){
-        reject('error al consultar')
-      }
-    });
-    return promise;
-   }
    async presentLoadingNativePromesa(){
     //seteo de las variables
     this.latitudEnviar = this.latConComa;
@@ -294,7 +279,7 @@ export class MapaTestPage implements OnInit {
             publico = 1
           }
         }
-        this.promesaHTTP(this.latitudEnviar, this.longitudEnviar, this.distanciaEnviar, this.gravedadEnviar, publico).then((response : any) => {
+        this.promesaHTTP(this.latitudEnviar, this.longitudEnviar, this.distanciaEnviar, this.gravedadEnviar, publico, this.categoria).then((response : any) => {
           if (environment.ProcesaHorario){
             this.centros = this.utiles.procesaFechaHoraTermino(JSON.parse(response.data));
           }
@@ -488,7 +473,7 @@ export class MapaTestPage implements OnInit {
         }
       }
 
-      this.geo.get(this.latitudEnviar, this.longitudEnviar, this.distanciaEnviar, this.gravedadEnviar, publico).subscribe(
+      this.geo.get(this.latitudEnviar, this.longitudEnviar, this.distanciaEnviar, this.gravedadEnviar, publico, this.categoria).subscribe(
         data => {
           //aca debemos atachar la data para procesarla de acuerdo a la hora de consulta
           //this.utiles.procesaFechaHoraTermino
