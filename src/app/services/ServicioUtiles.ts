@@ -1250,9 +1250,9 @@ let arr =
             case '05':
             case '07':
             case '08':
-            case '09':
+            case '10':
             case '12':
-                for(var s=1; s<=30; s++){
+                for(var s=1; s<=31; s++){
                     var dia = '';
                     if (s<10){
                         dia = '0' + s.toString();
@@ -1311,9 +1311,9 @@ let arr =
             case 'Mayo':
             case 'Julio':
             case 'Agosto':
-            case 'Septiembre':
+            case 'Octubre':
             case 'Diciembre':
-                for(var s=1; s<=30; s++){
+                for(var s=1; s<=31; s++){
                     var dia = '';
                     if (s<10){
                         dia = '0' + s.toString();
@@ -1335,6 +1335,8 @@ let arr =
         var arreglo = [];
         switch (mes){
             case 2:
+                //averiguar si es biciesto 28-29 días
+                //lo dejamos en 28 mejor
                 for(var s=1; s<=28; s++){
                     var dia = '';
                     if (s<10){
@@ -1372,9 +1374,9 @@ let arr =
             case 5:
             case 7:
             case 8:
-            case 9:
+            case 10:
             case 12:
-                for(var s=1; s<=30; s++){
+                for(var s=1; s<=31; s++){
                     var dia = '';
                     if (s<10){
                         dia = '0' + s.toString();
