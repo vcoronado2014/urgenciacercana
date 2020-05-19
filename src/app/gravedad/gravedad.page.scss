@@ -58,6 +58,8 @@
 	/* z-index: 10; */
 	display: block;
 	width: 100%;
+	margin-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+	margin-bottom: env(safe-area-inset-bottom); /* iOS 11.2 */
 	button{
 		margin: 10px 2px 15px;
 	}
