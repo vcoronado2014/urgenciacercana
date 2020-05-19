@@ -1314,7 +1314,14 @@ export class MapaTestPage implements OnInit {
 
           console.log(mode + ' dentro de rutas' + ' ' + response.routes[0].legs[0].duration.text);
         } else {
-          this.utiles.presentToast('No hay resultados para su ubicación geográfica', 'middle', 10000);
+          var modo = ' a pie ';
+          if (mode == 'TRANSIT'){
+            modo = ' locomoción colectiva '
+          }
+          if (mode == 'DRIVING'){
+            modo = ' condiciendo '
+          }
+          this.utiles.presentToast('No hay resultados' + modo + 'para su ubicación geográfica', 'middle', 10000);
         }
       });
     })
@@ -1379,7 +1386,14 @@ export class MapaTestPage implements OnInit {
             this.setEntrada(objSer);
           }
         } else {
-          this.utiles.presentToast('No hay resultados para su ubicación geográfica', 'middle', 10000);
+          var modo = ' a pie ';
+          if (mode == 'TRANSIT'){
+            modo = ' locomoción colectiva '
+          }
+          if (mode == 'DRIVING'){
+            modo = ' condiciendo '
+          }
+          this.utiles.presentToast('No hay resultados' + modo + 'para su ubicación geográfica', 'middle', 10000);
         }
       });
 
