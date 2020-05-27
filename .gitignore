@@ -33,3 +33,6 @@ npm-debug.log*
 /publicacion
 /publicacion_anterior
 config.xml
+src/environments/environment.ts
+src/environments/environment.prod.ts
+config.xml
