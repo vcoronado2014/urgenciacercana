@@ -61,6 +61,12 @@
         <access origin="http://google.com" />
         <access origin="https://google.com" />
         <access origin="http://maps.google.com" />
+        <access origin="https://maps.googleapis.com" />
+        <access origin="http://maps.googleapis.com" />
+        <access origin="https://maps.gstatic.com" />
+        <access origin="http://maps.gstatic.com" />
+        <access origin="https://fonts.googleapis.com" />
+        <access origin="http://fonts.googleapis.com" />
         <access origin="http://*.google.com" />
         <access origin="content:///*" />
         <access origin="*" />
