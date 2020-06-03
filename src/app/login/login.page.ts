@@ -152,10 +152,10 @@ export class LoginPage implements OnInit {
 
     });
   }
-  async presentAlert(mensaje) {
+  async presentAlert(mensaje, subheader, header) {
     const alert = await this.alert.create({
-      header: 'Errores',
-      subHeader: 'Existen errores en el Formulario...',
+      header: header,
+      subHeader: subheader,
       message: mensaje,
       buttons: ['OK']
     });
@@ -250,7 +250,7 @@ export class LoginPage implements OnInit {
       var obj = this.validaRegistro(entidadRegistro);
       if (obj.Errores.length > 0){
         //mostrar alerta
-        this.presentAlert(obj.ErrorStr);
+        this.presentAlert(obj.ErrorStr, "Existen errores en el Formulario...", "Errores");
       }
       else {
         //continuar y guardar
@@ -288,7 +288,7 @@ export class LoginPage implements OnInit {
     
     if (event.detail){
       if (event.detail.checked == false){
-        this.presentAlert("Para continuar debe aceptar las condiciones del servicio, puede revisar las condiciones haciendo click en el ícono al costado derecho del check.")
+        this.presentAlert("Para continuar debe aceptar las condiciones del servicio, puede revisar las condiciones haciendo click en el ícono al costado derecho del check.", "Debe aceptar los términos y Condiciones", "Advertencia")
       }
     }
   }
