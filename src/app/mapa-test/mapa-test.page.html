@@ -62,10 +62,10 @@
           <ion-icon name={{iconTransporte}}></ion-icon><span>&nbsp;{{tiempoCentro1}}</span>
         </p>
         <p class="plus_sign">+</p>
-        <p class="tiempo_destino" *ngIf="esRayen1">
+        <p class="tiempo_destino" *ngIf="esCliente1 == 1">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;{{tiempoEspera1}} min</span>
         </p>
-        <p class="tiempo_destino" *ngIf="!esRayen1">
+        <p class="tiempo_destino" *ngIf="esCliente1 == 0">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;Sin Dato</span>
         </p>
       </ion-segment-button>
@@ -79,10 +79,10 @@
           <ion-icon name={{iconTransporte}}></ion-icon><span>&nbsp;{{tiempoCentro2}}</span>
         </p>
         <p class="plus_sign">+</p>
-        <p class="tiempo_destino" *ngIf="esRayen2">
+        <p class="tiempo_destino" *ngIf="esCliente2 == 1">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;{{tiempoEspera2}} min</span>
         </p>
-        <p class="tiempo_destino" *ngIf="!esRayen2">
+        <p class="tiempo_destino" *ngIf="esCliente2 == 0">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;Sin Dato</span>
         </p>
       </ion-segment-button>
@@ -96,56 +96,26 @@
           <ion-icon name={{iconTransporte}}></ion-icon><span>&nbsp;{{tiempoCentro3}}</span>
         </p>
         <p class="plus_sign">+</p>
-        <p class="tiempo_destino" *ngIf="esRayen3">
+        <p class="tiempo_destino" *ngIf="esCliente3 == 1">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;{{tiempoEspera3}} min</span>
         </p>
-        <p class="tiempo_destino" *ngIf="!esRayen3">
+        <p class="tiempo_destino" *ngIf="esCliente3 == 0">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;Sin Dato</span>
         </p>
       </ion-segment-button>
     </ion-segment>
 
-
-
-    <!--   <ion-fab vertical="bottom" horizontal="start" class="abajo">
-    <ion-fab-button mini [color]="categoria">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="end">
-      <ion-fab-button color={{categoria}} (click)="verBuscador()">
-        <ion-icon name="search"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button color={{categoria}} (click)="verInfo()">
-        <ion-icon name="information"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button color={{categoria}} (click)="irAHome()">
-        <ion-icon name="home"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab> -->
-
   </ion-content>
 
-  <ion-footer class="ion-no-border" style="min-height: 57px;max-height: 57px;">
+    <ion-footer class="ion-no-border ion-footer" *ngIf="tienePropaganda">
     <ion-toolbar>
       <ion-grid style="padding: 0;">
-        <ion-row>
-          <ion-col size="3" style="padding: 0;margin: 0;">
-            <!-- <img src="./assets/imgs/logo_rayen.png" /> -->
-            <img src="{{propaganda.RutaImagen}}" />
-          </ion-col>
-          <ion-col style="padding: 0;margin: 0;">
-            <h5 style="margin: 0;" [style.font-size.em]="largoTitulo <= 35 ? 1 : 0.8">{{propaganda.Titulo}}</h5>
-            <!-- <h6 style="font-size: 0.8em;margin: 0;">{{subTituloPropaganda}}</h6> -->
-            <!-- <h6 style="font-size: 0.8em;margin: 0;" (click)="abrirEmail()"><a>Email: {{propaganda.CorreoElectronico}}</a></h6> -->
-            <!-- <a href="mailto:gsc@travelsecurity.com">gsc@travelsecurity.com</a> -->
-            <a style="font-size: 0.8em;margin: 0;" href="mailto:{{propaganda.CorreoElectronico}}">Email:
-              {{propaganda.CorreoElectronico}}</a>
-          </ion-col>
-        </ion-row>
+        <ion-slides pager="false" [options]="slideOpts" mode="ios">
+          <ion-slide *ngFor="let item of propagandas" (click)="clickPropagandaInferior(item)">
+            <img class="img-propaganda-inferior" src="{{item.RutaImagen}}" />
+          </ion-slide>
+        </ion-slides>
       </ion-grid>
-      <!--     
-    <ion-label class="text-wrap label-propaganda">Información proporcionada por Rayen Salud</ion-label> -->
     </ion-toolbar>
   </ion-footer>
 </div>

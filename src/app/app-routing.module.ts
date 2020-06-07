@@ -29,6 +29,10 @@ const routes: Routes = [
     path: 'busqueda',
     loadChildren: () => import('./busqueda/busqueda.module').then( m => m.BusquedaPageModule)
   },
+  {
+    path: 'detalle-propaganda',
+    loadChildren: () => import('./detalle-propaganda/detalle-propaganda.module').then( m => m.DetallePropagandaPageModule)
+  },
 ];
 
 @NgModule({

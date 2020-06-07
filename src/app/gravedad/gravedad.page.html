@@ -28,8 +28,6 @@
 
   
   <div class="div_gravedad" class="ion-padding ion-text-center"> 
-    <!-- <ion-item style="padding: 0;margin: 0;"> -->
-      <!-- <ion-label [ngClass]="categoria">Sólo establecimientos públicos</ion-label> -->
       <legend [ngClass]="categoria" style="font-size: 0.9em;">Tipo de establecimientos</legend>
       <ion-grid style="padding: 0; margin: 0;">
         <ion-row style="padding: 0; margin: 0;">
@@ -107,5 +105,12 @@
         Siguiente
       </ion-button>
     </div>
+
+    <!-- pruebas con slides *ngFor="let item of autocompleteItems" -->
+<!--     <ion-slides pager="false" [options]="slideOpts" mode="ios">
+      <ion-slide *ngFor="let item of propagandas" (click)="clickPropagandaInferior(item)">
+        <img class="img-propaganda-inferior" src="{{item.RutaImagen}}" />
+      </ion-slide>
+    </ion-slides> -->
 
 </ion-content>

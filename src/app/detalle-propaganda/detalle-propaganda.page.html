@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="primary">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Información</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row (click)="abrirUrl()">
+    <img class="img-flayer" src="{{objetoPropaganda.RutaImagenDetalle}}" />
+  </ion-row>
+</ion-content>

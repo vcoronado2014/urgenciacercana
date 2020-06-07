@@ -26,6 +26,8 @@ import { GravedadPageModule } from './gravedad/gravedad.module';
 import { LoginPageModule } from './login/login.module';
 import { BusquedaPageModule } from './busqueda/busqueda.module';
 import { BusquedaPage } from './busqueda/busqueda.page'
+import { DetallePropagandaPageModule } from './detalle-propaganda/detalle-propaganda.module';
+import { DetallePropagandaPage } from './detalle-propaganda/detalle-propaganda.page'
 
 //servicios
 import { ServicioGeo } from './services/ServicioGeo'
@@ -38,7 +40,8 @@ import { PopoverComponent } from '../app/components/popover/popover.component';
   declarations: [AppComponent, PopoverComponent],
   entryComponents: [ 
     PopoverComponent,
-    BusquedaPage
+    BusquedaPage,
+    DetallePropagandaPage,
   ],
   imports: [
     ModalVistaPageModule,
@@ -47,6 +50,7 @@ import { PopoverComponent } from '../app/components/popover/popover.component';
     GravedadPageModule,
     LoginPageModule,
     BusquedaPageModule,
+    DetallePropagandaPageModule,
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(), 

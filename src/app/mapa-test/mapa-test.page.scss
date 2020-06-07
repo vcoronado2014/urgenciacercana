@@ -12,7 +12,15 @@
     padding-top: constant(safe-area-inset-top);
     padding-top: env(safe-area-inset-top);
 }
-
+.img-propaganda-inferior{
+    max-width: 100%;
+    border: 0;
+    min-height: 57px;
+}
+.ion-footer{
+    min-height: 57px;
+    max-height: 57px;
+}
 .md{
     page-mapa-test{
         .barra_transporte{
@@ -226,13 +234,45 @@ ion-badge.ion-color.ion-color-primary.md.hydrated {
         overflow: auto;
         margin: 10px;
     }
-
+    /* ipad pro  */
+    @media screen and (max-height: 1366px) {
+        .img-propaganda-inferior{
+            max-width: 100%;
+            border: 0;
+            min-height: 57px;
+        }
+        .ion-footer{
+            min-height: 140px;
+            max-height: 140px;
+        }
+    }
+    /* ipad  */
+    @media screen and (max-height: 1024px) {
+        .img-propaganda-inferior{
+            max-width: 100%;
+            border: 0;
+            min-height: 57px;
+        }
+        .ion-footer{
+            min-height: 108px;
+            max-height: 108px;
+        }
+    }
     @media screen and (max-height: 991px) {
         /* start of large tablet styles */
         #map {
             height: 79%;
             max-height: 79%;
             /*z-index: -1;*/
+        }
+        .img-propaganda-inferior{
+            max-width: 100%;
+            border: 0;
+            min-height: 57px;
+        }
+        .ion-footer{
+            min-height: 57px;
+            max-height: 57px;
         }
     }
     @media screen and (max-height: 823px) {
@@ -242,6 +282,15 @@ ion-badge.ion-color.ion-color-primary.md.hydrated {
                 max-height: 77%;
                 /*z-index: -1;*/
             }
+            .img-propaganda-inferior{
+                max-width: 100%;
+                border: 0;
+                min-height: 57px;
+            }
+            .ion-footer{
+                min-height: 57px;
+                max-height: 57px;
+            }
         }
         @media screen and (max-height: 736px) {
             /* start of medium tablet styles */
@@ -250,6 +299,15 @@ ion-badge.ion-color.ion-color-primary.md.hydrated {
                     max-height: 75%;
                     /*z-index: -1;*/
                 }
+                .img-propaganda-inferior{
+                    max-width: 100%;
+                    border: 0;
+                    min-height: 57px;
+                }
+                .ion-footer{
+                    min-height: 57px;
+                    max-height: 57px;
+                }
             }
             @media screen and (max-height: 667px) {
                 /* start of medium tablet styles */
@@ -257,6 +315,15 @@ ion-badge.ion-color.ion-color-primary.md.hydrated {
                         height: 72%;
                         max-height: 72%;
                         /*z-index: -1;*/
+                    }
+                    .img-propaganda-inferior{
+                        max-width: 100%;
+                        border: 0;
+                        min-height: 57px;
+                    }
+                    .ion-footer{
+                        min-height: 57px;
+                        max-height: 57px;
                     }
                 }            
         
@@ -267,6 +334,15 @@ ion-badge.ion-color.ion-color-primary.md.hydrated {
             max-height: 70%;
             /*z-index: -1;*/
         }
+        .img-propaganda-inferior{
+            max-width: 100%;
+            border: 0;
+            min-height: 57px;
+        }
+        .ion-footer{
+            min-height: 57px;
+            max-height: 57px;
+        }
     }
     @media screen and (max-height: 568px) {
         /* start of medium tablet styles */
@@ -274,6 +350,15 @@ ion-badge.ion-color.ion-color-primary.md.hydrated {
                 height: 67%;
                 max-height: 67%;
                 /*z-index: -1;*/
+            }
+            .img-propaganda-inferior{
+                max-width: 100%;
+                border: 0;
+                min-height: 57px;
+            }
+            .ion-footer{
+                min-height: 57px;
+                max-height: 57px;
             }
         }    
         
@@ -283,6 +368,15 @@ ion-badge.ion-color.ion-color-primary.md.hydrated {
             height: 64%;
             max-height: 64%;
             /*z-index: -1;*/
+        }
+        .img-propaganda-inferior{
+            max-width: 100%;
+            border: 0;
+            min-height: 57px;
+        }
+        .ion-footer{
+            min-height: 57px;
+            max-height: 57px;
         }
     }
     

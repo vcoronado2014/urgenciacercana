@@ -16,6 +16,8 @@ import { promise } from 'protractor';
 import * as moment from 'moment';
 //pagina busqueda
 import { BusquedaPage } from '../busqueda/busqueda.page';
+//modal
+import { DetallePropagandaPage } from '../detalle-propaganda/detalle-propaganda.page';
 
 declare var google;
 
@@ -25,6 +27,19 @@ declare var google;
   styleUrls: ['./mapa-test.page.scss'],
 })
 export class MapaTestPage implements OnInit {
+  //variable que determina si se muestra propaganada o no
+  tienePropaganda: boolean = true;
+  //pruebas de slides
+  slideOpts = {
+    initialSlide: 0,
+    speed: 400,
+    autoplay: {
+      //OJO ACA EL TIEMPO DEBE SER CONFIGURABLE
+      delay: 6000,
+      disableOnInteraction: false,
+    },
+  };
+
   options: InAppBrowserOptions = {
     location: 'no',
   };
@@ -85,6 +100,11 @@ export class MapaTestPage implements OnInit {
   esRayen1:boolean;
   esRayen2:boolean;
   esRayen3:boolean;
+
+  //variables boolean de esCliente
+  esCliente1: boolean;
+  esCliente2: boolean;
+  esCliente3: boolean;
 
   //variables de tiempo de espera por categoria seleccionada
   tiempoEspera1:any;
@@ -153,6 +173,8 @@ export class MapaTestPage implements OnInit {
 
   }
   largoTitulo: any;
+  //nueva implementación propagandas
+  propagandas: any;
 
   constructor(
     public navCtrl: NavController,
@@ -180,6 +202,18 @@ export class MapaTestPage implements OnInit {
     if (this.utiles.isAppOnDevice()){
       //dispositivo movil
       //window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
+      this.inap.create(uri, target, {});
+    }
+    else {
+      //web
+      window.open(uri, target);
+    }
+    
+  }
+  abrirEmailParametro(email){
+    let uri = 'mailto:' + email;
+    let target = "_system";
+    if (this.utiles.isAppOnDevice()){
       this.inap.create(uri, target, {});
     }
     else {
@@ -348,7 +382,7 @@ export class MapaTestPage implements OnInit {
           }
           
           if (this.destino1.ProcesarDirection){
-            this.crearMarkerB(this.destino1, this.nombreCentro1, this.centrosMasCercanos[0], this.esRayen1);
+            this.crearMarkerB(this.destino1, this.nombreCentro1, this.centrosMasCercanos[0], this.esRayen1, this.esCliente1);
           }
           
           this.crearMarkerA(this.start, "Estas cerca de aquí", "./assets/imgs/pin_verde.png");
@@ -543,7 +577,7 @@ export class MapaTestPage implements OnInit {
                 
                 
                 if (this.destino1.ProcesarDirection) {
-                  this.crearMarkerB(this.destino1, this.nombreCentro1, this.centrosMasCercanos[0], this.esRayen1);
+                  this.crearMarkerB(this.destino1, this.nombreCentro1, this.centrosMasCercanos[0], this.esRayen1, this.esCliente1);
                 }
                 this.crearMarkerA(this.start, "Estas cerca de aquí", "./assets/imgs/pin_verde.png");
 
@@ -666,6 +700,7 @@ export class MapaTestPage implements OnInit {
         Longitud: 0,
         TiempoEspera: 0,
         EsRayen: true,
+        EsCliente: 0,
         HorarioLunVie: '0-0',
         HorarioSabDom: '0-0',
         ProcesarDirection: false
@@ -678,6 +713,7 @@ export class MapaTestPage implements OnInit {
         Longitud: 0,
         TiempoEspera: 0,
         EsRayen: true,
+        EsCliente: 0,
         HorarioLunVie: '0-0',
         HorarioSabDom: '0-0',
         ProcesarDirection: false
@@ -690,6 +726,7 @@ export class MapaTestPage implements OnInit {
         Longitud: 0,
         TiempoEspera: 0,
         EsRayen: true,
+        EsCliente: 0,
         HorarioLunVie: '0-0',
         HorarioSabDom: '0-0',
         ProcesarDirection: false
@@ -711,6 +748,11 @@ export class MapaTestPage implements OnInit {
     this.esRayen1 = this.centrosMasCercanos[0].EsRayen;
     this.esRayen2 = this.centrosMasCercanos[1].EsRayen;
     this.esRayen3 = this.centrosMasCercanos[2].EsRayen;
+
+    //nueva implementacion de es cliente
+    this.esCliente1 = this.centrosMasCercanos[0].EsCliente;
+    this.esCliente2 = this.centrosMasCercanos[1].EsCliente;
+    this.esCliente3 = this.centrosMasCercanos[2].EsCliente;
 
     this.tiempoEspera1 = this.centrosMasCercanos[0].TiempoEspera;
     this.tiempoEspera2 = this.centrosMasCercanos[1].TiempoEspera;
@@ -786,6 +828,7 @@ export class MapaTestPage implements OnInit {
       Longitud: 0,
       TiempoEspera: 0,
       EsRayen: true,
+      EsCliente: 0,
       HorarioLunVie: '0-0',
       HorarioSabDom: '0-0',
       ProcesarDirection: false
@@ -835,6 +878,11 @@ export class MapaTestPage implements OnInit {
     this.esRayen2 = this.centrosMasCercanos[1].EsRayen;
     this.esRayen3 = this.centrosMasCercanos[2].EsRayen;
 
+    //implementación de clientes
+    this.esCliente1 = this.centrosMasCercanos[0].EsCliente;
+    this.esCliente2 = this.centrosMasCercanos[1].EsCliente;
+    this.esCliente3 = this.centrosMasCercanos[2].EsCliente;
+
     this.tiempoEspera1 = this.centrosMasCercanos[0].TiempoEspera;
     this.tiempoEspera2 = this.centrosMasCercanos[1].TiempoEspera;
     this.tiempoEspera3 = this.centrosMasCercanos[2].TiempoEspera;
@@ -857,6 +905,7 @@ export class MapaTestPage implements OnInit {
    }
 
   ionViewWillEnter() {
+    this.propagandas = [];
     var vuelve = false;
 
     this.route.queryParams.subscribe(params => {
@@ -866,12 +915,20 @@ export class MapaTestPage implements OnInit {
       }
     });
     //ACA HAY QUE SETEAR EL OBJETO propaganda desde sessionstorage
-    this.propaganda =   JSON.parse(sessionStorage.getItem('PROPAGANDA'));
-    this.srcPropaganda = this.propaganda.RutaImagen;
-    this.tituloPropaganda = this.propaganda.Titulo;
-    this.subTituloPropaganda = this.propaganda.Subtitulo;
-    this.largoTitulo = this.propaganda.Titulo.length;
-    console.log(this.propaganda);
+    this.propagandas = JSON.parse(sessionStorage.getItem('PROPAGANDA'));
+    if (this.propagandas.length > 0){
+      this.propaganda =   this.propagandas[0];
+      this.srcPropaganda = this.propaganda.RutaImagen;
+      this.tituloPropaganda = this.propaganda.Titulo;
+      this.subTituloPropaganda = this.propaganda.Subtitulo;
+      this.largoTitulo = this.propaganda.Titulo.length;
+      console.log(this.propaganda);
+    }
+    else {
+      //no tiene propaganda, ocultar footer
+      this.tienePropaganda = false;
+    }
+
 
     if (!vuelve) {
       this.setearVariables();
@@ -1036,7 +1093,7 @@ export class MapaTestPage implements OnInit {
     });
   }
 
-  crearMarkerB(LatLng, nombre, centro, esRayen) {
+  crearMarkerB(LatLng, nombre, centro, esRayen, esCliente) {
     let icono;
     let tiempoTiempoEsperaCategoria;
     var tipoConsultaStr = 'Pública';
@@ -1048,7 +1105,9 @@ export class MapaTestPage implements OnInit {
       }
     }
 
-    if (esRayen == true) {
+    //esta condicion la cambiamos ya que ahora solo los clientes muestran los tiempos de espera
+    //if (esRayen == true) {
+    if (esCliente == 1) {
       icono = "./assets/imgs/pin_rojo.png";
       tiempoTiempoEsperaCategoria = centro.TiempoEspera + ' min';
       //console.log(tiempoTiempoEsperaCategoria);
@@ -1193,21 +1252,25 @@ export class MapaTestPage implements OnInit {
       let nombreCentro;
       let centro;
       let esRayen;
+      let esCliente;
       if (direccion == "direccion1") {
         direccion = this.destino1;
         nombreCentro = this.nombreCentro1;
         centro = this.centrosMasCercanos[0];
         esRayen = this.esRayen1;
+        esCliente = this.esCliente1;
       } else if (direccion == "direccion2") {
         direccion = this.destino2;
         nombreCentro = this.nombreCentro2;
         centro = this.centrosMasCercanos[1];
         esRayen = this.esRayen2;
+        esCliente = this.esCliente2;
       } else if (direccion == "direccion3") {
         direccion = this.destino3;
         nombreCentro = this.nombreCentro3;
         centro = this.centrosMasCercanos[2];
         esRayen = this.esRayen3;
+        esCliente = this.esCliente3;
       }
 
       this.directionsService.route({
@@ -1220,7 +1283,7 @@ export class MapaTestPage implements OnInit {
           this.directionsDisplay.setDirections(response);
           this.distancia = response.routes[0].legs[0].distance.text;
 
-          this.crearMarkerB(direccion, nombreCentro, centro, esRayen);
+          this.crearMarkerB(direccion, nombreCentro, centro, esRayen, esCliente);
           //agregados para ver si actualiza la lista de inmediato
           this.tiempoTransporteSuperior('WALKING', direccion);
           this.tiempoTransporteSuperior('DRIVING', direccion);
@@ -1231,10 +1294,6 @@ export class MapaTestPage implements OnInit {
           // window.alert('Directions request failed due to ' + status);
         }
       });
-
-/*       this.tiempoTransporteSuperior('WALKING', direccion);
-      this.tiempoTransporteSuperior('DRIVING', direccion);
-      this.tiempoTransporteSuperior('TRANSIT', direccion); */
     });
   }
 
@@ -1246,6 +1305,7 @@ export class MapaTestPage implements OnInit {
     let nombreCentro;
     let centro;
     let esRayen;
+    let esCliente;
 
     await loader.present().then(() => {
       //borra los markers anteriores
@@ -1259,16 +1319,19 @@ export class MapaTestPage implements OnInit {
         nombreCentro = this.nombreCentro1;
         centro = this.centrosMasCercanos[0];
         esRayen = this.esRayen1;
+        esCliente = this.esCliente1;
       } else if (direccion == "direccion2") {
         direccion = this.destino2;
         nombreCentro = this.nombreCentro2;
         centro = this.centrosMasCercanos[1];
         esRayen = this.esRayen2;
+        esCliente = this.esCliente2;
       } else if (direccion == "direccion3") {
         direccion = this.destino3;
         nombreCentro = this.nombreCentro3;
         centro = this.centrosMasCercanos[2];
         esRayen = this.esRayen3;
+        esCliente = this.esCliente3;
       }
       if (direccion.ProcesarDirection) {
         return this.promesaDirection(this.start, direccion, this.transporte);
@@ -1279,7 +1342,7 @@ export class MapaTestPage implements OnInit {
       this.directionsDisplay.setDirections(data);
       this.distancia = data.routes[0].legs[0].distance.text;
 
-      this.crearMarkerB(direccion, nombreCentro, centro, esRayen);
+      this.crearMarkerB(direccion, nombreCentro, centro, esRayen, esCliente);
       //agregados para ver si actualiza la lista de inmediato
       this.tiempoTransporteSuperior('WALKING', direccion);
       this.tiempoTransporteSuperior('DRIVING', direccion);
@@ -1396,6 +1459,21 @@ export class MapaTestPage implements OnInit {
           this.utiles.presentToast('No hay resultados' + modo + 'para su ubicación geográfica', 'middle', 10000);
         }
       });
+
+  }
+  async clickPropagandaInferior(item) {
+    console.log(item);
+    if (item.RutaImagenDetalle){
+      const modal = await this.modalCtrl.create(
+        {
+          component: DetallePropagandaPage,
+          componentProps: {
+            'propaganda': item
+          }
+        }
+      );
+      return await modal.present();
+    }
 
   }
 
