@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { ServicioGeo } from '../../app/services/ServicioGeo';
 import { ServicioUtiles } from '../../app/services/ServicioUtiles';
 import { environment } from '../../environments/environment';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
+//modal
+import { DetallePropagandaPage } from '../detalle-propaganda/detalle-propaganda.page';
 
 @Component({
   selector: 'app-gravedad',
@@ -10,6 +13,16 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./gravedad.page.scss'],
 })
 export class GravedadPage implements OnInit {
+
+  //pruebas de slides
+  slideOpts = {
+    initialSlide: 0,
+    speed: 400,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+  };
 
   title: any;
   categoria: any;
@@ -27,6 +40,9 @@ export class GravedadPage implements OnInit {
     PaginaWeb: '',
 
   }
+  //ESTO CAMBIO, YA QUE AHORA ES UN ARREGLO DE PROPAGANDA
+  propagandas: any;
+  //*************************************************** */
   lati = sessionStorage.getItem("latitud");
   latConComa = this.lati.replace(/\./gi, ",");
 
@@ -126,6 +142,8 @@ export class GravedadPage implements OnInit {
     public navCtrl: NavController,
     public geo: ServicioGeo,
     public utiles: ServicioUtiles,
+    public modalCtrl: ModalController,
+    public inap: InAppBrowser,
   ) { 
     //this.categoriaSeleccionada = localStorage.getItem("categoria");
     this.categoriaSeleccionada = sessionStorage.getItem("categoria");
@@ -165,79 +183,77 @@ export class GravedadPage implements OnInit {
     }
     //console.log(this.esPublico);
   }
-  setearPropaganda(objPropaganda, esData){
+  setearPropagandaArr(arrPropaganda, esData){
     
-      this.propaganda.Nombre = objPropaganda.Nombre;
-      this.propaganda.CorreoElectronico = objPropaganda.CorreoElectronico;
-      this.propaganda.PaginaWeb = objPropaganda.CorreoElectronico;
-      if (esData){
-        this.propaganda.RutaImagen = environment.API_RAIZ + objPropaganda.RutaImagen;
-      }
-      else {
-        this.propaganda.RutaImagen = objPropaganda.RutaImagen;
-      }
-
-      this.propaganda.Subtitulo = objPropaganda.Subtitulo;
-      this.propaganda.Telefonos = objPropaganda.Telefonos;
-      this.propaganda.Titulo = objPropaganda.Titulo;
-      sessionStorage.setItem('PROPAGANDA', JSON.stringify(this.propaganda));
-    
-  }
-
+    if (arrPropaganda && arrPropaganda.length > 0){
+      arrPropaganda.forEach(propa => {
+        if (esData){
+          propa.RutaImagen = environment.API_RAIZ + propa.RutaImagen;
+          propa.RutaImagenDetalle = environment.API_RAIZ + propa.RutaImagenDetalle;
+        }
+      });
+    }
+    sessionStorage.setItem('PROPAGANDA', JSON.stringify(arrPropaganda));
+  
+}
   ngOnInit() {
+    this.propagandas = [];
     var publico = 0;
-    if (this.esPublico){
+    if (this.esPublico) {
       publico = 1;
     }
-        if (!this.utiles.isAppOnDevice()) {
-          //web
-          //this.presentLoading();
-          this.geo.postPropaganda(this.latConComa, this.longiConComa, publico).subscribe((data: any)=>{
-            if (data){
-              //setear
-              this.setearPropaganda(data, true);
-            }
-            else {
-              //defecto
-              var objPropaganda = {
-                Nombre: environment.tituloPropaganda,
-                Titulo: environment.tituloPropaganda,
-                Subtitulo: environment.subTituloPropaganda,
-                RutaImagen: environment.imgPropaganda,
-                Telefonos:'',
-                CorreoElectronico: '',
-                PaginaWeb: '',
-              }
-              this.setearPropaganda(objPropaganda, false);
-            }
-          })
+    if (!this.utiles.isAppOnDevice()) {
+      //web
+      this.geo.postPropaganda(this.latConComa, this.longiConComa, publico).subscribe((data: any) => {
+        if (data) {
+          //setear
+          this.propagandas = data;
+          this.setearPropagandaArr(data, true);
         }
         else {
-          //dispositivo
-          //this.presentLoadingNativePromesa();
-          this.geo.postPropagandaNative(this.latConComa, this.longiConComa, publico).then((response:any)=>{
-            //JSON.parse(response.data)
-            var data = JSON.parse(response.data);
-            if (data){
-              //setear
-              this.setearPropaganda(data, true);
-            }
-            else {
-              //defecto
-              var objPropaganda = {
-                Nombre: environment.tituloPropaganda,
-                Titulo: environment.tituloPropaganda,
-                Subtitulo: environment.subTituloPropaganda,
-                RutaImagen: environment.imgPropaganda,
-                Telefonos:'',
-                CorreoElectronico: '',
-                PaginaWeb: '',
-              }
-              this.setearPropaganda(objPropaganda, false);
-            }
-
-          })
+          //defecto
+          var objPropaganda = {
+            Nombre: environment.tituloPropaganda,
+            Titulo: environment.tituloPropaganda,
+            Subtitulo: environment.subTituloPropaganda,
+            RutaImagen: environment.imgPropaganda,
+            Telefonos: '',
+            CorreoElectronico: '',
+            PaginaWeb: '',
+          }
+          this.propagandas.push(objPropaganda);
+          this.setearPropagandaArr(this.propagandas, false);
         }
+      })
+    }
+    else {
+      //dispositivo
+      //this.presentLoadingNativePromesa();
+      this.geo.postPropagandaNative(this.latConComa, this.longiConComa, publico).then((response: any) => {
+        //JSON.parse(response.data)
+        var data = JSON.parse(response.data);
+        if (data) {
+          //setear
+          this.propagandas = data;
+          this.setearPropagandaArr(data, true);
+        }
+        else {
+          //defecto
+          var objPropaganda = {
+            Nombre: environment.tituloPropaganda,
+            Titulo: environment.tituloPropaganda,
+            Subtitulo: environment.subTituloPropaganda,
+            RutaImagen: environment.imgPropaganda,
+            Telefonos: '',
+            CorreoElectronico: '',
+            PaginaWeb: '',
+          }
+          this.propagandas.push(objPropaganda);
+          this.setearPropagandaArr(this.propagandas, false);
+        }
+
+      })
+    }
   }
 
 	verMapa() {
@@ -252,6 +268,19 @@ export class GravedadPage implements OnInit {
 		} else {
 			this.navCtrl.navigateForward('mapa-test');
 		}
-	}
+  }
+
+  async clickPropagandaInferior(item) {
+    console.log(item);
+    const modal = await this.modalCtrl.create(
+      {
+        component: DetallePropagandaPage,
+        componentProps: {
+          'propaganda': item
+        }
+      }
+    );
+    return await modal.present();
+  }
 
 }

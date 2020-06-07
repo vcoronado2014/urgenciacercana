@@ -90,12 +90,15 @@ export class ServicioGeo{
   }
   postPropagandaNative(latitud, longitud, esPublico){
     //realizar la llamada post nativa
+    //traemos del local storage version_app_name
+    var version = localStorage.getItem('version_app_name');
     const headers = new Headers;
     const body =
     {
       "Latitud": latitud,
       "Longitud": longitud,
-      "EsPublico": esPublico
+      "EsPublico": esPublico,
+      "VersionAppName": version
     };
 
     let url = environment.API_ENDPOINT + 'Propaganda';
@@ -106,11 +109,14 @@ export class ServicioGeo{
   }
   postPropaganda(latitud, longitud, esPublico){
     //realizar la llamada post a la api
+    //traemos del local storage
+    var version = localStorage.getItem('version_app_name');
     const body = JSON.stringify(
       {
         "Latitud": latitud,
         "Longitud": longitud,
-        "EsPublico": esPublico
+        "EsPublico": esPublico,
+        "VersionAppName": version
       });
 
     let url = environment.API_ENDPOINT + 'Propaganda';

@@ -26,6 +26,12 @@
         <ion-label position="stacked">Apellido *</ion-label>
         <ion-input type="text" [(ngModel)]="apellidoSeleccionado"></ion-input>
       </ion-item>
+      <!-- NUEVO ITEM AGREGADO RUN 03-06-2020 -->
+      <ion-item mode='ios'>
+        <ion-label position="stacked">Run * (Ej. 12198065-8)</ion-label>
+        <ion-input type="text" [(ngModel)]="runSeleccionado" (ionBlur)="validaRut($event)" #inputRun></ion-input>
+      </ion-item>
+      <!-- fin nuevo item -->
       <ion-item mode='ios'>
         <ion-label position="stacked">Correo *</ion-label>
         <ion-input type="email" [(ngModel)]="correoSeleccionado"></ion-input>

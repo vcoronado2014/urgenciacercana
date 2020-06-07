@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController, LoadingController, ModalController, Platform, ToastController, PopoverController, AlertController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavController, LoadingController, ModalController, Platform, ToastController, PopoverController, AlertController, IonInput } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ServicioGeo } from '../services/ServicioGeo';
 import { ServicioUtiles } from '../services/ServicioUtiles';
@@ -16,6 +16,8 @@ import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  @ViewChild('inputRun', {  static: false }) inputRun: IonInput
+
   options: InAppBrowserOptions = {
     location: 'yes',
   };
@@ -31,6 +33,8 @@ export class LoginPage implements OnInit {
   mesSeleccionado;
   anioSeleccionado;
   telefonoSeleccionado = '+569';
+  //nuevo agregado 03-06-2020
+  runSeleccionado;
   cargando = false;
 
   arrPruebasLatLon =[
@@ -203,6 +207,15 @@ export class LoginPage implements OnInit {
     if (entidadRegistro.AnioNacimiento == null || entidadRegistro.AnioNacimiento == undefined || entidadRegistro.AnioNacimiento == ''){
       errores.push('Año nacimiento requerido');
     }
+    //nueva validacion run
+    if (entidadRegistro.Run == null || entidadRegistro.Run == undefined || entidadRegistro.Run == ''){
+      errores.push('Run requerido');
+    }
+    else {
+      if (this.utiles.Rut(entidadRegistro.Run) == false) {
+        errores.push('Run inválido');
+      }
+    }
     
     //procesar los errores
     if (errores && errores.length > 0){
@@ -214,6 +227,16 @@ export class LoginPage implements OnInit {
     }
 
     return objetoError;
+  }
+  validaRut(event){
+    if (event.target.value){
+      if (!this.utiles.Rut(event.target.value)) {
+        console.log('run incorrecto');
+        //si no es correcto dejarlo en blanco
+        this.runSeleccionado = '';
+        this.inputRun.setFocus();
+      }
+    }
   }
   async registrarse(){
     if (this.aceptaCondiciones){
@@ -243,6 +266,8 @@ export class LoginPage implements OnInit {
         Longitud: sessionStorage.getItem('longitud'),
         Eliminado: '0',
         Activo: '1',
+        //nuevo 03-06-2020
+        Run: this.runSeleccionado
   
       }
       //pasar a la pagina siguiente despues de guardar
