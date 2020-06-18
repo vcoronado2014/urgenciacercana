@@ -15,7 +15,7 @@ export const environment = {
   viewfullscreenControl: false,
   viewstreetViewControl: false,
   //logo e info de la poropaganda
-  imgPropaganda: "./assets/imgs/logo_rayen.png",
+  imgPropaganda: "./assets/imgs/banner_pequeno_rayen.png",
   tituloPropaganda: "Información proporcionada por Rayen Salud",
   subTituloPropaganda: "Email: contacto@rayensalud.com",
   /* API_KEY_MAPA: 'AIzaSyArou1B6ZXJexDEYfI98MDHoq-eSKdhscU', */

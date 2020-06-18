@@ -700,7 +700,7 @@ export class MapaTestPage implements OnInit {
         Longitud: 0,
         TiempoEspera: 0,
         EsRayen: true,
-        EsCliente: 0,
+        EsCliente: false,
         HorarioLunVie: '0-0',
         HorarioSabDom: '0-0',
         ProcesarDirection: false
@@ -713,7 +713,7 @@ export class MapaTestPage implements OnInit {
         Longitud: 0,
         TiempoEspera: 0,
         EsRayen: true,
-        EsCliente: 0,
+        EsCliente: false,
         HorarioLunVie: '0-0',
         HorarioSabDom: '0-0',
         ProcesarDirection: false
@@ -726,7 +726,7 @@ export class MapaTestPage implements OnInit {
         Longitud: 0,
         TiempoEspera: 0,
         EsRayen: true,
-        EsCliente: 0,
+        EsCliente: false,
         HorarioLunVie: '0-0',
         HorarioSabDom: '0-0',
         ProcesarDirection: false
@@ -828,7 +828,7 @@ export class MapaTestPage implements OnInit {
       Longitud: 0,
       TiempoEspera: 0,
       EsRayen: true,
-      EsCliente: 0,
+      EsCliente: false,
       HorarioLunVie: '0-0',
       HorarioSabDom: '0-0',
       ProcesarDirection: false
