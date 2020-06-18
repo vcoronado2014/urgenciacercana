@@ -62,10 +62,10 @@
           <ion-icon name={{iconTransporte}}></ion-icon><span>&nbsp;{{tiempoCentro1}}</span>
         </p>
         <p class="plus_sign">+</p>
-        <p class="tiempo_destino" *ngIf="esCliente1 == 1">
+        <p class="tiempo_destino" *ngIf="esCliente1 == true">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;{{tiempoEspera1}} min</span>
         </p>
-        <p class="tiempo_destino" *ngIf="esCliente1 == 0">
+        <p class="tiempo_destino" *ngIf="esCliente1 == false">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;Sin Dato</span>
         </p>
       </ion-segment-button>
@@ -79,10 +79,10 @@
           <ion-icon name={{iconTransporte}}></ion-icon><span>&nbsp;{{tiempoCentro2}}</span>
         </p>
         <p class="plus_sign">+</p>
-        <p class="tiempo_destino" *ngIf="esCliente2 == 1">
+        <p class="tiempo_destino" *ngIf="esCliente2 == true">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;{{tiempoEspera2}} min</span>
         </p>
-        <p class="tiempo_destino" *ngIf="esCliente2 == 0">
+        <p class="tiempo_destino" *ngIf="esCliente2 == false">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;Sin Dato</span>
         </p>
       </ion-segment-button>
@@ -96,10 +96,10 @@
           <ion-icon name={{iconTransporte}}></ion-icon><span>&nbsp;{{tiempoCentro3}}</span>
         </p>
         <p class="plus_sign">+</p>
-        <p class="tiempo_destino" *ngIf="esCliente3 == 1">
+        <p class="tiempo_destino" *ngIf="esCliente3 == true">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;{{tiempoEspera3}} min</span>
         </p>
-        <p class="tiempo_destino" *ngIf="esCliente3 == 0">
+        <p class="tiempo_destino" *ngIf="esCliente3 == false">
           <ion-icon name="medkit"></ion-icon><span>&nbsp;Sin Dato</span>
         </p>
       </ion-segment-button>
