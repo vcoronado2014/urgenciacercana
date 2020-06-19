@@ -145,8 +145,14 @@ export class GravedadPage implements OnInit {
     public modalCtrl: ModalController,
     public inap: InAppBrowser,
   ) { 
-    //this.categoriaSeleccionada = localStorage.getItem("categoria");
     this.categoriaSeleccionada = sessionStorage.getItem("categoria");
+    //verificamos transporte
+    if (sessionStorage.getItem("transporte")){
+      this.transporte = sessionStorage.getItem("transporte");
+    }
+    else{
+      this.transporte = 'DRIVING';
+    }
     //guardamos la variable de publico
     if (sessionStorage.getItem('ES_PUBLICO')){
       this.esPublico = JSON.parse(sessionStorage.getItem('ES_PUBLICO'));
@@ -173,7 +179,6 @@ export class GravedadPage implements OnInit {
         break;
     }
     this.categorizacion.tipo = this.categoria;
-    //console.log(this.categorizacion);
   }
   onChangePublico(event){
     
@@ -181,7 +186,6 @@ export class GravedadPage implements OnInit {
       this.esPublico = event.detail.checked;
       sessionStorage.setItem('ES_PUBLICO', JSON.stringify(this.esPublico));
     }
-    //console.log(this.esPublico);
   }
   setearPropagandaArr(arrPropaganda, esData){
     
@@ -228,7 +232,6 @@ export class GravedadPage implements OnInit {
     }
     else {
       //dispositivo
-      //this.presentLoadingNativePromesa();
       this.geo.postPropagandaNative(this.latConComa, this.longiConComa, publico).then((response: any) => {
         //JSON.parse(response.data)
         var data = JSON.parse(response.data);
@@ -257,12 +260,8 @@ export class GravedadPage implements OnInit {
   }
 
 	verMapa() {
-/* 		localStorage.setItem("transporte", this.transporte);
-    localStorage.setItem("gravedad", this.gravedad); */
     sessionStorage.setItem("transporte", this.transporte);
 		sessionStorage.setItem("gravedad", this.gravedad);
-
-    /* if (localStorage.getItem("conexion") == 'offline' || localStorage.getItem("latitud") == null) { */
     if (localStorage.getItem("conexion") == 'offline' || sessionStorage.getItem("latitud") == null) {
 			this.navCtrl.navigateForward('error');
 		} else {

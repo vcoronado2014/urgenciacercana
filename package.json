@@ -103,7 +103,9 @@
             "cordova-plugin-request-location-accuracy": {
                 "PLAY_SERVICES_LOCATION_VERSION": "16.+"
             },
-            "cordova-plugin-geolocation": {},
+            "cordova-plugin-geolocation": {
+                "GEOLOCATION_USAGE_DESCRIPTION": "Necesita acceso en todo momento para poder determinar su ubicación geográfica y entregar los centros de urgencia más cercanos"
+            },
             "cordova-plugin-googlemaps": {
                 "API_KEY_FOR_ANDROID": "AIzaSyBxNhJT5Msr4h6K01OHsLKjsMqk1xNu9o8",
                 "API_KEY_FOR_IOS": "AIzaSyC7ThFFNyQNRwzI_iDEXKJn3pz2BDfXvpY",

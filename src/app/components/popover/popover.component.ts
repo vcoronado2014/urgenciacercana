@@ -19,7 +19,6 @@ export class PopoverComponent implements OnInit {
     //capturamos los datos
     this.categoria = this.nav.data.categoria;
     this.icon = this.nav.data.icon;
-    //console.log(this.categoria);
   }
 
   cerrar(){

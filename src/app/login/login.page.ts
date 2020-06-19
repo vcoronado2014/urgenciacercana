@@ -6,9 +6,8 @@ import { ServicioUtiles } from '../services/ServicioUtiles';
 import { Device } from '@ionic-native/device/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
-
-
-
+//router
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -61,72 +60,88 @@ export class LoginPage implements OnInit {
     public appVersion: AppVersion,
     public alert: AlertController,
     public inap: InAppBrowser,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.platform.ready().then(async () => {
-      //setTimeout(async () => {
-        //console.log('ready');
-      //LENAMOS DATOS INICIALES
-      this.rutaAceptoCondiciones = this.utiles.rutaAceptoCondiciones();
-      this.cargando = true;
-      let loader = await this.loading.create({
-        message: 'Obteniendo...<br>Geoposicionamiento inicial',
-        duration: 10000
-      });
-  
-      await loader.present().then(async () => {
-        //this.promesaGEO().then((resp)=>{
-         this.geolocation.getCurrentPosition().then((resp) => {
-          //console.log(resp);
-          if (this.sonPruebas){
-            sessionStorage.setItem("latitud", this.arrPruebasLatLon[0].Lat);
-            sessionStorage.setItem("longitud", this.arrPruebasLatLon[0].Lon);
-          }
-          else{
-            sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
-            sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude));
-          }
-          /* sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
-          sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude)); */
-          var lat = sessionStorage.getItem('latitud');
-          var lon = sessionStorage.getItem('longitud');
-          let dataReverse = null;
-          if (!this.utiles.isAppOnDevice()){
-            this.geo.getMapaWeb(lat, lon).subscribe(data=>{
-              //console.log(data);
-              //this.utiles.procesarRespuestaMapa(data);
-              dataReverse = data;
-              //console.log(dataReverse);
-              this.utiles.procesarRespuestaMapa(dataReverse);
-              //crear token
-              loader.dismiss();
-              this.crearToken();
-              
-            });
-          }
-          else{
-            this.geo.getMapaNative(lat, lon).then(response=>{
-              dataReverse = JSON.parse(response.data);
-              //console.log(dataReverse);
-              this.utiles.procesarRespuestaMapa(dataReverse);
-              loader.dismiss();
-              this.crearToken();
-              //loader.dismiss();
-            });
-          }
+      this.procesarInfoInicio();
 
-        }).catch(error => {
-          //loader.dismiss();
-          //aca aparece un error de google api maps (TIMEOUT)
-          //CREAMOS EL TOKEN IGUAL E INFORMAMOS DEL ERROR
-          console.log(error);
-          this.cargando = false;
-          loader.dismiss();
-          this.crearToken();
-        })
-
-      //}, 10000);
-      })
     });
+  }
+  async procesarInfoInicio(){
+    this.rutaAceptoCondiciones = this.utiles.rutaAceptoCondiciones();
+    this.cargando = true;
+    let loader = await this.loading.create({
+      message: 'Obteniendo...<br>Geoposicionamiento inicial',
+      duration: 10000
+    });
+
+    await loader.present().then(async () => {
+      //this.promesaGEO().then((resp)=>{
+       this.geolocation.getCurrentPosition().then((resp) => {
+        //console.log(resp);
+        if (this.sonPruebas){
+          sessionStorage.setItem("latitud", this.arrPruebasLatLon[0].Lat);
+          sessionStorage.setItem("longitud", this.arrPruebasLatLon[0].Lon);
+        }
+        else{
+          sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
+          sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude));
+        }
+        /* sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
+        sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude)); */
+        var lat = sessionStorage.getItem('latitud');
+        var lon = sessionStorage.getItem('longitud');
+        let dataReverse = null;
+        if (!this.utiles.isAppOnDevice()){
+          this.geo.getMapaWeb(lat, lon).subscribe(data=>{
+            //console.log(data);
+            //this.utiles.procesarRespuestaMapa(data);
+            dataReverse = data;
+            //console.log(dataReverse);
+            this.utiles.procesarRespuestaMapa(dataReverse);
+            //crear token
+            loader.dismiss();
+            this.crearToken();
+            
+          });
+        }
+        else{
+          this.geo.getMapaNative(lat, lon).then(response=>{
+            dataReverse = JSON.parse(response.data);
+            //console.log(dataReverse);
+            this.utiles.procesarRespuestaMapa(dataReverse);
+            loader.dismiss();
+            this.crearToken();
+            //loader.dismiss();
+          });
+        }
+
+      }).catch(error => {
+        //loader.dismiss();
+        //aca aparece un error de google api maps (TIMEOUT)
+        //CREAMOS EL TOKEN IGUAL E INFORMAMOS DEL ERROR code 1 = dijo que no a los permisos de acceso a la ubicación
+        //code 2 = no tiene encendido gps
+       // revisar aca
+        this.cargando = false;
+        loader.dismiss();
+        console.log(error);
+        var pagina = {
+          nombre: 'login'
+        }
+        this.navCtrl.navigateForward('error', { queryParams: pagina }  );
+      })
+    })
+  }
+  ionViewWillEnter() {
+    console.log('validar nuevamente conexion');
+    this.route.queryParams.subscribe(params => {
+      console.log(params);
+      if (params && params.valor == true){
+        //volver a revisar y ejecutar el proceso
+        this.procesarInfoInicio();
+      }
+    }); 
   }
   doGeocode(lat, lon){
     this.geo.getMapaWeb(lat, lon).subscribe(data=>{
@@ -138,7 +153,6 @@ export class LoginPage implements OnInit {
   abrirPDF(){
     if (this.utiles.isAppOnDevice()){
       //dispositivo movil
-      //window.open(encodeURI(this.rutaAceptoCondiciones), "_system", "location=yes");
       let target = "_system";
       this.inap.create(encodeURI(this.rutaAceptoCondiciones), target, this.options);
     }
@@ -162,6 +176,30 @@ export class LoginPage implements OnInit {
       subHeader: subheader,
       message: mensaje,
       buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+  async presentAlertConfirm(mensaje, subheader, header) {
+    const alert = await this.alert.create({
+      header: header,
+      message: mensaje,
+      subHeader: subheader,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            console.log('Confirm Okay');
+          }
+        }
+      ]
     });
 
     await alert.present();

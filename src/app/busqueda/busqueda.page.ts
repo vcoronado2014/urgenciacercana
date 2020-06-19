@@ -86,9 +86,6 @@ export class BusquedaPage implements OnInit {
 
   }
   chooseItem(item: any) {
-    //this.viewCtrl.dismiss(item);
-    //this.geo = item;
-    //console.log(item);
     this.geoCode(item);//convert Address to lat and long
   }
   geoCode(address:any) {
@@ -101,10 +98,7 @@ export class BusquedaPage implements OnInit {
       sessionStorage.setItem("longitud", JSON.stringify(longitude));
 
       if(latitude != null && longitude!= null){
-        //this.viewCtrl.dismiss();
-        //lo reemplazamos por el cierre del modal
         this.pushPage();
-        //this.dismiss();
       }
     });
   }
@@ -120,15 +114,13 @@ export class BusquedaPage implements OnInit {
       sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude));
       //lo reemplazamos por el cierre del modal
       this.pushPage();
-      //this.dismiss();
-      //console.log("ubicacion actual");
     }).catch((error) => {
       //console.log('Error getting location', error);
+      var pagina = {
+        nombre: 'home'
+      }
+      this.navCtrl.navigateForward('error', { queryParams: pagina }  );
     })
-    
-    // if(this.miLocation){
-    //   this.navCtrl.push('MapaTestPage');
-    // }
   }
   volver(){
     var accion = { 

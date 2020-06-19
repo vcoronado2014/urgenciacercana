@@ -678,12 +678,6 @@ export class MapaTestPage implements OnInit {
         },
         () => console.log('get centros completed')
       );
-
-
-
-
-
-
     });
 
     loader.dismiss();
@@ -791,29 +785,21 @@ export class MapaTestPage implements OnInit {
 
    //las variables globales las seteamos en willenter
    setearVariables(){
-    /* this.transporte = localStorage.getItem("transporte"); */
     this.transporte = sessionStorage.getItem("transporte");
     this.direccion = "direccion1";
-    /* this.categoria = localStorage.getItem("categoria"); */
     this.categoria = sessionStorage.getItem("categoria");
   
     this.start = {
-/*       lat: JSON.parse(localStorage.getItem("latitud")),
-      lng: JSON.parse(localStorage.getItem("longitud")) */
       lat: JSON.parse(sessionStorage.getItem("latitud")),
       lng: JSON.parse(sessionStorage.getItem("longitud"))
     };
-
-    /* this.lati = localStorage.getItem("latitud"); */
     this.lati = sessionStorage.getItem("latitud");
     this.latConComa = this.lati.replace(/\./gi, ",");
   
-    /* this.longi = localStorage.getItem("longitud"); */
     this.longi = sessionStorage.getItem("longitud");
     this.longiConComa = this.longi.replace(/\./gi, ",");
   
     //variable de gravedad escogida por usuario
-    /* this.gravedadUsuario = localStorage.getItem("gravedad"); */
     this.gravedadUsuario = sessionStorage.getItem("gravedad");
 
 
@@ -922,7 +908,7 @@ export class MapaTestPage implements OnInit {
       this.tituloPropaganda = this.propaganda.Titulo;
       this.subTituloPropaganda = this.propaganda.Subtitulo;
       this.largoTitulo = this.propaganda.Titulo.length;
-      console.log(this.propaganda);
+      //console.log(this.propaganda);
     }
     else {
       //no tiene propaganda, ocultar footer
@@ -982,7 +968,6 @@ export class MapaTestPage implements OnInit {
     this.navCtrl.navigateForward('home');
   } 
   async redibujarRutaPromesa(direccion) {
-    /* localStorage.setItem("transporte", this.transporte); */
     sessionStorage.setItem("transporte", this.transporte);
 
     let loader = await this.loading.create({
@@ -1021,7 +1006,6 @@ export class MapaTestPage implements OnInit {
   }
   //Evento de cambio cuando se hace click a la barra superior
   async redibujarRuta(direccion) {
-    /* localStorage.setItem("transporte", this.transporte); */
     sessionStorage.setItem("transporte", this.transporte);
 
     let loader = await this.loading.create({
@@ -1104,10 +1088,7 @@ export class MapaTestPage implements OnInit {
         tipoConsultaStr = 'Privada';
       }
     }
-
-    //esta condicion la cambiamos ya que ahora solo los clientes muestran los tiempos de espera
-    //if (esRayen == true) {
-    if (esCliente == 1) {
+    if (esCliente == true) {
       icono = "./assets/imgs/pin_rojo.png";
       tiempoTiempoEsperaCategoria = centro.TiempoEspera + ' min';
       //console.log(tiempoTiempoEsperaCategoria);
@@ -1148,10 +1129,6 @@ export class MapaTestPage implements OnInit {
       this.infoWindow.setZIndex(500);
       this.infoWindow.open(this.map, marker);
     });
-    // this.map.addListener('click', ()=>{
-    //   this.infoWindow.close();
-    // });
-
 
     //Funcion para tomar el id del elemento Llévame ahí, necesita estar dentro del scope
     google.maps.event.addListenerOnce(this.infoWindow, 'domready', () => {
@@ -1200,13 +1177,6 @@ export class MapaTestPage implements OnInit {
 
   //Variables del tiempo de la barra inferior
   async calcularTiempoDestinoF(destino) {
-
-/*     let loader = await this.loading.create({
-      message: 'Calculando tiempo destino...',
-      duration: 5000
-    });
-
-    await loader.present().then(() => { */
       this.directionsService.route({
         origin: this.start,
         destination: destino,
@@ -1231,8 +1201,7 @@ export class MapaTestPage implements OnInit {
           // window.alert('Directions request failed due to ' + status);
         }
       });
-/*     }) */
-    
+   
   }
 
   //Evento de cambio cuando se hace click a la barra inferior
@@ -1382,7 +1351,7 @@ export class MapaTestPage implements OnInit {
             modo = ' locomoción colectiva '
           }
           if (mode == 'DRIVING'){
-            modo = ' condiciendo '
+            modo = ' conduciendo '
           }
           this.utiles.presentToast('No hay resultados' + modo + 'para su ubicación geográfica', 'middle', 10000);
         }
@@ -1391,7 +1360,6 @@ export class MapaTestPage implements OnInit {
 
   }
   verBuscador(){
-    //this.navCtrl.push('BusquedaPage');
     this.navCtrl.navigateForward('busqueda');
   }
 
@@ -1454,7 +1422,7 @@ export class MapaTestPage implements OnInit {
             modo = ' locomoción colectiva '
           }
           if (mode == 'DRIVING'){
-            modo = ' condiciendo '
+            modo = ' conduciendo '
           }
           this.utiles.presentToast('No hay resultados' + modo + 'para su ubicación geográfica', 'middle', 10000);
         }

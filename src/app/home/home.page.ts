@@ -66,52 +66,54 @@ sonPruebas = false;
 
   ) {
     platform.ready().then(() => {
-
-      this.geolocation.getCurrentPosition().then((resp) => {
-        if (this.sonPruebas){
-          sessionStorage.setItem("latitud", this.arrPruebasLatLon[2].Lat);
-          sessionStorage.setItem("longitud", this.arrPruebasLatLon[2].Lon);
-        }
-        else{
-          sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
-          sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude));
-        }
-/*         sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
-        sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude)); */
-        var lat = sessionStorage.getItem('latitud');
-        var lon = sessionStorage.getItem('longitud');
-        if (!this.utiles.isAppOnDevice()) {
-          this.doGeocode(lat, lon);
-        }
-        else{
-          this.doGeocodeNative(lat, lon);
-        }
-        
-      }).catch((error) => {
-        console.log('Error getting location', error);
-      });
-
-      if (!this.utiles.isAppOnDevice()) {
-        //web
-        //guardar local storage
-        if (!localStorage.getItem('token_dispositivo')) {
-          //crear token para web
-          this.tokenDispositivo = (Math.random() * (1000000 - 1) + 1).toString() + ' web';
-          localStorage.setItem('token_dispositivo', this.tokenDispositivo);
-        }
-        else {
-          this.tokenDispositivo = localStorage.getItem('token_dispositivo');
-        }
+      this.procesarInfoInicio();
+    });
+  }
+  procesarInfoInicio(){
+    this.geolocation.getCurrentPosition().then((resp) => {
+      if (this.sonPruebas){
+        sessionStorage.setItem("latitud", this.arrPruebasLatLon[2].Lat);
+        sessionStorage.setItem("longitud", this.arrPruebasLatLon[2].Lon);
       }
-      else {
+      else{
+        sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
+        sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude));
+      }
+      var lat = sessionStorage.getItem('latitud');
+      var lon = sessionStorage.getItem('longitud');
+      if (!this.utiles.isAppOnDevice()) {
+        this.doGeocode(lat, lon);
+      }
+      else{
+        this.doGeocodeNative(lat, lon);
+      }
+      
+    }).catch((error) => {
+      //hay un error, puede ser que session storage no tenga lat ni lon
+      console.log('Error getting location', error);
+      var pagina = {
+        nombre: 'home'
+      }
+      this.navCtrl.navigateForward('error', { queryParams: pagina }  );
+    });
+
+    if (!this.utiles.isAppOnDevice()) {
+      //web
+      //guardar local storage
+      if (!localStorage.getItem('token_dispositivo')) {
         //crear token para web
-        this.tokenDispositivo = this.device.uuid;
+        this.tokenDispositivo = (Math.random() * (1000000 - 1) + 1).toString() + ' web';
         localStorage.setItem('token_dispositivo', this.tokenDispositivo);
       }
-
-
-
-    });
+      else {
+        this.tokenDispositivo = localStorage.getItem('token_dispositivo');
+      }
+    }
+    else {
+      //crear token para web
+      this.tokenDispositivo = this.device.uuid;
+      localStorage.setItem('token_dispositivo', this.tokenDispositivo);
+    }
   }
   sortLista(a, b){
     let distancea = a.Distance;
@@ -137,16 +139,14 @@ sonPruebas = false;
   }
 
   ionViewWillEnter() {
-    //las variables de lat y lon deben setearse cada vez que se ingresa
-    //a la pagina de home, init y ready no aplican en esa condición
-    //console.log('willenter');
-    //si las variables existen y son distintas se sobrescriben
-    //this.obtieneCoordenadas();
-        //vemos si estos parametros vienen para determinar si hacemos o no una nueva busqueda de lat y lon
-/*         this.route.queryParams.subscribe(params => {
-          console.log(params);
-        }); */
-
+    console.log('validar nuevamente conexion');
+    this.route.queryParams.subscribe(params => {
+      console.log(params);
+      if (params && params.valor == true){
+        //volver a revisar y ejecutar el proceso
+        this.procesarInfoInicio();
+      }
+    });
   }
   setEntrada(){
     //si no tiene token_id hacemos el ingreso
@@ -220,14 +220,11 @@ sonPruebas = false;
   }
 
   abrirPreguntasNinos(categoria) {
-    /* localStorage.setItem("categoria", categoria); */
     sessionStorage.setItem("categoria", categoria);
     //lo cambiamos por nueva implementacion
-    //this.navCtrl.navigateForward('gravedad-ninos');
     this.navCtrl.navigateForward('gravedad');
   }
   abrirCategoria(categoria){
-    /* localStorage.setItem("categoria", categoria); */
     sessionStorage.setItem("categoria", categoria);
     this.navCtrl.navigateForward('gravedad');
   }

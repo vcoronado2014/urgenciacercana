@@ -46,8 +46,6 @@ export class ModalVistaPage implements OnInit {
       this.versionNumber = "0.0";
       this.plataforma = "Web";
     }
-    
-    //this.infoAplicacion = this.utiles.getVersionNumber();
   }
   abrirPDF(){
     if (this.utiles.isAppOnDevice()){
