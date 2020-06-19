@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="10005" id="com.rayensalud.urgencia" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="10006" id="com.urgencia.cl" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Urgencia Más Cercana</name>
     <description>Encuentra el centro de urgencia más cercano y sus tiempos de espera</description>
     <author email="apps@rayensalud.cl" href="http://www.rayensalud.com">Rayen Salud SPA</author>
