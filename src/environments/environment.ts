@@ -4,12 +4,10 @@
 
 export const environment = {
   production: false,
-  //API_ENDPOINT: 'https://app.rayensalud.com/MiFamilia/Api/',
-  //API_RAIZ: 'https://app.rayensalud.com/MiFamilia',
-  //http://190.151.14.101:8065/
-  //API_ENDPOINT: 'http://10.211.55.5/MiFamilia.WebApi/Api/',
-  API_ENDPOINT: 'http://190.151.14.101:8065/Api/',
-  API_RAIZ: 'http://190.151.14.101:8065',
+  API_ENDPOINT: 'https://app.rayensalud.com/MiFamilia/Api/',
+  API_RAIZ: 'https://app.rayensalud.com/MiFamilia',
+  //API_ENDPOINT: 'http://190.151.14.101:8065/Api/',
+  //API_RAIZ: 'http://190.151.14.101:8065',
   viewZoomControl: false,
   viewMapTypeControl: false,
   viewfullscreenControl: false,
@@ -21,16 +19,6 @@ export const environment = {
   /* API_KEY_MAPA: 'AIzaSyArou1B6ZXJexDEYfI98MDHoq-eSKdhscU', */
   API_KEY_MAPA: 'AIzaSyAqx2BInVZJP-xhUh5oSUgKSPh3rpB_Rzc',
   ProcesaHorario: true
-/*   firebase: {
-    apiKey: "AIzaSyADvfF_wbdXehEYmSlKerxacak-rK0XE9Q",
-    authDomain: "urgenciacercana.firebaseapp.com",
-    databaseURL: "https://urgenciacercana.firebaseio.com",
-    projectId: "urgenciacercana",
-    storageBucket: "urgenciacercana.appspot.com",
-    messagingSenderId: "996402385869",
-    appId: "1:996402385869:web:b9b1c8d364ad8dce276a84",
-    measurementId: "G-D3K8KRM2X2"
-  } */
 };
 
 /*
