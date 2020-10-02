@@ -152,11 +152,11 @@ export class ServicioGeo{
 
     return this.http.post(url, body, {});
   }
-  get(latitud, longitud, distancia, gravedad, esPublico, categoria){
+  get(latitud, longitud, distancia, gravedad, esPublico, categoria, esPrivado, esInstitucional){
     //const headersH = new Headers;
     const body = JSON.stringify(
         {
-            Latitud: latitud, Longitud: longitud, Distancia: distancia, Gravedad: gravedad, EsPublico: esPublico, Categoria: categoria 
+            Latitud: latitud, Longitud: longitud, Distancia: distancia, Gravedad: gravedad, EsPublico: esPublico, Categoria: categoria, EsPrivado: esPrivado, EsInstitucional: esInstitucional 
         }
     );
     let url = environment.API_ENDPOINT + 'Geolocalizacion';
