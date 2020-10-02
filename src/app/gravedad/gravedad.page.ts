@@ -30,6 +30,8 @@ export class GravedadPage implements OnInit {
   transporte: any;
   gravedad: any;
   esPublico: boolean = true;
+  esPrivado: boolean = false;
+  esInstitucional: boolean = false;
   propaganda = {
     Nombre: '',
     Titulo: '',
@@ -154,6 +156,19 @@ export class GravedadPage implements OnInit {
     else{
       sessionStorage.setItem('ES_PUBLICO', JSON.stringify(this.esPublico));
     }
+    //las demas variables
+    if (sessionStorage.getItem('ES_PRIVADO')){
+      this.esPrivado = JSON.parse(sessionStorage.getItem('ES_PRIVADO'));
+    }
+    else{
+      sessionStorage.setItem('ES_PRIVADO', JSON.stringify(this.esPrivado));
+    }
+    if (sessionStorage.getItem('ES_INSTITUCIONAL')){
+      this.esInstitucional = JSON.parse(sessionStorage.getItem('ES_INSTITUCIONAL'));
+    }
+    else{
+      sessionStorage.setItem('ES_INSTITUCIONAL', JSON.stringify(this.esInstitucional));
+    }
 
     switch (this.categoriaSeleccionada) {
       case 'nino':
@@ -182,6 +197,20 @@ export class GravedadPage implements OnInit {
       sessionStorage.setItem('ES_PUBLICO', JSON.stringify(this.esPublico));
     }
     //console.log(this.esPublico);
+  }
+  onChangePrivado(event){
+    
+    if (event.detail){
+      this.esPrivado = event.detail.checked;
+      sessionStorage.setItem('ES_PRIVADO', JSON.stringify(this.esPrivado));
+    }
+  }
+  onChangeInstitucional(event){
+    
+    if (event.detail){
+      this.esInstitucional = event.detail.checked;
+      sessionStorage.setItem('ES_INSTITUCIONAL', JSON.stringify(this.esInstitucional));
+    }
   }
   setearPropagandaArr(arrPropaganda, esData){
     

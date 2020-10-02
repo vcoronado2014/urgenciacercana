@@ -161,6 +161,8 @@ export class MapaTestPage implements OnInit {
   }
   //agregado para diferenciar public o privada
   esPublico = false;
+  esPrivado = false;
+  esInstitucional = false;
 
   propaganda = {
     Nombre: '',
@@ -246,11 +248,11 @@ export class MapaTestPage implements OnInit {
     return await popover.present();
   }
 
-   promesaHTTP = (latitud, longitud, distancia, gravedad, esPublico, categoria) => {
+   promesaHTTP = (latitud, longitud, distancia, gravedad, esPublico, categoria, esPrivado, esInstitucional) => {
     const headers = new Headers;
     const body =
     {
-      Latitud: latitud, Longitud: longitud, Distancia: distancia, Gravedad: gravedad, EsPublico: esPublico, Categoria: categoria
+      Latitud: latitud, Longitud: longitud, Distancia: distancia, Gravedad: gravedad, EsPublico: esPublico, Categoria: categoria, EsPrivado: esPrivado, EsInstitucional: esInstitucional
     };
 
     let url = environment.API_ENDPOINT + 'Geolocalizacion';
@@ -283,14 +285,19 @@ export class MapaTestPage implements OnInit {
     switch (this.gravedadUsuario) {
       case "5":
         this.gravedadEnviar = "0";
+        break;
       case "4":
         this.gravedadEnviar = "1";
+        break;
       case "3":
         this.gravedadEnviar = "2";
+        break;
       case "2":
         this.gravedadEnviar = "3";
+        break;
       case "1":
         this.gravedadEnviar = "4";
+        break;
       default:
         break;
     }
@@ -313,7 +320,19 @@ export class MapaTestPage implements OnInit {
             publico = 1
           }
         }
-        this.promesaHTTP(this.latitudEnviar, this.longitudEnviar, this.distanciaEnviar, this.gravedadEnviar, publico, this.categoria).then((response : any) => {
+        var privado = 0;
+        if (sessionStorage.getItem('ES_PRIVADO')){
+          if (JSON.parse(sessionStorage.getItem('ES_PRIVADO'))){
+            privado = 1
+          }
+        }
+        var institucional = 0;
+        if (sessionStorage.getItem('ES_INSTITUCIONAL')){
+          if (JSON.parse(sessionStorage.getItem('ES_INSTITUCIONAL'))){
+            institucional = 1
+          }
+        }
+        this.promesaHTTP(this.latitudEnviar, this.longitudEnviar, this.distanciaEnviar, this.gravedadEnviar, publico, this.categoria, privado, institucional).then((response : any) => {
           if (environment.ProcesaHorario){
             this.centros = this.utiles.procesaFechaHoraTermino(JSON.parse(response.data));
           }
@@ -482,14 +501,19 @@ export class MapaTestPage implements OnInit {
     switch (this.gravedadUsuario) {
       case "5":
         this.gravedadEnviar = "0";
+        break;
       case "4":
         this.gravedadEnviar = "1";
+        break;
       case "3":
         this.gravedadEnviar = "2";
+        break;
       case "2":
         this.gravedadEnviar = "3";
+        break;
       case "1":
         this.gravedadEnviar = "4";
+        break;
       default:
         break;
     }
@@ -506,8 +530,20 @@ export class MapaTestPage implements OnInit {
           publico = 1
         }
       }
+      var privado = 0;
+      if (sessionStorage.getItem('ES_PRIVADO')){
+        if (JSON.parse(sessionStorage.getItem('ES_PRIVADO'))){
+          privado = 1
+        }
+      }
+      var institucional = 0;
+      if (sessionStorage.getItem('ES_INSTITUCIONAL')){
+        if (JSON.parse(sessionStorage.getItem('ES_INSTITUCIONAL'))){
+          institucional = 1
+        }
+      }
 
-      this.geo.get(this.latitudEnviar, this.longitudEnviar, this.distanciaEnviar, this.gravedadEnviar, publico, this.categoria).subscribe(
+      this.geo.get(this.latitudEnviar, this.longitudEnviar, this.distanciaEnviar, this.gravedadEnviar, publico, this.categoria, privado, institucional).subscribe(
         data => {
           //aca debemos atachar la data para procesarla de acuerdo a la hora de consulta
           //this.utiles.procesaFechaHoraTermino
@@ -1096,12 +1132,27 @@ export class MapaTestPage implements OnInit {
   crearMarkerB(LatLng, nombre, centro, esRayen, esCliente) {
     let icono;
     let tiempoTiempoEsperaCategoria;
-    var tipoConsultaStr = 'Pública';
+    var tipoConsultaStr = '';
     //console.log(LatLng.lat);
     if (sessionStorage.getItem('ES_PUBLICO')){
       this.esPublico = JSON.parse(sessionStorage.getItem('ES_PUBLICO'));
-      if (!this.esPublico){
+      if (this.esPublico){
+        tipoConsultaStr += 'Pública';
+      }
+/*       if (!this.esPublico){
         tipoConsultaStr = 'Privada';
+      } */
+    }
+    if (sessionStorage.getItem('ES_PRIVADO')){
+      this.esPrivado = JSON.parse(sessionStorage.getItem('ES_PRIVADO'));
+      if (this.esPrivado){
+        tipoConsultaStr += '- Privada';
+      }
+    }
+    if (sessionStorage.getItem('ES_INSTITUCIONAL')){
+      this.esInstitucional = JSON.parse(sessionStorage.getItem('ES_INSTITUCIONAL'));
+      if (this.esInstitucional){
+        tipoConsultaStr += '- Institucional';
       }
     }
 

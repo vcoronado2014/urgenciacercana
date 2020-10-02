@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
+  <div class="ion-padding-start ion-padding-end ion-padding-top">
     <ion-segment [(ngModel)]="transporte" color="primary" mode="ios">
       <ion-segment-button value="WALKING" [ngClass]="categoria">
           <ion-icon name="walk"></ion-icon> <br>
@@ -27,11 +27,36 @@
   </div>
 
   
-  <div class="div_gravedad" class="ion-padding ion-text-center"> 
+  <div class="div_gravedad" class="ion-padding-start ion-padding-end ion-padding-top ion-text-center"> 
       <legend [ngClass]="categoria" style="font-size: 0.9em;">Tipo de establecimientos</legend>
       <ion-grid style="padding: 0; margin: 0;">
         <ion-row style="padding: 0; margin: 0;">
           <ion-col>
+            <ion-toggle [color]="categoria" [(ngModel)]="esPublico" (ionChange)="onChangePublico($event)" mode="ios"></ion-toggle>
+         </ion-col>
+         <ion-col>
+          <ion-toggle [color]="categoria" [(ngModel)]="esPrivado" (ionChange)="onChangePrivado($event)" mode="ios"></ion-toggle>
+         </ion-col>
+         <ion-col>
+          <ion-toggle [color]="categoria" [(ngModel)]="esInstitucional" (ionChange)="onChangeInstitucional($event)" mode="ios"></ion-toggle>
+         </ion-col> 
+       </ion-row>
+        <ion-row style="padding: 0; margin: 0;">
+           <ion-col>
+            <p style="padding: 0; margin: 0; font-size: 0.9em;" [ngClass]="categoria">Públicos</p>
+          </ion-col>
+          <ion-col>
+            <p style="padding: 0; margin: 0; font-size: 0.9em;" [ngClass]="categoria">Privados</p>
+          </ion-col>
+          <ion-col>
+            <p style="padding: 0; margin: 0; font-size: 0.9em;" [ngClass]="categoria">Institucionales (FFAA)</p>
+          </ion-col> 
+        </ion-row>
+      </ion-grid>
+
+<!--       <ion-grid style="padding: 0; margin: 0;">
+        <ion-row style="padding: 0; margin: 0;">
+           <ion-col>
             <p style="padding: 0; margin: 0;" [ngClass]="categoria">Privados</p>
           </ion-col>
           <ion-col>
@@ -39,9 +64,9 @@
           </ion-col>
           <ion-col>
             <p style="padding: 0; margin: 0;" [ngClass]="categoria">Públicos</p>
-          </ion-col>
+          </ion-col> 
         </ion-row>
-      </ion-grid>
+      </ion-grid> -->
     <!-- </ion-item>  -->
     <div class="div_mensaje" padding *ngIf="!gravedad">
       <p [ngClass]="categoria">1. Seleccione el medio de transporte de su preferencia.<br>
@@ -100,7 +125,7 @@
   <!-- Condicional para que el boton se active cuando el medio de transporte 
     y nivel de gravedad, ambos, esten seleccionados -->
     <div class="btn_siguiente ion-text-center">
-      <ion-button [disabled]="gravedad && transporte ? false : true" (click)="verMapa()"
+      <ion-button [disabled]="gravedad && transporte && (esPublico || esPrivado || esInstitucional) ? false : true" (click)="verMapa()"
           [color]="categoria" mode="ios">
         Siguiente
       </ion-button>
