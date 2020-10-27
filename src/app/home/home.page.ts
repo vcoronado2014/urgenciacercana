@@ -70,7 +70,7 @@ sonPruebas = false;
     });
   }
   procesarInfoInicio(){
-    this.geolocation.getCurrentPosition().then((resp) => {
+    this.geolocation.getCurrentPosition({maximumAge: 0, enableHighAccuracy: true}).then((resp) => {
       if (this.sonPruebas){
         sessionStorage.setItem("latitud", this.arrPruebasLatLon[2].Lat);
         sessionStorage.setItem("longitud", this.arrPruebasLatLon[2].Lon);

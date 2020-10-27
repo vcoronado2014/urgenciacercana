@@ -105,7 +105,7 @@ export class BusquedaPage implements OnInit {
 
   myLocation(){
     this.miLocation = true;
-    this.geolocation.getCurrentPosition().then((resp) => {
+    this.geolocation.getCurrentPosition({maximumAge: 0, enableHighAccuracy: true}).then((resp) => {
       //variables para detrminar que debe usar la pagina de home
       this.lonPagina = JSON.stringify(resp.coords.longitude);
       this.latPagina = JSON.stringify(resp.coords.latitude);

@@ -1138,6 +1138,10 @@ export class MapaTestPage implements OnInit {
         tipoConsultaStr += '- Institucional';
       }
     }
+    var tieneObservaciones = false;
+    if (centro.Observacion != ''){
+      tieneObservaciones = true;
+    }
     if (esCliente == true) {
       icono = "./assets/imgs/pin_rojo.png";
       tiempoTiempoEsperaCategoria = centro.TiempoEspera + ' min';
@@ -1148,8 +1152,29 @@ export class MapaTestPage implements OnInit {
       //console.log(tiempoTiempoEsperaCategoria);
     }
 
-    let contenidoInfoWindow = '<div style="padding:8px;"' + '<b>' + nombre + '</b><br>' +
+    var contenidoInfoWindow = '';
+    var tipoInstitucion = '';
+    if (centro.TipoInstitucion && centro.TipoInstitucion != ''){
+      tipoInstitucion = centro.TipoInstitucion;
+    }
+    if (tieneObservaciones){
+      contenidoInfoWindow = '<div style="padding:8px;"' + '<b>' + nombre + '</b><br>' +
       centro.Direccion + '<br>' +
+      '<b>Tipo Establecimiento: </b>' + tipoInstitucion + '<br>' +
+      '<b>Distancia: </b>' + this.distancia + '<br>' +
+      '<b>Fono: </b>' + centro.Telefonos + '<br>' +
+      '<b>Horario L-V: </b>' + centro.HorarioLunVie + '<br>' +
+      '<b>Horario S-D: </b>' + centro.HorarioSabDom + '<br>' +
+      '<b>Tiempo de espera: </b>' + tiempoTiempoEsperaCategoria + '<br>' +
+      '<b>Tipo consulta: </b>' + tipoConsultaStr + '<br>' +
+      '<b>Observación: </b><spam>' + centro.Observacion + '</spam><br>' +
+      //'<div class="derecha" id="myid"><b>Llévame ahí</b></div>';
+      '<ion-badge color="primary" style="float: right;padding: 8px; margin:5px;"><div class="derecha" id="myid"><b>Llévame ahí</b></div></ion-badge></div>'
+    }
+    else {
+      contenidoInfoWindow = '<div style="padding:8px;"' + '<b>' + nombre + '</b><br>' +
+      centro.Direccion + '<br>' +
+      '<b>Tipo Establecimiento: </b>' + tipoInstitucion + '<br>' +
       '<b>Distancia: </b>' + this.distancia + '<br>' +
       '<b>Fono: </b>' + centro.Telefonos + '<br>' +
       '<b>Horario L-V: </b>' + centro.HorarioLunVie + '<br>' +
@@ -1158,7 +1183,7 @@ export class MapaTestPage implements OnInit {
       '<b>Tipo consulta: </b>' + tipoConsultaStr + '<br>' +
       //'<div class="derecha" id="myid"><b>Llévame ahí</b></div>';
       '<ion-badge color="primary" style="float: right;padding: 8px; margin:5px;"><div class="derecha" id="myid"><b>Llévame ahí</b></div></ion-badge></div>'
-
+    }
     var marker = new google.maps.Marker({
       position: LatLng,
       map: this.map,
