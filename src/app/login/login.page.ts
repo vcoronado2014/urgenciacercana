@@ -75,7 +75,7 @@ export class LoginPage implements OnInit {
   
       await loader.present().then(async () => {
         //this.promesaGEO().then((resp)=>{
-         this.geolocation.getCurrentPosition().then((resp) => {
+         this.geolocation.getCurrentPosition({maximumAge: 0, enableHighAccuracy: true}).then((resp) => {
           //console.log(resp);
           if (this.sonPruebas){
             sessionStorage.setItem("latitud", this.arrPruebasLatLon[0].Lat);

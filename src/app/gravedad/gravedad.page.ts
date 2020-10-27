@@ -4,6 +4,7 @@ import { ServicioGeo } from '../../app/services/ServicioGeo';
 import { ServicioUtiles } from '../../app/services/ServicioUtiles';
 import { environment } from '../../environments/environment';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 //modal
 import { DetallePropagandaPage } from '../detalle-propaganda/detalle-propaganda.page';
 
@@ -13,7 +14,6 @@ import { DetallePropagandaPage } from '../detalle-propaganda/detalle-propaganda.
   styleUrls: ['./gravedad.page.scss'],
 })
 export class GravedadPage implements OnInit {
-
   //pruebas de slides
   slideOpts = {
     initialSlide: 0,
@@ -146,6 +146,7 @@ export class GravedadPage implements OnInit {
     public utiles: ServicioUtiles,
     public modalCtrl: ModalController,
     public inap: InAppBrowser,
+    public geolocation: Geolocation,
   ) { 
     //this.categoriaSeleccionada = localStorage.getItem("categoria");
     this.categoriaSeleccionada = sessionStorage.getItem("categoria");
@@ -228,6 +229,13 @@ export class GravedadPage implements OnInit {
   ngOnInit() {
     this.propagandas = [];
     var publico = 0;
+    //volvemos a hacer la llamada para obtener el geoposicionamiento
+    this.geolocation.getCurrentPosition({maximumAge: 0, enableHighAccuracy: true}).then((resp) => {
+      sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
+      sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude));
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
     if (this.esPublico) {
       publico = 1;
     }

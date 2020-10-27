@@ -26,7 +26,7 @@ export class ErrorPage implements OnInit {
   async verMapaConConexion() {
   
     if(localStorage.getItem("conexion") == 'offline' || localStorage.getItem("latitud") == null){
-      this.geolocation.getCurrentPosition().then((resp) => {
+      this.geolocation.getCurrentPosition({maximumAge: 0, enableHighAccuracy: true}).then((resp) => {
 /*         localStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
         localStorage.setItem("longitud", JSON.stringify(resp.coords.longitude)); */
         sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
