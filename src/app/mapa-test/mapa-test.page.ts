@@ -1144,11 +1144,16 @@ export class MapaTestPage implements OnInit {
     }
     if (esCliente == true) {
       icono = "./assets/imgs/pin_rojo.png";
-      tiempoTiempoEsperaCategoria = centro.TiempoEspera + ' min';
+      if (centro.TiempoEspera > 0){
+        tiempoTiempoEsperaCategoria = centro.TiempoEspera + ' min';
+      }
+      else{
+        tiempoTiempoEsperaCategoria = 'Sin Dato';
+      }
       //console.log(tiempoTiempoEsperaCategoria);
     } else {
       icono = "./assets/imgs/pin_rojo.png";
-      tiempoTiempoEsperaCategoria = "Sin dato";
+      tiempoTiempoEsperaCategoria = "Sin Dato";
       //console.log(tiempoTiempoEsperaCategoria);
     }
 
