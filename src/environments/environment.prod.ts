@@ -1,7 +1,9 @@
 export const environment = {
   production: true,
-  API_ENDPOINT: 'https://app.rayensalud.com/MiFamilia/Api/',
-  API_RAIZ: 'https://app.rayensalud.com/MiFamilia',
+  API_ENDPOINT: 'https://preapp.rayensalud.com/MiFamilia/Api/',
+  API_RAIZ: 'https://preapp.rayensalud.com/MiFamilia',
+  //API_ENDPOINT: 'https://app.rayensalud.com/MiFamilia/Api/',
+  //API_RAIZ: 'https://app.rayensalud.com/MiFamilia',
   //API_ENDPOINT: 'http://10.211.55.5/MiFamilia.WebApi/Api/',
   //API_RAIZ: 'http://10.211.55.5/MiFamilia.WebApi',
   //API_ENDPOINT: 'http://10.211.55.5/MiFamilia.WebApi/Api/',

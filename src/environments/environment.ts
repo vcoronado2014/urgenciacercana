@@ -4,13 +4,17 @@
 
 export const environment = {
   production: false,
-  API_ENDPOINT: 'https://app.rayensalud.com/MiFamilia/Api/',
-  API_RAIZ: 'https://app.rayensalud.com/MiFamilia',
-  //http://190.151.14.101:8065/
+  //https://preapp.rayensalud.com/MiFamilia
+  //API_ENDPOINT: 'https://app.rayensalud.com/MiFamilia/Api/',
+  //API_RAIZ: 'https://app.rayensalud.com/MiFamilia',
   //API_ENDPOINT: 'http://10.211.55.5/MiFamilia.WebApi/Api/',
   //API_RAIZ: 'http://10.211.55.5/MiFamilia.WebApi',
   //API_ENDPOINT: 'http://190.151.14.101:8065/Api/',
   //API_RAIZ: 'http://190.151.14.101:8065',
+  //API_ENDPOINT: 'http://localhost:27563/Api/',
+  //API_RAIZ: 'http://localhost:27563',
+  API_ENDPOINT: 'https://preapp.rayensalud.com/MiFamilia/Api/',
+  API_RAIZ: 'https://preapp.rayensalud.com/MiFamilia',
   viewZoomControl: false,
   viewMapTypeControl: false,
   viewfullscreenControl: false,
