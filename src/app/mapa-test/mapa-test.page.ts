@@ -785,10 +785,10 @@ export class MapaTestPage implements OnInit {
     this.esRayen2 = this.centrosMasCercanos[1].EsRayen;
     this.esRayen3 = this.centrosMasCercanos[2].EsRayen;
 
-    //nueva implementacion de es cliente
-    this.esCliente1 = this.centrosMasCercanos[0].EsCliente;
-    this.esCliente2 = this.centrosMasCercanos[1].EsCliente;
-    this.esCliente3 = this.centrosMasCercanos[2].EsCliente;
+    //nueva implementacion de es cliente OJO QUE ES BOLEAN
+    this.esCliente1 = this.centrosMasCercanos[0].EsCliente == 1 ? true : false;
+    this.esCliente2 = this.centrosMasCercanos[1].EsCliente == 1 ? true : false;
+    this.esCliente3 = this.centrosMasCercanos[2].EsCliente == 1 ? true : false;
 
     this.tiempoEspera1 = this.centrosMasCercanos[0].TiempoEspera;
     this.tiempoEspera2 = this.centrosMasCercanos[1].TiempoEspera;
@@ -914,10 +914,10 @@ export class MapaTestPage implements OnInit {
     this.esRayen2 = this.centrosMasCercanos[1].EsRayen;
     this.esRayen3 = this.centrosMasCercanos[2].EsRayen;
 
-    //implementación de clientes
-    this.esCliente1 = this.centrosMasCercanos[0].EsCliente;
-    this.esCliente2 = this.centrosMasCercanos[1].EsCliente;
-    this.esCliente3 = this.centrosMasCercanos[2].EsCliente;
+    //implementación de clientes ACA HAY VALOR 0 O 1
+    this.esCliente1 = this.centrosMasCercanos[0].EsCliente == 1 ? true : false;
+    this.esCliente2 = this.centrosMasCercanos[1].EsCliente == 1 ? true : false;
+    this.esCliente3 = this.centrosMasCercanos[2].EsCliente == 1 ? true : false;
 
     this.tiempoEspera1 = this.centrosMasCercanos[0].TiempoEspera;
     this.tiempoEspera2 = this.centrosMasCercanos[1].TiempoEspera;
@@ -1162,7 +1162,7 @@ export class MapaTestPage implements OnInit {
 
     //esta condicion la cambiamos ya que ahora solo los clientes muestran los tiempos de espera
     //if (esRayen == true) {
-    if (esCliente == 1) {
+    if (esCliente == true) {
       icono = "./assets/imgs/pin_rojo.png";
       if (centro.TiempoEspera > 0){
         tiempoTiempoEsperaCategoria = centro.TiempoEspera + ' min';
