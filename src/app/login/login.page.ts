@@ -73,7 +73,7 @@ export class LoginPage implements OnInit {
     this.cargando = true;
     let loader = await this.loading.create({
       message: 'Obteniendo...<br>Geoposicionamiento inicial',
-      duration: 10000
+      duration: 4000
     });
 
     await loader.present().then(async () => {
@@ -319,7 +319,7 @@ export class LoginPage implements OnInit {
         //continuar y guardar
         let loader = await this.loading.create({
           message: 'Espere...<br><br>Realizando tu registro',
-          duration: 20000
+          duration: 4000
         });
     
         await loader.present().then(async () => {
@@ -481,7 +481,7 @@ export class LoginPage implements OnInit {
     var plataforma;
     let loader = await this.loading.create({
       message: 'Creando...<br>Token inicial',
-      duration: 20000
+      duration: 4000
     });
 
     await loader.present().then(async () => {

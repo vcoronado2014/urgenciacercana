@@ -51,7 +51,7 @@ export class ErrorPage implements OnInit {
   
         let toast = await this.toast.create({
           message: `Sigues sin conexión a internet, no has compatido tu ubicación, o la aplicación no tiene permisos. Si el problema persiste reinicia la aplicación`,
-          duration: 6000
+          duration: 3000
         });
         return toast.present();
       }else{
