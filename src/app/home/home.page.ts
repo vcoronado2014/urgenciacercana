@@ -235,6 +235,7 @@ sonPruebas = false;
 /*     if (!this.esIOS) {
       navigator['app'].exitApp();
     } */
+    navigator['app'].exitApp();
   }
 
   async getVersionNumber() {
