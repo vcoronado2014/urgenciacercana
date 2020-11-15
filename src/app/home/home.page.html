@@ -1,8 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="secondary">
     <ion-buttons slot="start" (click)="salir()" *ngIf="esIOS == false">
-      <ion-icon slot="icon-only" name="exit"></ion-icon>
+      <ion-icon slot="icon-only" name="exit"></ion-icon>&nbsp;Salir
     </ion-buttons>
+    <!-- <ion-button slot="start" (click)="salir()" *ngIf="esIOS == false" size="small">Salir</ion-button> -->
     <ion-title class="ion-text-center">
       Atención para:
     </ion-title>

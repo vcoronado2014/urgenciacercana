@@ -304,7 +304,7 @@ export class MapaTestPage implements OnInit {
          //iniciamos loading
     let loader = await this.loading.create({
       message: 'Calculando...<br><br>Los tiempos son aproximados<br><br>Asegúrate de tener conexión de internet y compartir tu ubicación',
-      duration: 20000
+      duration: 4000
     });
 
     await loader.present().then(async () => {
@@ -520,7 +520,7 @@ export class MapaTestPage implements OnInit {
          //iniciamos loading
     let loader = await this.loading.create({
       message: 'Calculando...<br><br>Los tiempos son aproximados<br><br>Asegúrate de tener conexión de internet y compartir tu ubicación',
-      duration: 20000
+      duration: 4000
     });
 
     await loader.present().then(() => {

@@ -68,16 +68,8 @@ sonPruebas = false;
     platform.ready().then(() => {
 
       this.geolocation.getCurrentPosition({maximumAge: 0, enableHighAccuracy: true}).then((resp) => {
-        if (this.sonPruebas){
-          sessionStorage.setItem("latitud", this.arrPruebasLatLon[2].Lat);
-          sessionStorage.setItem("longitud", this.arrPruebasLatLon[2].Lon);
-        }
-        else{
-          sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
-          sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude));
-        }
-/*         sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
-        sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude)); */
+        sessionStorage.setItem("latitud", JSON.stringify(resp.coords.latitude));
+        sessionStorage.setItem("longitud", JSON.stringify(resp.coords.longitude));
         var lat = sessionStorage.getItem('latitud');
         var lon = sessionStorage.getItem('longitud');
         if (!this.utiles.isAppOnDevice()) {
@@ -130,9 +122,7 @@ sonPruebas = false;
   }
   doGeocode(lat, lon){
     this.servicioGeo.getMapaWeb(lat, lon).subscribe(data=>{
-      //console.log(data);
       this.utiles.procesarRespuestaMapa(data);
-
     });
   }
 
@@ -232,10 +222,9 @@ sonPruebas = false;
     this.navCtrl.navigateForward('gravedad');
   }
   salir() {
-/*     if (!this.esIOS) {
+     if (!this.esIOS) {
       navigator['app'].exitApp();
-    } */
-    navigator['app'].exitApp();
+    }
   }
 
   async getVersionNumber() {
